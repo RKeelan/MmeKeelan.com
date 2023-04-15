@@ -1,0 +1,55 @@
+/* Background color */
+body {
+	background-color: #ffffff;
+    text-align: center;
+}
+
+/* Canvas styles */
+canvas {
+	border: 5px solid #ff69b4;
+	border-radius: 50%;
+	/*box-shadow: 0 0 20px #ff69b4;*/
+}
+
+/* Button styles */
+button {
+    background-color: #7d98e8;
+	border: none;
+	border-radius: 20px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 24px;
+	font-weight: bold;
+	margin: 10px;
+	padding: 10px 20px;
+	/* text-shadow: 0 0 10px #fff; */
+	transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+	background-color: #7de8cd;
+	box-shadow: 0 0 10px #7de8cd;
+	transform: scale(1.05);
+}
+
+/* Text area styles */
+textarea {
+	background-color: #fff;
+	border: 5px solid #7d98e8;
+	border-radius: 20px;
+	color: #7d98e8;
+	font-size: 24px;
+	margin: 10px;
+	padding: 10px;
+	text-shadow: 0 0 10px #fff;
+}
+
+/* Title styles */
+h1 {
+	color: #ff69b4;
+	font-size: 48px;
+	font-weight: bold;
+	margin: 20px;
+	text-align: center;
+	text-shadow: 0 0 10px #fff;
+}
