@@ -1,14 +1,14 @@
 /* Background color */
 body {
 	background-color: #ffffff;
-    text-align: center;
 }
 
 /* Canvas styles */
 canvas {
-	border: 5px solid #ff69b4;
+	border: 5px solid #7d98e8;
+	border: none;
 	border-radius: 50%;
-	/*box-shadow: 0 0 20px #ff69b4;*/
+	box-shadow: 0 0 10px #7d98e8;
 }
 
 /* Button styles */
@@ -22,7 +22,6 @@ button {
 	font-weight: bold;
 	margin: 10px;
 	padding: 10px 20px;
-	/* text-shadow: 0 0 10px #fff; */
 	transition: all 0.2s ease-in-out;
 }
 
@@ -45,11 +44,14 @@ textarea {
 }
 
 /* Title styles */
+.h1-input,
 h1 {
-	color: #ff69b4;
+	color: #7d98e8;
 	font-size: 48px;
 	font-weight: bold;
 	margin: 20px;
 	text-align: center;
 	text-shadow: 0 0 10px #fff;
+	border: none;
+	outline: none;
 }

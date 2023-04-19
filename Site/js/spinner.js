@@ -60,7 +60,7 @@ function drawArrow() {
 
 // // Load the arrow image
 var arrow = new Image();
-arrow.src = "arrow.png";
+arrow.src = "/img/spinner-arrow.png";
 arrow.angle = anglePerSection / 2;
 arrow.onload = function() {
     drawArrow();
