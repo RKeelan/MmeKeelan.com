@@ -1,8 +1,14 @@
 /* Background color */
 body {
+	text-align: center;
 	background-color: #ffffff;
 }
 
+/* General Text Styles */
+h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, span {
+	color: #7d98e8;
+	font-size: 24px;
+}
 /* Canvas styles */
 canvas {
 	border: 5px solid #7d98e8;
@@ -10,6 +16,7 @@ canvas {
 	border-radius: 50%;
 	box-shadow: 0 0 10px #7d98e8;
 }
+
 
 /* Button styles */
 button {
@@ -31,22 +38,17 @@ button:hover {
 	transform: scale(1.05);
 }
 
-/* Text area styles */
-textarea {
-	background-color: #fff;
-	border: 5px solid #7d98e8;
-	border-radius: 20px;
-	color: #7d98e8;
-	font-size: 24px;
-	margin: 10px;
-	padding: 10px;
-	text-shadow: 0 0 10px #fff;
+button:disabled {
+	background-color: #b2bfe8;
+	box-shadow: 0 0 10px #b2bfe8;
+	transform: scale(1.00);
+    cursor: not-allowed;
 }
+
 
 /* Title styles */
 .h1-input,
 h1 {
-	color: #7d98e8;
 	font-size: 48px;
 	font-weight: bold;
 	margin: 20px;
@@ -54,4 +56,26 @@ h1 {
 	text-shadow: 0 0 10px #fff;
 	border: none;
 	outline: none;
+}
+
+/* Text area styles */
+textarea {
+	border: 5px solid #7d98e8;
+	border-radius: 20px;
+	margin: 10px;
+	padding: 10px;
+}
+
+.number-input {
+	border: 5px solid #7d98e8;
+	border-radius: 20px;
+	margin: 10px;
+	padding: 10px;
+	text-align: center;
+    width: 45px;
+}
+
+/* Invalid number input styles */
+.number-input:invalid {
+    border-color: rgb(240, 135, 135);
 }

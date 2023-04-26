@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/styles.css">
+	<meta charset="UTF-8">
+	<title>Bingo</title>
+	<style>
+		body {
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+    <h1>Bingo</h1>
+	<div>
+	<textarea id="wordsInput" rows="4" style="align-content:left; width:800px; height:auto">
+Un, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf, Dix, Onze, Douze, Treize, Quatorze, Quinze, Seize, Dix-sept, Dix-huit, Dix-neuf, Vingt, Vingt-et-un, Vingt-deux, Vingt-trois, Vingt-quatre</textarea>
+	</div>
+    <div class="controls-container">
+        <label for="numCards">Number of cards:</label>
+        <input type="text" id="numCards" name="numCards" class="number-input" pattern="\d+" value="1">
+        <label >Word count:</label>
+        <span id="wordCount"></span>
+        <button id="generate" class="generate-button">Generate</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+	<script type="module" src="/js/bingo.js"></script>
+</body>
+</html>
