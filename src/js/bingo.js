@@ -1,6 +1,6 @@
-const { jsPDF } = window.jspdf;
+import { jsPDF } from "jspdf";
 
-var wordList;
+let wordList;
 function updateWords() {
     var wordText = document.getElementById("wordsInput").value;
     // Split wordText on whitespace and commas
@@ -9,9 +9,8 @@ function updateWords() {
     // Update the word count in the HTML
     document.getElementById("wordCount").innerText = wordList.length;
 }
-updateWords()
 
-var numCards;
+let numCards;
 function updateNumCards() {
     var numCardsStr = document.getElementById("numCards").value;
     numCards = parseInt(numCardsStr, 10);
@@ -19,7 +18,6 @@ function updateNumCards() {
         numCards = 0;
     }
 }
-updateNumCards()
 
 function fisherYatesShuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -38,7 +36,7 @@ function fisherYatesShuffle(array) {
     }
   
     return array;
-  }
+}
 
 function addBingoCard(doc, words) {
     const free = "Gratuit";
@@ -133,12 +131,19 @@ function updateGenerateButton() {
     }
 }
 
-document.getElementById("wordsInput").addEventListener("input", function() {
-    updateWords();
-    updateGenerateButton();
-});
-document.getElementById("numCards").addEventListener("input", function() {
-    updateNumCards();
-    updateGenerateButton();
-});
-document.getElementById("generate").addEventListener("click", makePdf);
+
+function init() {
+    updateWords()
+    updateNumCards()
+    document.getElementById("wordsInput").addEventListener("input", function() {
+        updateWords();
+        updateGenerateButton();
+    });
+    document.getElementById("numCards").addEventListener("input", function() {
+        updateNumCards();
+        updateGenerateButton();
+    });
+    document.getElementById("generate").addEventListener("click", makePdf);
+}
+
+init();

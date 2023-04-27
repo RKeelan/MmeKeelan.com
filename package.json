@@ -1,0 +1,26 @@
+{
+  "name": "mmekeelan",
+  "version": "1.0.0",
+  "description": "",
+  "private": "true",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.1",
+    "mini-css-extract-plugin": "^2.7.5",
+    "terser-webpack-plugin": "^5.3.7",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "jspdf": "^2.5.1"
+  }
+}

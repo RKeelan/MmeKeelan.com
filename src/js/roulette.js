@@ -1,19 +1,30 @@
-var canvas = document.getElementById("wheel");
-var context = canvas.getContext("2d");
+import arrowImg from '../assets/images/spinner-arrow.png';
 
-var numberOfWords;
-var anglePerSection;
-var wordList;
+let canvas = document.getElementById("wheel");
+let context = canvas.getContext("2d");
+let numberOfWords;
+let anglePerSection;
+let wordList;
+let spinDuration = -1; // -1 means spin until stop
+const minNumberOfRevolutions = 2;
+
+let arrow = new Image();
+arrow.src = arrowImg;
+arrow.onload = function() {
+    drawArrow();
+}
+
 function updateWords() {
-    wordText = document.getElementById("wordsInput").value;
+    var wordText = document.getElementById("wordsInput").value;
     // Split wordText on whitespace and commas
     wordList = wordText.split(/[\s,]+/).filter(s => s);
 
     // Number of words is the number of elements in wordList
     numberOfWords = wordList.length;
-    anglePerSection = Math.PI * 2 / numberOfWords
+    if (numberOfWords > 0) {
+        anglePerSection = Math.PI * 2 / numberOfWords
+    }
 }
-updateWords();
 
 function drawWheel() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -61,7 +72,6 @@ function drawWheel() {
         angle += anglePerSection;
     }
 }
-drawWheel();
 
 
 function drawArrow() {
@@ -71,19 +81,6 @@ function drawArrow() {
     context.drawImage(arrow, -arrow.width / 2, -arrow.height / 2, arrow.width, arrow.height);
     context.restore();
 }
-
-// // Load the arrow image
-var arrow = new Image();
-arrow.src = "/img/spinner-arrow.png";
-arrow.angle = anglePerSection / 2;
-arrow.onload = function() {
-    drawArrow();
-}
-
-
-var fps = 45;
-var rotateSpeed = Math.PI * 2 / fps; // I think this is 1 revolution per second
-var spinDuration = -1; // -1 means spin until stop
 
 // Spin the arrow
 function spin() {
@@ -95,29 +92,35 @@ function spin() {
     }
 }
 
-var minNumberOfRevolutions = 2;
-document.getElementById("spin").addEventListener("click", function() {
-    spinDuration = Math.round(wordList.length + Math.random() * wordList.length * (minNumberOfRevolutions - 1));
-    console.log(`Spin duration is ${spinDuration}`);
-    window.requestAnimationFrame(spin);
-});
-
-document.getElementById("start").addEventListener("click", function() {
-    spinDuration = -1;
-    window.requestAnimationFrame(spin);
-});
-
-document.getElementById("stop").addEventListener("click", function() {
-    spinDuration = 0;
-});
-
-document.getElementById("wordsInput").addEventListener("input", function() {
+function init() {
     updateWords();
-    // Round to the nearest multiple of (anglePerSection / 2)
-    arrow.angle = Math.round(arrow.angle / anglePerSection) * anglePerSection - anglePerSection / 2;
-    degrees = arrow.angle * 180 / Math.PI;
-    anglePerSectionDegrees = anglePerSection * 180 / Math.PI;
-    console.log(`Arrow angle is ${degrees} and anglePerSection is ${anglePerSectionDegrees}`);
     drawWheel();
-    drawArrow();
-});
+
+    arrow.angle = anglePerSection / 2;
+
+    document.getElementById("spin").addEventListener("click", function() {
+        spinDuration = Math.round(wordList.length + Math.random() * wordList.length * (minNumberOfRevolutions - 1));
+        window.requestAnimationFrame(spin);
+    });
+
+    document.getElementById("start").addEventListener("click", function() {
+        spinDuration = -1;
+        window.requestAnimationFrame(spin);
+    });
+
+    document.getElementById("stop").addEventListener("click", function() {
+        spinDuration = 0;
+    });
+
+    document.getElementById("wordsInput").addEventListener("input", function() {
+        updateWords();
+        // Round to the nearest multiple of (anglePerSection / 2)
+        arrow.angle = Math.round(arrow.angle / anglePerSection) * anglePerSection - anglePerSection / 2;
+        var degrees = arrow.angle * 180 / Math.PI;
+        var anglePerSectionDegrees = anglePerSection * 180 / Math.PI;
+        drawWheel();
+        drawArrow();
+    });
+}
+
+init();
