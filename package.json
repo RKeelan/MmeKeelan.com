@@ -5,7 +5,8 @@
   "private": "true",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack-dev-server --open --mode development --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,8 @@
     "webpack-cli": "^5.0.2"
   },
   "dependencies": {
-    "jspdf": "^2.5.1"
+    "js-yaml": "^4.1.0",
+    "jspdf": "^2.5.1",
+    "webpack-dev-server": "^4.15.1"
   }
 }

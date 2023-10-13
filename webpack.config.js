@@ -7,7 +7,6 @@ const path = require('path');
 module.exports = {
   mode: 'production', // Set to 'production' for minification
   entry: {
-    // main: './src/js/index.js',
     roulette: './src/js/roulette.js',
     bingo: './src/js/bingo.js',
     styles: './src/css/styles.css',
