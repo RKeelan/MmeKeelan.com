@@ -9,6 +9,8 @@ module.exports = {
   entry: {
     roulette: './src/js/roulette.js',
     bingo: './src/js/bingo.js',
+    // canada: './src/js/canada.js',
+    // canadaStyles: './src/css/canadaStyles.css',
     styles: './src/css/styles.css',
   },
   output: {
@@ -78,6 +80,20 @@ module.exports = {
         useShortDoctype: true,
       },
     }),
+    // new HtmlWebpackPlugin({
+    //   template: './src/canada.html',
+    //   filename: 'canada.html',
+    //   chunks: ['canada'],
+    //   inject: 'body',
+    //   minify: {
+    //     collapseWhitespace: true,
+    //     removeComments: true,
+    //     removeRedundantAttributes: true,
+    //     removeScriptTypeAttributes: true,
+    //     removeStyleLinkTypeAttributes: true,
+    //     useShortDoctype: true,
+    //   },
+    // }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),

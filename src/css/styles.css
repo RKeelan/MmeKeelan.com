@@ -58,6 +58,17 @@ h1 {
 	outline: none;
 }
 
+.h2-input,
+h2 {
+	font-size: 36px;
+	font-weight: bold;
+	margin: 20px;
+	text-align: center;
+	text-shadow: 0 0 10px #fff;
+	border: none;
+	outline: none;
+}
+
 /* Text area styles */
 textarea {
 	border: 5px solid #7d98e8;
@@ -78,4 +89,8 @@ textarea {
 /* Invalid number input styles */
 .number-input:invalid {
     border-color: rgb(240, 135, 135);
+}
+
+path:hover {
+	fill: red;
 }

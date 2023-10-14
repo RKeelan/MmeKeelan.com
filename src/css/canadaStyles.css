@@ -1,0 +1,22 @@
+#mainContainer {
+    display: flex;
+  }
+  
+  #caSvgContainer {
+    flex: 2;  /* Takes up 2/3 of the horizontal space */
+  }
+  
+  #infoCard {
+    flex: 1;  /* Takes up 1/3 of the horizontal space */
+    border-left: 1px solid #ccc;  /* Optional: Adds a dividing line */
+    padding-left: 10px;  /* Optional: Adds some padding */
+  }
+  
+  /* To ensure that both elements have the same height */
+  #caSvgContainer, #infoCard {
+    align-self: stretch;
+  }
+
+  #infoTable td {
+    text-align: left;
+  }
