@@ -11,6 +11,7 @@ module.exports = {
     bingo: './src/js/bingo.js',
     // canada: './src/js/canada.js',
     // canadaStyles: './src/css/canadaStyles.css',
+    // schedule: './src/js/schedule.js',
     styles: './src/css/styles.css',
   },
   output: {
@@ -78,12 +79,26 @@ module.exports = {
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
-      },
+      }
     }),
     // new HtmlWebpackPlugin({
     //   template: './src/canada.html',
     //   filename: 'canada.html',
     //   chunks: ['canada'],
+    //   inject: 'body',
+    //   minify: {
+    //     collapseWhitespace: true,
+    //     removeComments: true,
+    //     removeRedundantAttributes: true,
+    //     removeScriptTypeAttributes: true,
+    //     removeStyleLinkTypeAttributes: true,
+    //     useShortDoctype: true,
+    //   },
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template: './src/schedule.html',
+    //   filename: 'schedule.html',
+    //   chunks: ['schedule'],
     //   inject: 'body',
     //   minify: {
     //     collapseWhitespace: true,
