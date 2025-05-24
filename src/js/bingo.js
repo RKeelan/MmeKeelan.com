@@ -1,3 +1,4 @@
+import '../css/styles.css';
 import { jsPDF } from "jspdf";
 
 let wordList;

@@ -1,3 +1,4 @@
+import '../css/styles.css';
 import * as jsyaml from 'js-yaml';
 
 // French: 300

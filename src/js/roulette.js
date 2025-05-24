@@ -1,3 +1,4 @@
+import '../css/styles.css';
 import arrowImg from '../assets/images/spinner-arrow.png';
 
 let canvas = document.getElementById("wheel");

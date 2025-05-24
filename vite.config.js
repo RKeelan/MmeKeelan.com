@@ -3,6 +3,8 @@ import { resolve } from 'path';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
+  // Set the base path for GitHub Pages deployment
+  base: '/MmeKeelan.com/',
   // Set the root to the src directory so vite serves files from there
   root: 'src',
   // Define the entry point for the application. Vite will start processing from this HTML file.

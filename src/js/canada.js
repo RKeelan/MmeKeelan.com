@@ -1,3 +1,5 @@
+import '../css/styles.css';
+import '../css/canadaStyles.css';
 import canadaMapPath from '../assets/images/ca.svg';
 const maxSvgHeight = 1000;
 
