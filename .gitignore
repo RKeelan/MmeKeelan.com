@@ -21,3 +21,7 @@ node_modules
 
 # Webpack
 dist/
+
+# Coverage reports
+coverage/
+*.lcov
