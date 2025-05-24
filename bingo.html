@@ -1,4 +1,29 @@
-<!doctype html><html><head><link rel="stylesheet" href="styles.css"><meta charset="UTF-8"><title>Bingo</title><style>body {
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Bingo</title>
+	<style>
+		body {
 			text-align: center;
-		}</style></head><body><h1>Bingo</h1><div><textarea id="wordsInput" rows="4" style="align-content:left; width:800px; height:auto">
-Un, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf, Dix, Onze, Douze, Treize, Quatorze, Quinze, Seize, Dix-sept, Dix-huit, Dix-neuf, Vingt, Vingt-et-un, Vingt-deux, Vingt-trois, Vingt-quatre</textarea></div><div class="controls-container"><label for="numCards">Number of cards:</label> <input id="numCards" name="numCards" class="number-input" pattern="\d+" value="1"> <label>Word count:</label> <span id="wordCount"></span> <button id="generate" class="generate-button">Generate</button></div><script defer="defer" src="bingo.bundle.js"></script></body></html>
+		}
+	</style>
+  <script type="module" crossorigin src="/assets/bingo-DPxeIdGB.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/styles-Cv-MmKbt.js">
+  <link rel="stylesheet" crossorigin href="/assets/styles-Cs2GB4gE.css">
+</head>
+<body>
+    <h1>Bingo</h1>
+	<div>
+	<textarea id="wordsInput" rows="4" style="align-content:left; width:800px; height:auto">
+Un, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf, Dix, Onze, Douze, Treize, Quatorze, Quinze, Seize, Dix-sept, Dix-huit, Dix-neuf, Vingt, Vingt-et-un, Vingt-deux, Vingt-trois, Vingt-quatre</textarea>
+	</div>
+    <div class="controls-container">
+        <label for="numCards">Number of cards:</label>
+        <input type="text" id="numCards" name="numCards" class="number-input" pattern="\d+" value="1">
+        <label >Word count:</label>
+        <span id="wordCount"></span>
+        <button id="generate" class="generate-button">Generate</button>
+    </div>
+</body>
+</html>
