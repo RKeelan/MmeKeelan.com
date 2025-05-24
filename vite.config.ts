@@ -32,4 +32,4 @@ export default defineConfig({
       // example: '@': path.resolve(__dirname, './src')
     }
   }
-});
+}); 
