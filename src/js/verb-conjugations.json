@@ -1,0 +1,50 @@
+{
+    "être": {
+        "Je": "suis",
+        "Tu": "es",
+        "Il/Elle/On": "est",
+        "Nous": "sommes",
+        "Vous": "êtes",
+        "Ils/Elles": "sont"
+    },
+    "avoir": {
+        "Je": "ai",
+        "Tu": "as",
+        "Il/Elle/On": "a",
+        "Nous": "avons",
+        "Vous": "avez",
+        "Ils/Elles": "ont"
+    },
+    "aller": {
+        "Je": "vais",
+        "Tu": "vas",
+        "Il/Elle/On": "va",
+        "Nous": "allons",
+        "Vous": "allez",
+        "Ils/Elles": "vont"
+    },
+    "faire": {
+        "Je": "fais",
+        "Tu": "fais",
+        "Il/Elle/On": "fait",
+        "Nous": "faisons",
+        "Vous": "faites",
+        "Ils/Elles": "font"
+    },
+    "pouvoir": {
+        "Je": "peux",
+        "Tu": "peux",
+        "Il/Elle/On": "peut",
+        "Nous": "pouvons",
+        "Vous": "pouvez",
+        "Ils/Elles": "peuvent"
+    },
+    "vouloir": {
+        "Je": "veux",
+        "Tu": "veux",
+        "Il/Elle/On": "veut",
+        "Nous": "voulons",
+        "Vous": "voulez",
+        "Ils/Elles": "veulent"
+    }
+}
