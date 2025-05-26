@@ -134,11 +134,67 @@ table {
     margin-top: 20px;
 }
 
+#game-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0;
+    position: relative;
+}
+
+/* Slot Machine Pronoun Selector */
+#pronoun-slot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: calc(50% - 400px);
+}
+
+#pronoun-slot {
+    width: 120px;
+    height: 80px;
+    border: 4px solid #7d98e8;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#pronoun-reel {
+    position: absolute;
+    width: 100%;
+    transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pronoun-item {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #7d98e8;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.pronoun-item:last-child {
+    border-bottom: none;
+}
+
+/* Spinning animation for pronoun reel - synchronized with wheel */
+/* Removed - using simple transitions instead */
+
+/* Removed CSS keyframes animation */
+
 #display-area {
     font-size: 2em; /* Already in inline style, but good to have a base here if inline is removed */
     margin-bottom: 20px; /* Already in inline style */
     color: #333; /* Example text color */
     font-weight: bold;
+    min-height: 2.5em; /* Prevent layout shift when content changes */
 }
 
 #pronoun-display, #verb-display {
@@ -146,7 +202,9 @@ table {
 }
 
 #wheel-container {
-    margin-bottom: 20px; /* Already in inline style */
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Canvas for the wheel - already has inline border and radius, ensure it's centered if not already */
@@ -163,6 +221,7 @@ table {
     margin-top: 15px;
     margin-bottom: 15px;
     min-height: 1.5em; /* Prevents layout shift when text changes */
+    transition: color 0.3s ease; /* Smooth color transitions */
 }
 
 /* Ensure buttons on this page also use global button styles if not already targeted */
@@ -174,8 +233,31 @@ table {
 
 /* Responsive considerations for smaller screens if necessary */
 @media (max-width: 600px) {
+    #game-container {
+        flex-direction: column;
+        gap: 20px;
+        position: static;
+    }
+    
+    #pronoun-slot-container {
+        position: static;
+        left: auto;
+        order: -1; /* Show pronoun slot above wheel on mobile */
+    }
+    
+    #pronoun-slot {
+        width: 100px;
+        height: 60px;
+    }
+    
+    .pronoun-item {
+        height: 60px;
+        font-size: 16px;
+    }
+    
     #display-area {
         font-size: 1.5em;
+        min-height: 2em;
     }
     #wheel {
         width: 250px !important; /* Override inline style if necessary */
@@ -190,7 +272,7 @@ table {
     }
     /* Adjust button sizes or margins if they feel too large on small screens */
     button { /* This would affect all buttons, be more specific if needed */
-        font-size: 20px;
+        font-size: 18px; /* Slightly smaller for mobile */
         padding: 8px 16px;
     }
 }

@@ -7,21 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>La Roue des Verbes</h1>
+    <main>
+        <h1>La Roue des Verbes</h1>
 
-    <div id="display-area">
-        <span id="pronoun-display"></span> <span id="verb-display"></span>
-    </div>
+        <div id="game-container">
+            <section id="pronoun-slot-container" aria-label="Pronoun selector">
+                <div id="pronoun-slot">
+                    <div id="pronoun-reel">
+                        <div class="pronoun-item">Je</div>
+                        <div class="pronoun-item">Tu</div>
+                        <div class="pronoun-item">Il/Elle/On</div>
+                        <div class="pronoun-item">Nous</div>
+                        <div class="pronoun-item">Vous</div>
+                        <div class="pronoun-item">Ils/Elles</div>
+                        <!-- Duplicates for seamless scrolling -->
+                        <div class="pronoun-item">Je</div>
+                        <div class="pronoun-item">Tu</div>
+                        <div class="pronoun-item">Il/Elle/On</div>
+                        <div class="pronoun-item">Nous</div>
+                        <div class="pronoun-item">Vous</div>
+                        <div class="pronoun-item">Ils/Elles</div>
+                        <!-- Duplicates for seamless scrolling -->
+                        <div class="pronoun-item">Je</div>
+                        <div class="pronoun-item">Tu</div>
+                        <div class="pronoun-item">Il/Elle/On</div>
+                        <div class="pronoun-item">Nous</div>
+                        <div class="pronoun-item">Vous</div>
+                        <div class="pronoun-item">Ils/Elles</div>
+                        <!-- Duplicates for seamless scrolling -->
+                        <div class="pronoun-item">Je</div>
+                        <div class="pronoun-item">Tu</div>
+                        <div class="pronoun-item">Il/Elle/On</div>
+                        <div class="pronoun-item">Nous</div>
+                        <div class="pronoun-item">Vous</div>
+                        <div class="pronoun-item">Ils/Elles</div>
+                    </div>
+                </div>
+            </section>
 
-    <div id="wheel-container">
-        <canvas id="wheel" width="500" height="500"></canvas> 
-    </div>
+            <section id="wheel-container" aria-label="Verb wheel">
+                <canvas id="wheel" width="500" height="500" aria-label="Interactive verb wheel" role="img"></canvas> 
+            </section>
+        </div>
 
-    <div id="timer">10</div>
+        <section id="timer" aria-live="polite" aria-label="Timer countdown">10</section>
 
-    <div class="button-container">
-        <button id="spin-button">Tourner la Roue!</button>
-    </div>
+        <section class="button-container">
+            <button id="spin-button" aria-describedby="timer">Tourner la Roue!</button>
+        </section>
+    </main>
 
     <script type="module" src="js/verb-wheel.js"></script>
 </body>
