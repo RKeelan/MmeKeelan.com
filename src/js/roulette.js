@@ -1,5 +1,6 @@
 import '../css/styles.css';
 import arrowImg from '../assets/images/spinner-arrow.png';
+import { generateRainbowColors } from './utils.js';
 
 let canvas = document.getElementById("wheel");
 let context = canvas.getContext("2d");
@@ -34,25 +35,14 @@ function drawWheel() {
     var padding = 5;
     var diameter = Math.min(canvas.width, canvas.height) - padding * 2;
 
-    var hues = [];
-    switch(numberOfWords) {
-        case 1: hues = [225]; break;
-        case 2: hues = [210, 225]; break;
-        case 3: hues = [210, 225, 240]; break;
-        case 4: hues = [195, 210, 225, 240]; break;
-        case 5: hues = [195, 210, 225, 240, 255]; break;
-        case 6: hues = [180, 195, 210, 225, 240, 255]; break; 
-        case 7: hues = [0, 15, 60, 135, 210, 240, 330]; break;
-        default:
-            hues = Array.from({ length: numberOfWords }, (_, i) => i * 360 / numberOfWords);
-            break;
-    }
+    // Use the shared color utility function
+    const segmentColors = generateRainbowColors(numberOfWords);
 
     for (var i = 0; i < numberOfWords; i++) {
         context.beginPath();
         context.moveTo(canvas.width / 2, canvas.height / 2);
         context.arc(diameter/ 2 + padding, diameter / 2 + padding, diameter / 2, angle, angle + anglePerSection);
-        context.fillStyle = 'hsl(' + hues[i] + ', 70%, 70%)';
+        context.fillStyle = segmentColors[i];
         context.fill();
         context.strokeStyle = "#000";
         context.stroke();
