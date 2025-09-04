@@ -5,7 +5,7 @@ let wordList;
 function updateWords() {
     var wordText = document.getElementById("wordsInput").value;
     // Split wordText on whitespace and commas
-    wordList = wordText.split(/[\s,]+/).filter(s => s);
+    wordList = wordText.split(/[,]+/).filter(s => s);
 
     // Update the word count in the HTML
     document.getElementById("wordCount").innerText = wordList.length;
@@ -80,15 +80,21 @@ function addBingoCard(doc, words) {
             }
             heightFudgeFactor = 1.3;
         }
-        // You can't directly use the height of the text, because it ends up not being centered. I've seen online that
-        // this is because the height of the text dimension includes the line spacing below the line. But I also found
-        // that different font sizes require different fudge factors. I'm not entirely sure why.
-        const textHeight = doc.getTextDimensions(text).h / heightFudgeFactor;
-
-        // Draw the word in the cell
-        doc.text(text, xPos + cellWidth / 2, yPos + cellHeight / 2 + textHeight / 2, {
-          align: "center",
-          valign: "middle",
+        // Handle text wrapping within the cell
+        const maxWidth = cellWidth * 0.9; // Use 90% of cell width for padding
+        const lines = doc.splitTextToSize(text, maxWidth);
+        const baseLineHeight = doc.getTextDimensions(text).h / heightFudgeFactor;
+        const lineHeight = baseLineHeight * 1.5; // Add 20% more spacing between lines
+        const totalTextHeight = lines.length * lineHeight;
+        
+        // Calculate starting Y position to center all lines vertically
+        const startY = yPos + cellHeight / 2 - totalTextHeight / 2 + lineHeight;
+        
+        // Draw each line
+        lines.forEach((line, index) => {
+          doc.text(line, xPos + cellWidth / 2, startY + index * lineHeight, {
+            align: "center"
+          });
         });
       }
     }
