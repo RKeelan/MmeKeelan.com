@@ -18,8 +18,8 @@ arrow.onload = function() {
 
 function updateWords() {
     var wordText = document.getElementById("wordsInput").value;
-    // Split wordText on whitespace and commas
-    wordList = wordText.split(/[\s,]+/).filter(s => s);
+    // Split wordText on commas only
+    wordList = wordText.split(/,+/).filter(s => s.trim());
 
     // Number of words is the number of elements in wordList
     numberOfWords = wordList.length;

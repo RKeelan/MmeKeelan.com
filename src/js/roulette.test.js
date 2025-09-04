@@ -164,11 +164,12 @@ describe('Roulette Wheel', () => {
     // Test with different input formats
     const testCases = [
       { input: 'apple, banana, cherry', expected: 3 },
-      { input: 'apple banana cherry', expected: 3 },
+      { input: 'apple banana cherry', expected: 1 }, // spaces no longer split
       { input: 'apple,banana,cherry', expected: 3 },
-      { input: 'apple  banana   cherry', expected: 3 },
+      { input: 'apple  ,  banana  ,  cherry', expected: 3 }, // spaces around commas are trimmed
       { input: '', expected: 0 },
-      { input: 'single', expected: 1 }
+      { input: 'single', expected: 1 },
+      { input: 'item with spaces, another item', expected: 2 } // spaces within items preserved
     ];
 
     testCases.forEach(({ input, expected }) => {
