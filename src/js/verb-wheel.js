@@ -12,16 +12,20 @@ const pronouns = ["Je", "Tu", "Il/Elle/On", "Nous", "Vous", "Ils/Elles"];
 const segmentColors = generateRainbowColors(verbs.length);
 
 // DOM Elements
-/** @type {HTMLElement} */
-const pronounReel = document.getElementById('pronoun-reel');
-/** @type {HTMLElement} */
-const timerDisplay = document.getElementById('timer');
-/** @type {HTMLButtonElement} */
-const spinButton = document.getElementById('spin-button');
-/** @type {HTMLCanvasElement} */
-const canvas = document.getElementById('wheel');
-/** @type {CanvasRenderingContext2D} */
+const pronounReel = /** @type {HTMLElement} */ (document.getElementById('pronoun-reel'));
+if (!pronounReel) throw new Error('pronoun-reel element not found');
+
+const timerDisplay = /** @type {HTMLElement} */ (document.getElementById('timer'));
+if (!timerDisplay) throw new Error('timer element not found');
+
+const spinButton = /** @type {HTMLButtonElement} */ (document.getElementById('spin-button'));
+if (!spinButton) throw new Error('spin-button element not found');
+
+const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById('wheel'));
+if (!canvas) throw new Error('wheel canvas element not found');
+
 const context = canvas.getContext('2d');
+if (!context) throw new Error('2d context not supported');
 
 /** @type {number} */
 let currentWheelAngle = 0; // Current rotation angle of the wheel
@@ -33,10 +37,6 @@ let animationFrameId = null;
 let timerIntervalId = null;
 /** @type {number} */
 let timeLeft = 10;
-/** @type {string} */
-let selectedPronoun = '';
-/** @type {string} */
-let selectedVerb = '';
 
 /** @type {HTMLImageElement} */
 const arrow = new Image();
@@ -73,6 +73,7 @@ arrow.onload = () => {
  * @returns {void}
  */
 function drawWheelSegments() {
+    if (!context) return;
     const numSegments = verbs.length;
     const anglePerSegment = (2 * Math.PI) / numSegments;
     const centerX = canvas.width / 2;
@@ -116,6 +117,7 @@ function drawWheelSegments() {
  * @returns {void}
  */
 function drawArrow() {
+    if (!context) return;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     context.save();
@@ -132,6 +134,7 @@ function drawArrow() {
  * @returns {void}
  */
 function drawWheelAndArrow() {
+    if (!context) return;
     context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
 
     // Rotate wheel
@@ -154,7 +157,7 @@ function spinAnimation() {
 
     if (Math.abs(difference) < 0.001) { // Threshold for stopping
         currentWheelAngle = targetWheelAngle;
-        cancelAnimationFrame(animationFrameId);
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
         // Start timer only after wheel stops spinning
         startTimer();
@@ -174,22 +177,22 @@ function startTimer() {
         clearInterval(timerIntervalId);
     }
     timeLeft = TIMER_DURATION;
-    timerDisplay.textContent = timeLeft;
+    timerDisplay.textContent = String(timeLeft);
     timerDisplay.style.color = 'green';
 
-    timerIntervalId = setInterval(() => {
+    timerIntervalId = /** @type {any} */ (setInterval(() => {
         timeLeft--;
-        timerDisplay.textContent = timeLeft;
+        timerDisplay.textContent = String(timeLeft);
         if (timeLeft <= 5 && timeLeft > 3) {
             timerDisplay.style.color = 'orange';
         } else if (timeLeft <= 3 && timeLeft >= 0) { // Red when 3, 2, 1, 0
             timerDisplay.style.color = 'red';
         }
         if (timeLeft < 0) { // After 0, show "Temps écoulé!"
-            clearInterval(timerIntervalId);
+            if (timerIntervalId) clearInterval(timerIntervalId);
             timerDisplay.textContent = "Temps écoulé!";
         }
-    }, 1000);
+    }, 1000));
 }
 
 /**
@@ -224,15 +227,13 @@ spinButton.addEventListener('click', () => {
     const randomPronoun = pronouns[Math.floor(Math.random() * pronouns.length)];
     const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
 
-    selectedPronoun = randomPronoun;
-    selectedVerb = randomVerb;
 
     animatePronounSlot(randomPronoun);
 
     const verbIndex = verbs.indexOf(randomVerb);
     const anglePerSegment = (2 * Math.PI) / verbs.length;
 
-    let segmentMiddleAngle = (verbIndex * anglePerSegment) + (anglePerSegment / 2);
+    const segmentMiddleAngle = (verbIndex * anglePerSegment) + (anglePerSegment / 2);
     targetWheelAngle = -segmentMiddleAngle + (anglePerSegment / 2);
 
     currentWheelAngle = currentWheelAngle % (2 * Math.PI);

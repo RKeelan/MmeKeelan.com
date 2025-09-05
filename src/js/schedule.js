@@ -1,4 +1,5 @@
 import '../css/styles.css';
+// @ts-expect-error Ignore missing types
 import * as jsyaml from 'js-yaml';
 
 // French: 300
@@ -40,11 +41,18 @@ import * as jsyaml from 'js-yaml';
 // Days of the week constant
 const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const INTERVAL = 15;
+/** @type {Record<string, number>} */
 const totalMinutesMap = {};
 
 // Function to convert time to minutes past midnight
+/**
+ * @param {string} time
+ * @returns {number}
+ */
 const timeToMinutes = (time) => {
-    const [_, hours, minutes, period] = /(\d+):(\d+) (\w+)/.exec(time);
+    const match = /(\d+):(\d+) (\w+)/.exec(time);
+    if (!match) throw new Error(`Invalid time format: ${time}`);
+    const [, hours, minutes, period] = match;
     let totalMinutes = parseInt(hours) * 60 + parseInt(minutes);
     if (period.toUpperCase() === 'PM' && parseInt(hours) !== 12) {
       totalMinutes += 12 * 60;
@@ -53,6 +61,10 @@ const timeToMinutes = (time) => {
 };
 
 // Function to convert minutes past midnight to a time string
+/**
+ * @param {number} minutes
+ * @returns {string}
+ */
 const minutesToTime = (minutes) => {
     const hrs = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -61,6 +73,10 @@ const minutesToTime = (minutes) => {
     return `${String(adjustedHrs).padStart(2, '0')}:${String(mins).padStart(2, '0')} ${period}`;
   };
 
+  /**
+   * @param {any} data
+   * @returns {any[]}
+   */
   const createTimeBlockList = (data) => {
     const timeBlockList = [];
     const startTime = timeToMinutes(data.Start);
@@ -70,13 +86,13 @@ const minutesToTime = (minutes) => {
       const timeBlock = {};
       DAYS_OF_WEEK.forEach(day => {
         const allBlocksForDay = data[day] || [];
-        allBlocksForDay.forEach(block => {
+        allBlocksForDay.forEach(/** @type {function(any): void} */ (block) => {
           const [start, end] = block.Time.split(' - ');
           const startMinutes = timeToMinutes(start);
           const endMinutes = timeToMinutes(end);
   
           if (startMinutes === minutes) {
-            timeBlock[day] = { Block: block.Block, Duration: endMinutes - startMinutes };
+            (/** @type {any} */ (timeBlock))[day] = { Block: block.Block, Duration: endMinutes - startMinutes };
             totalMinutesMap[block.Block] = (totalMinutesMap[block.Block] || 0) + (endMinutes - startMinutes);
           }
         });
@@ -86,6 +102,10 @@ const minutesToTime = (minutes) => {
     return timeBlockList;
   };
   
+  /**
+   * @param {any} data
+   * @returns {HTMLTableElement}
+   */
   const createTable = (data) => {
     const table = document.createElement('table');
     table.setAttribute('border', '1');
@@ -99,16 +119,16 @@ const minutesToTime = (minutes) => {
     thead.appendChild(headerRow);
     table.appendChild(thead);
   
-    const timeBlockList = createTimeBlockList(data, totalMinutesMap);
+    const timeBlockList = createTimeBlockList(data);
     const tbody = document.createElement('tbody');
-    let currentTime = timeToMinutes(data.Start);
+    const currentTime = timeToMinutes(data.Start);
     const endTime = timeToMinutes(data.End);
   
     for (let minutes = currentTime; minutes <= endTime; minutes += INTERVAL) {
       const row = document.createElement('tr');
       const timeCell = document.createElement('td');
       const timeBlock = timeBlockList[(minutes - currentTime) / INTERVAL] || {};
-      const invariantBlock = data.Invariants.find(block => {
+      const invariantBlock = data.Invariants && data.Invariants.find(/** @type {function(any): boolean} */ (block) => {
         const [start, ] = block.Time.split(' - ');
         return timeToMinutes(start) === minutes;
       });
@@ -119,7 +139,7 @@ const minutesToTime = (minutes) => {
         invariantCell.textContent = invariantBlock.Block;
         invariantCell.colSpan = DAYS_OF_WEEK.length;
         invariantCell.rowSpan = 1;
-        invariantCell.style.backgroundColor = data.Colors.Invariants;
+        invariantCell.style.backgroundColor = data.Colors && data.Colors.Invariants || 'lightgray';
         const [start, end] = invariantBlock.Time.split(' - ');
         minutes += timeToMinutes(end) - timeToMinutes(start) - INTERVAL;
         row.appendChild(timeCell);
@@ -132,7 +152,7 @@ const minutesToTime = (minutes) => {
           if (timeBlock[day]) {
             dayCell.textContent = timeBlock[day].Block;
             dayCell.rowSpan = timeBlock[day].Duration / INTERVAL;
-            dayCell.style.backgroundColor = data.Colors[timeBlock[day].Block];
+            dayCell.style.backgroundColor = data.Colors && data.Colors[timeBlock[day].Block] || 'white';
             row.appendChild(dayCell);
           }
         });
@@ -163,7 +183,7 @@ const createSummaryTable = () => {
       blockCell.textContent = block;
       row.appendChild(blockCell);
       const minutesCell = document.createElement('td');
-      minutesCell.textContent = totalMinutesMap[block];
+      minutesCell.textContent = String(totalMinutesMap[block]);
       row.appendChild(minutesCell);
       tbody.appendChild(row);
     });
@@ -172,7 +192,9 @@ const createSummaryTable = () => {
 };
   
 const renderTables = () => {
-    const yamlText = document.getElementById('yaml-textarea').value;
+    const yamlTextarea = /** @type {HTMLTextAreaElement} */ (document.getElementById('yaml-textarea'));
+    if (!yamlTextarea) return;
+    const yamlText = yamlTextarea.value;
     try {
     const data = jsyaml.load(yamlText);
     Object.keys(totalMinutesMap).forEach(key => {
@@ -181,6 +203,7 @@ const renderTables = () => {
     const table = createTable(data);
     const summaryTable = createSummaryTable();
     const container = document.getElementById('tables-container');
+    if (!container) return;
     container.innerHTML = '';
     container.appendChild(table);
     container.appendChild(summaryTable);
@@ -188,12 +211,16 @@ const renderTables = () => {
     catch (e) {
         // Handle the error by displaying a message to the user
         const errorMessage = document.createElement('p');
-        errorMessage.textContent = "Invalid YAML: " + e.message;
+        errorMessage.textContent = "Invalid YAML: " + (/** @type {Error} */ (e)).message;
         const container = document.getElementById('tables-container');
+        if (!container) return;
         container.innerHTML = '';
         container.appendChild(errorMessage);
     }
 };
   
-document.getElementById('yaml-textarea').addEventListener('input', renderTables);
+const yamlTextarea = document.getElementById('yaml-textarea');
+if (yamlTextarea) {
+    yamlTextarea.addEventListener('input', renderTables);
+}
 renderTables();

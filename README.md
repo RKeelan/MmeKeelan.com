@@ -38,8 +38,28 @@ npm install
 npm test
 ```
 
+### Linting and Formatting
+
+```bash
+npm run lint
+```
+
+### Type Checking
+
+```bash
+npm run typecheck
+```
+
+### Run All Checks
+
+Run lint, typecheck, and tests:
+
+```bash
+npm run check-all
+```
+
 ### Running Locally
 
-```
+```bash
 npm run dev
 ```

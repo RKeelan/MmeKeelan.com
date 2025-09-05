@@ -17,13 +17,13 @@ describe('parseWordList', () => {
 
   it('should handle empty input', () => {
     expect(parseWordList('')).toEqual([]);
-    expect(parseWordList(null)).toEqual([]);
-    expect(parseWordList(undefined)).toEqual([]);
+    expect(parseWordList(/** @type {any} */ (null))).toEqual([]);
+    expect(parseWordList(/** @type {any} */ (undefined))).toEqual([]);
   });
 
   it('should handle non-string input', () => {
-    expect(parseWordList(123)).toEqual([]);
-    expect(parseWordList({})).toEqual([]);
+    expect(parseWordList(/** @type {any} */ (123))).toEqual([]);
+    expect(parseWordList(/** @type {any} */ ({}))).toEqual([]);
   });
 
   it('should filter out empty words', () => {

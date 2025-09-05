@@ -1,25 +1,39 @@
 import '../css/styles.css';
 import { jsPDF } from "jspdf";
 
-let wordList;
+/** @type {string[]} */
+let wordList = [];
 function updateWords() {
-    var wordText = document.getElementById("wordsInput").value;
+    const wordsInput = /** @type {HTMLInputElement} */ (document.getElementById("wordsInput"));
+    if (!wordsInput) return;
+    
+    const wordText = wordsInput.value;
     // Split wordText on whitespace and commas
-    wordList = wordText.split(/[,]+/).filter(s => s);
+    wordList = wordText.split(/[,]+/).filter((s) => s);
 
     // Update the word count in the HTML
-    document.getElementById("wordCount").innerText = wordList.length;
+    const wordCountElement = document.getElementById("wordCount");
+    if (wordCountElement) {
+        wordCountElement.innerText = wordList.length.toString();
+    }
 }
 
-let numCards;
+let numCards = 0;
 function updateNumCards() {
-    var numCardsStr = document.getElementById("numCards").value;
+    const numCardsElement = /** @type {HTMLInputElement} */ (document.getElementById("numCards"));
+    if (!numCardsElement) return;
+    
+    const numCardsStr = numCardsElement.value;
     numCards = parseInt(numCardsStr, 10);
-    if (isNaN(numCards) || numCards != numCardsStr) {
+    if (isNaN(numCards) || numCards != parseInt(numCardsStr, 10)) {
         numCards = 0;
     }
 }
 
+/**
+ * @param {any[]} array
+ * @returns {any[]}
+ */
 function fisherYatesShuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
   
@@ -39,6 +53,10 @@ function fisherYatesShuffle(array) {
     return array;
 }
 
+/**
+ * @param {any} doc
+ * @param {string[]} words
+ */
 function addBingoCard(doc, words) {
     const free = "Gratuit";
     const headerFontSize = 48;
@@ -51,7 +69,7 @@ function addBingoCard(doc, words) {
     const yOffset = (doc.internal.pageSize.getHeight() - cardHeight) / 2;
   
     // Shuffle the word list to create a random bingo card
-    var wordIndex;
+    let wordIndex = 0;
     for (let row = 0; row < 6; row++) {
       for (let col = 0; col < 5; col++) {
         const xPos = xOffset + col * cellWidth;
@@ -61,8 +79,8 @@ function addBingoCard(doc, words) {
         doc.rect(xPos, yPos, cellWidth, cellHeight);
   
         // If this is the center cell, skip it (usually a free space)
-        var text;
-        var heightFudgeFactor;
+        let text;
+        let heightFudgeFactor;
         if (row == 0) {
             doc.setFontSize(headerFontSize);
             text = "BINGO"[col];
@@ -91,7 +109,7 @@ function addBingoCard(doc, words) {
         const startY = yPos + cellHeight / 2 - totalTextHeight / 2 + lineHeight;
         
         // Draw each line
-        lines.forEach((line, index) => {
+        lines.forEach((/** @type {string} */ line, /** @type {number} */ index) => {
           doc.text(line, xPos + cellWidth / 2, startY + index * lineHeight, {
             align: "center"
           });
@@ -111,7 +129,7 @@ function makePdf() {
 
     const bingoCards = new Set();
     while (bingoCards.size < numCards) {
-        const shuffledWords = fisherYatesShuffle(wordList.slice());
+        const shuffledWords = /** @type {string[]} */ (fisherYatesShuffle([...wordList]));
         const cardString = shuffledWords.join(",");
 
         if (!bingoCards.has(cardString)) {
@@ -129,7 +147,9 @@ function makePdf() {
 }
 
 function updateGenerateButton() {
-    var button = document.getElementById("generate");
+    const button = document.getElementById("generate");
+    if (!button || !('disabled' in button)) return;
+    
     if (numCards >= 1 && wordList.length >= 24) {
         button.disabled = false;
     }
@@ -140,17 +160,29 @@ function updateGenerateButton() {
 
 
 function init() {
-    updateWords()
-    updateNumCards()
-    document.getElementById("wordsInput").addEventListener("input", function() {
-        updateWords();
-        updateGenerateButton();
-    });
-    document.getElementById("numCards").addEventListener("input", function() {
-        updateNumCards();
-        updateGenerateButton();
-    });
-    document.getElementById("generate").addEventListener("click", makePdf);
+    updateWords();
+    updateNumCards();
+    
+    const wordsInput = document.getElementById("wordsInput");
+    if (wordsInput) {
+        wordsInput.addEventListener("input", function() {
+            updateWords();
+            updateGenerateButton();
+        });
+    }
+    
+    const numCardsInput = document.getElementById("numCards");
+    if (numCardsInput) {
+        numCardsInput.addEventListener("input", function() {
+            updateNumCards();
+            updateGenerateButton();
+        });
+    }
+    
+    const generateButton = document.getElementById("generate");
+    if (generateButton) {
+        generateButton.addEventListener("click", makePdf);
+    }
 }
 
 init();

@@ -74,17 +74,21 @@ const provinceData = {
 fetch(canadaMapPath)
   .then(response => response.text())
   .then(data => {
-    document.getElementById('caSvgContainer').innerHTML = data;
+    const caSvgContainer = document.getElementById('caSvgContainer');
+    if (!caSvgContainer) return;
+    
+    caSvgContainer.innerHTML = data;
     const svgElement = caSvgContainer.querySelector('svg');
 
     // Calculate aspect ratio and scale
-    const originalWidth = parseFloat(svgElement.getAttribute('width') || svgElement.viewBox.baseVal.width);
-    const originalHeight = parseFloat(svgElement.getAttribute('height') || svgElement.viewBox.baseVal.height);
+    if (!svgElement) return;
+    const originalWidth = parseFloat(svgElement.getAttribute('width') || String(svgElement.viewBox.baseVal.width));
+    const originalHeight = parseFloat(svgElement.getAttribute('height') || String(svgElement.viewBox.baseVal.height));
     const aspectRatio = originalWidth / originalHeight;
     scaleSvg(svgElement, aspectRatio);
 
     // Select elements
-    var elements = Array.from(document.querySelectorAll('svg path[name]'));
+    const elements = Array.from(document.querySelectorAll('svg path[name]'));
     console.log(elements.length);
 
     // Add event listeners
@@ -97,29 +101,46 @@ fetch(canadaMapPath)
 
 });
 
+/**
+ * @param {SVGSVGElement} svgElement
+ * @param {number} aspectRatio
+ */
 function scaleSvg(svgElement, aspectRatio) {
-    let newHeight = Math.min(maxSvgHeight, window.innerHeight);
-    let newWidth = newHeight * aspectRatio;
+    const newHeight = Math.min(maxSvgHeight, window.innerHeight);
+    const newWidth = newHeight * aspectRatio;
   
-    svgElement.setAttribute('width', newWidth);
-    svgElement.setAttribute('height', newHeight);
+    svgElement.setAttribute('width', String(newWidth));
+    svgElement.setAttribute('height', String(newHeight));
 }
 
+/**
+ * @param {Event} e
+ */
 function click(e){
-    var province = e.target.getAttribute('name');
+    if (!e.target) return;
+    const province = /** @type {Element} */ (e.target).getAttribute('name');
+    if (!province) return;
     
     // Update info card
-    document.querySelector('#infoCard h2').innerText = province;
+    const infoCardH2 = document.querySelector('#infoCard h2');
+    if (infoCardH2) {
+        infoCardH2.textContent = province;
+    }
+    
     const tableBody = document.querySelector('#infoTable tbody');
+    if (!tableBody) return;
+    
     tableBody.innerHTML = ''; // Clear current rows
   
-    const data = provinceData[province];
+    const data = provinceData[/** @type {keyof typeof provinceData} */ (province)];
+    if (!data) return;
+    
     for (const [key, value] of Object.entries(data)) {
         const row = document.createElement('tr');
         const cellKey = document.createElement('td');
         const cellValue = document.createElement('td');
-        cellKey.innerText = `${key}:`;
-        cellValue.innerText = value;
+        cellKey.textContent = `${key}:`;
+        cellValue.textContent = value;
         row.appendChild(cellKey);
         row.appendChild(cellValue);
         tableBody.appendChild(row);

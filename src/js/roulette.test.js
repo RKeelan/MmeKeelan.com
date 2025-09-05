@@ -117,7 +117,7 @@ describe('Roulette Wheel', () => {
     // Change the input value
     mockWordsInput.value = 'red, blue, green, yellow';
     
-    const inputHandler = inputEventCall[1];
+    const inputHandler = inputEventCall?.[1];
     inputHandler();
     
     // Should redraw the wheel
@@ -132,7 +132,7 @@ describe('Roulette Wheel', () => {
     );
     expect(spinEventCall).toBeDefined();
     
-    const spinHandler = spinEventCall[1];
+    const spinHandler = spinEventCall?.[1];
     spinHandler();
     
     // Should start animation
@@ -146,7 +146,7 @@ describe('Roulette Wheel', () => {
     );
     expect(startEventCall).toBeDefined();
     
-    const startHandler = startEventCall[1];
+    const startHandler = startEventCall?.[1];
     startHandler();
     
     // Should start animation
@@ -159,7 +159,7 @@ describe('Roulette Wheel', () => {
       call => call[0] === 'input'
     );
     expect(inputEventCall).toBeDefined();
-    const inputHandler = inputEventCall[1];
+    const inputHandler = inputEventCall?.[1];
 
     // Test with different input formats
     const testCases = [
@@ -199,7 +199,7 @@ describe('Roulette Wheel', () => {
     const inputEventCall = mockWordsInput.addEventListener.mock.calls.find(
       call => call[0] === 'input'
     );
-    const inputHandler = inputEventCall[1];
+    const inputHandler = inputEventCall?.[1];
     inputHandler();
     
     // The arrow should be drawn as part of the redraw
