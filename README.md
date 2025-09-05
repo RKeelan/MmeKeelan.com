@@ -1,5 +1,8 @@
 # MmeKeelan.com
 
+[![CI](https://github.com/RKeelan/MmeKeelan.com/workflows/CI/badge.svg)](https://github.com/RKeelan/MmeKeelan.com/actions/workflows/ci.yml)
+[![Deploy](https://github.com/RKeelan/MmeKeelan.com/workflows/Deploy%20to%20GitHub%20Pages/badge.svg)](https://github.com/RKeelan/MmeKeelan.com/actions/workflows/deploy.yml)
+
 A collection games and learning aids for primary French Immersion teachers, with a focus on the Ontario curriculum.
 
 ## Overview
