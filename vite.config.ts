@@ -16,6 +16,7 @@ export default defineConfig({
         bingo: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/bingo.html'),
         canada: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/canada.html'),
         schedule: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/schedule.html'),
+        verbWheel: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/verb-wheel.html'),
         error: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/error.html')
       }
     },
