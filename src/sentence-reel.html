@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de phrases</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main>
+        <h1>Générateur de phrases</h1>
+
+        <div id="language-toggle-container">
+            <div id="language-toggle" class="toggle-switch">
+                <span class="toggle-label left">English</span>
+                <div class="toggle-slider">
+                    <div class="toggle-button"></div>
+                </div>
+                <span class="toggle-label right">Français</span>
+            </div>
+        </div>
+
+        <div id="sentence-container">
+            <section id="subject-slot-container" aria-label="Subject selector">
+                <h3>Sujet</h3>
+                <div id="subject-slot">
+                    <div id="subject-reel"></div>
+                </div>
+            </section>
+
+            <section id="verb-slot-container" aria-label="Verb selector">
+                <h3>Verbe</h3>
+                <div id="verb-slot">
+                    <div id="verb-reel"></div>
+                </div>
+            </section>
+
+            <section id="object-slot-container" aria-label="Object selector">
+                <h3>Objet</h3>
+                <div id="object-slot">
+                    <div id="object-reel"></div>
+                </div>
+            </section>
+        </div>
+
+        <section id="timer" aria-live="polite" aria-label="Timer countdown">10</section>
+
+        <section class="button-container">
+            <button id="spin-button" aria-describedby="timer">Générer une phrase!</button>
+        </section>
+    </main>
+
+    <script type="module" src="js/sentence-reel.js"></script>
+</body>
+</html>

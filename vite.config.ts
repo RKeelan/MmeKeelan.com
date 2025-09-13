@@ -17,6 +17,7 @@ export default defineConfig({
         canada: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/canada.html'),
         schedule: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/schedule.html'),
         verbWheel: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/verb-wheel.html'),
+        sentenceReel: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/sentence-reel.html'),
         error: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/error.html')
       }
     },
