@@ -1,6 +1,7 @@
 import '../css/styles.css'; // General styles
 import arrowImg from '../assets/images/spinner-arrow.png';
 import { generateRainbowColors } from './utils.js';
+import { StringReel } from './string-reel.js';
 
 /** @type {string[]} */
 const verbs = ["être", "avoir", "aller", "faire", "pouvoir", "vouloir", "savoir"];
@@ -12,8 +13,13 @@ const pronouns = ["Je", "Tu", "Il/Elle/On", "Nous", "Vous", "Ils/Elles"];
 const segmentColors = generateRainbowColors(verbs.length);
 
 // DOM Elements
-const pronounReel = /** @type {HTMLElement} */ (document.getElementById('pronoun-reel'));
-if (!pronounReel) throw new Error('pronoun-reel element not found');
+const pronounReelElement = /** @type {HTMLElement} */ (document.getElementById('pronoun-reel'));
+if (!pronounReelElement) throw new Error('pronoun-reel element not found');
+
+// Initialize the pronoun reel
+const pronounReel = new StringReel(pronounReelElement, pronouns, {
+    itemClassName: 'pronoun-item'
+});
 
 const timerDisplay = /** @type {HTMLElement} */ (document.getElementById('timer'));
 if (!timerDisplay) throw new Error('timer element not found');
@@ -59,13 +65,9 @@ const MAX_ADDITIONAL_ROTATIONS = 3;
 const CANVAS_PADDING = 10;
 /** @type {number} */
 const TEXT_RADIUS_FACTOR = 0.65;
-/** @type {number} */
-const ANIMATION_DURATION = 2500; // Duration for both wheel and pronoun animations
 
 arrow.onload = () => {
     drawWheelAndArrow(); // Initial draw
-    // Initialize pronoun reel to show first pronoun
-    pronounReel.style.transform = 'translateY(0px)';
 };
 
 /**
@@ -195,31 +197,6 @@ function startTimer() {
     }, 1000));
 }
 
-/**
- * Animates the pronoun slot machine
- * @param {string} targetPronoun - The pronoun to land on
- * @returns {void}
- */
-function animatePronounSlot(targetPronoun) {
-    const pronounIndex = pronouns.indexOf(targetPronoun);
-    const itemHeight = 80;
-    const additionalPronounSets = 3;
-    
-    const targetPosition = -(pronounIndex * itemHeight);
-    const targetInSecondSet = targetPosition - (additionalPronounSets * pronouns.length * itemHeight);
-    const finalPosition = targetInSecondSet;
-    
-    pronounReel.style.transform = `translateY(${finalPosition}px)`;
-    
-    setTimeout(() => {
-        pronounReel.style.transition = 'none';
-        pronounReel.style.transform = `translateY(${targetPosition}px)`;
-        
-        setTimeout(() => {
-            pronounReel.style.transition = 'transform 2.5s cubic-bezier(0.2, 0.1, 0.4, 1)';
-        }, 50);
-    }, ANIMATION_DURATION);
-}
 
 spinButton.addEventListener('click', () => {
     if (animationFrameId) return;
@@ -227,8 +204,7 @@ spinButton.addEventListener('click', () => {
     const randomPronoun = pronouns[Math.floor(Math.random() * pronouns.length)];
     const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
 
-
-    animatePronounSlot(randomPronoun);
+    pronounReel.animateTo(randomPronoun);
 
     const verbIndex = verbs.indexOf(randomVerb);
     const anglePerSegment = (2 * Math.PI) / verbs.length;

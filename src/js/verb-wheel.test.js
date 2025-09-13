@@ -61,20 +61,6 @@ describe('La Roue des Verbes (verb-wheel.js)', () => {
         expect(targetAngle2).toBeCloseTo(-anglePerSegment);
     });
 
-    it('should calculate pronoun slot positions correctly', () => {
-        const pronouns = ["Je", "Tu", "Il/Elle/On", "Nous", "Vous", "Ils/Elles"];
-        const itemHeight = 80;
-        const additionalPronounSets = 3;
-
-        // Test position calculation for "Tu" (index 1)
-        const pronounIndex = 1;
-        const targetPosition = -(pronounIndex * itemHeight);
-        const targetInSecondSet = targetPosition - (additionalPronounSets * pronouns.length * itemHeight);
-        
-        expect(targetPosition).toBe(-80); // Tu in first set
-        expect(targetInSecondSet).toBe(-80 - (3 * 6 * 80)); // Tu in extended set
-        expect(targetInSecondSet).toBe(-1520);
-    });
 
     it('should have proper constants defined', () => {
         const TIMER_DURATION = 10;
@@ -83,7 +69,6 @@ describe('La Roue des Verbes (verb-wheel.js)', () => {
         const MAX_ADDITIONAL_ROTATIONS = 3;
         const CANVAS_PADDING = 10;
         const TEXT_RADIUS_FACTOR = 0.65;
-        const ANIMATION_DURATION = 2500;
         
         expect(TIMER_DURATION).toBe(10);
         expect(ROTATION_SPEED_FACTOR).toBe(0.05);
@@ -91,7 +76,6 @@ describe('La Roue des Verbes (verb-wheel.js)', () => {
         expect(MAX_ADDITIONAL_ROTATIONS).toBe(3);
         expect(CANVAS_PADDING).toBe(10);
         expect(TEXT_RADIUS_FACTOR).toBe(0.65);
-        expect(ANIMATION_DURATION).toBe(2500);
     });
 
     it('should validate pronoun indices', () => {
