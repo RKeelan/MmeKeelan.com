@@ -34,7 +34,7 @@
     "npm-check-updates": "^19.1.1",
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
-    "vitest": "^3.1.4"
+    "vitest": "^4.0.3"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
