@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.1",
-    "jspdf": "^4.0.0"
+    "jspdf": "^4.1.0"
   }
 }
