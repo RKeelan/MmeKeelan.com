@@ -1,53 +1,12 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "05:00"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "npm"
-    commit-message:
-      prefix: "npm"
-      include: "scope"
-    groups:
-      # Group minor and patch updates together
-      minor-and-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-      # Keep major updates separate for careful review
-      major-updates:
-        patterns:
-          - "*"
-        update-types:
-          - "major"
-      # Group development dependencies separately
-      dev-dependencies:
-        dependency-type: "development"
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
       time: "05:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "github-actions"
-    commit-message:
-      prefix: "actions"
-      include: "scope"
-    groups:
-      github-actions:
-        patterns:
-          - "*"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "05:00"
