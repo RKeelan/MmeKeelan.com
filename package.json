@@ -31,7 +31,7 @@
     "eslint": "9.39.2",
     "gh-pages": "^6.3.0",
     "jsdom": "^28.1.0",
-    "npm-check-updates": "^19.3.2",
+    "npm-check-updates": "^19.4.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vitest": "^4.0.3"
