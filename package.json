@@ -39,5 +39,9 @@
   "dependencies": {
     "js-yaml": "^4.1.1",
     "jspdf": "^4.1.1"
+  },
+  "overrides": {
+    "rollup": ">=4.59.0",
+    "minimatch": ">=10.2.3"
   }
 }
