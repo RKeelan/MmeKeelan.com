@@ -1,0 +1,1 @@
+#mainContainer{display:flex}#caSvgContainer{flex:2}#infoCard{border-left:1px solid #ccc;flex:1;padding-left:10px}#caSvgContainer,#infoCard{align-self:stretch}#infoTable td{text-align:left}
