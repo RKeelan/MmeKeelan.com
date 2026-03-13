@@ -102,7 +102,7 @@ let timerIntervalId = null;
 /** @type {number} */
 let timeLeft = 10;
 /** @type {Object.<string, string[]>} */
-let workingVerbObjectMap = JSON.parse(JSON.stringify(verbObjectMap)); // Deep copy to avoid repetition
+const workingVerbObjectMap = JSON.parse(JSON.stringify(verbObjectMap)); // Deep copy to avoid repetition
 /** @type {boolean} */
 let allObjectsExhausted = false;
 

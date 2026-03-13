@@ -12,7 +12,7 @@ vi.mock('../css/styles.css', () => ({}));
 vi.mock('./utils.js', () => ({
     generateRainbowColors: vi.fn((numSegments) => {
         // Mock the actual behavior with hardcoded hues for 7 segments
-        let hues = [];
+        let hues;
         switch(numSegments) {
             case 1: hues = [225]; break;
             case 2: hues = [210, 225]; break;

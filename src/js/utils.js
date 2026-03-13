@@ -17,8 +17,8 @@ export function parseWordList(input) {
  * @returns {string[]} Array of HSL color strings
  */
 export function generateRainbowColors(numSegments) {
-    let hues = [];
-    
+    let hues;
+
     // Use the same special handling as roulette.js for 7 and fewer segments
     switch(numSegments) {
         case 1: hues = [225]; break;
