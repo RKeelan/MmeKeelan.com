@@ -147,14 +147,25 @@ function makePdf() {
 }
 
 function updateGenerateButton() {
-    const button = document.getElementById("generate");
-    if (!button || !('disabled' in button)) return;
-    
-    if (numCards >= 1 && wordList.length >= 24) {
+    const button = /** @type {HTMLButtonElement | null} */ (document.getElementById("generate"));
+    if (!button) return;
+
+    /** @type {string[]} */
+    const reasons = [];
+    if (numCards < 1) {
+        reasons.push("Enter a number of cards (at least 1)");
+    }
+    if (wordList.length < 24) {
+        reasons.push(`Add more words (need at least 24, currently ${wordList.length})`);
+    }
+
+    if (reasons.length === 0) {
         button.disabled = false;
+        button.title = "";
     }
     else {
         button.disabled = true;
+        button.title = reasons.join(". ");
     }
 }
 
@@ -183,6 +194,8 @@ function init() {
     if (generateButton) {
         generateButton.addEventListener("click", makePdf);
     }
+
+    updateGenerateButton();
 }
 
 init();
