@@ -11,27 +11,51 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/index.html'),
-        roulette: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/roulette.html'),
-        bingo: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/bingo.html'),
-        canada: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/canada.html'),
-        schedule: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/schedule.html'),
-        verbWheel: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/verb-wheel.html'),
-        sentenceReel: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/sentence-reel.html'),
-        error: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/error.html')
-      }
+        main: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/index.html',
+        ),
+        roulette: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/roulette.html',
+        ),
+        bingo: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/bingo.html',
+        ),
+        canada: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/canada.html',
+        ),
+        schedule: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/schedule.html',
+        ),
+        verbWheel: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/verb-wheel.html',
+        ),
+        sentenceReel: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/sentence-reel.html',
+        ),
+        error: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/error.html',
+        ),
+      },
     },
     // Specify the output directory for the build. Files will be placed here after `vite build`.
-    outDir: '../dist', 
+    outDir: '../dist',
   },
   // Configure the development server.
   server: {
     // configure dev server if needed
   },
   // if you had specific webpack aliases, you might want to replicate them here
-  resolve: { 
+  resolve: {
     alias: {
       // example: '@': path.resolve(__dirname, './src')
-    }
-  }
-}); 
+    },
+  },
+});

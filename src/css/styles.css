@@ -1,187 +1,197 @@
 /* Background color */
 body {
-	text-align: center;
-	background-color: #ffffff;
-	font-family: sans-serif; /* Added */
+  text-align: center;
+  background-color: #ffffff;
+  font-family: sans-serif; /* Added */
 }
 
 /* General Text Styles */
-h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, span {
-	color: #7d98e8;
-	font-size: 24px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+label,
+input,
+textarea,
+span {
+  color: #7d98e8;
+  font-size: 24px;
 }
 /* Canvas styles */
 canvas {
-	border: 5px solid #7d98e8;
-	border: none;
-	border-radius: 50%;
-	box-shadow: 0 0 10px #7d98e8;
+  border: 5px solid #7d98e8;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #7d98e8;
 }
-
 
 /* Button styles */
 button {
-    background-color: #7d98e8;
-	border: none;
-	border-radius: 20px;
-	color: #fff;
-	cursor: pointer;
-	font-size: 24px;
-	font-weight: bold;
-	margin: 10px;
-	padding: 10px 20px;
-	transition: all 0.2s ease-in-out;
+  background-color: #7d98e8;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px 20px;
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover {
-	background-color: #7de8cd;
-	box-shadow: 0 0 10px #7de8cd;
-	transform: scale(1.05);
+  background-color: #7de8cd;
+  box-shadow: 0 0 10px #7de8cd;
+  transform: scale(1.05);
 }
 
 button:disabled {
-	background-color: #b2bfe8;
-	box-shadow: 0 0 10px #b2bfe8;
-	transform: scale(1.00);
-    cursor: not-allowed;
+  background-color: #b2bfe8;
+  box-shadow: 0 0 10px #b2bfe8;
+  transform: scale(1.0);
+  cursor: not-allowed;
 }
-
 
 /* Title styles */
 .h1-input,
 h1 {
-	font-size: 48px;
-	font-weight: bold;
-	margin: 20px;
-	text-align: center;
-	text-shadow: 0 0 10px #fff;
-	border: none;
-	outline: none;
+  font-size: 48px;
+  font-weight: bold;
+  margin: 20px;
+  text-align: center;
+  text-shadow: 0 0 10px #fff;
+  border: none;
+  outline: none;
 }
 
 .h2-input,
 h2 {
-	font-size: 36px;
-	font-weight: bold;
-	margin: 20px;
-	text-align: center;
-	text-shadow: 0 0 10px #fff;
-	border: none;
-	outline: none;
+  font-size: 36px;
+  font-weight: bold;
+  margin: 20px;
+  text-align: center;
+  text-shadow: 0 0 10px #fff;
+  border: none;
+  outline: none;
 }
 
 /* Text area styles */
 textarea {
-	border: 5px solid #7d98e8;
-	border-radius: 20px;
-	margin: 10px;
-	padding: 10px;
+  border: 5px solid #7d98e8;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 10px;
 }
 
 .number-input {
-	border: 5px solid #7d98e8;
-	border-radius: 20px;
-	margin: 10px;
-	padding: 10px;
-	text-align: center;
-    width: 45px;
+  border: 5px solid #7d98e8;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  width: 45px;
 }
 
 /* Invalid number input styles */
 .number-input:invalid {
-    border-color: rgb(240, 135, 135);
+  border-color: rgb(240, 135, 135);
 }
 
 path:hover {
-	fill: red;
+  fill: red;
 }
 
 .report-div {
-	text-align: left;
+  text-align: left;
 }
 
 #main-container {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
-  
+
 #yaml-container,
 #tables-container {
-	width: 48%;
+  width: 48%;
 }
-  
+
 #tables-container {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 #yaml-textarea {
-	font-size: 16px;
-	color: #000000;
+  font-size: 16px;
+  color: #000000;
 }
-  
+
 table {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 /* Styles for La Roue des Verbes - Verb Wheel */
 
-#verb-wheel-container { /* If we wrap the verb wheel content in a specific container */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+#verb-wheel-container {
+  /* If we wrap the verb wheel content in a specific container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 #game-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    margin: 20px 0;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin: 20px 0;
+  position: relative;
 }
 
 /* Slot Machine Pronoun Selector */
 #pronoun-slot-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    left: calc(50% - 400px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: calc(50% - 400px);
 }
 
 #pronoun-slot {
-    width: 120px;
-    height: 80px;
-    border: 4px solid #7d98e8;
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    background: linear-gradient(145deg, #f0f0f0, #ffffff);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  width: 120px;
+  height: 80px;
+  border: 4px solid #7d98e8;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #pronoun-reel {
-    position: absolute;
-    width: 100%;
-    transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: absolute;
+  width: 100%;
+  transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .pronoun-item {
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #7d98e8;
-    border-bottom: 1px solid #e0e0e0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #7d98e8;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .pronoun-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 /* Spinning animation for pronoun reel - synchronized with wheel */
@@ -190,244 +200,253 @@ table {
 /* Removed CSS keyframes animation */
 
 #display-area {
-    font-size: 2em; /* Already in inline style, but good to have a base here if inline is removed */
-    margin-bottom: 20px; /* Already in inline style */
-    color: #333; /* Example text color */
-    font-weight: bold;
-    min-height: 2.5em; /* Prevent layout shift when content changes */
+  font-size: 2em; /* Already in inline style, but good to have a base here if inline is removed */
+  margin-bottom: 20px; /* Already in inline style */
+  color: #333; /* Example text color */
+  font-weight: bold;
+  min-height: 2.5em; /* Prevent layout shift when content changes */
 }
 
-#pronoun-display, #verb-display {
-    padding: 0 5px; /* Add a little spacing if they are separate spans */
+#pronoun-display,
+#verb-display {
+  padding: 0 5px; /* Add a little spacing if they are separate spans */
 }
 
 #wheel-container {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Canvas for the wheel - already has inline border and radius, ensure it's centered if not already */
 #wheel {
-    display: block; /* Helps with centering if margin auto is used */
-    margin: 20px auto; /* Already in inline style */
-    position: relative; /* Added */
-    /* Canvas will inherit border/shadow from global 'canvas' rule */
+  display: block; /* Helps with centering if margin auto is used */
+  margin: 20px auto; /* Already in inline style */
+  position: relative; /* Added */
+  /* Canvas will inherit border/shadow from global 'canvas' rule */
 }
 
 #timer {
-    font-size: 2.5em; /* Larger than inline style example for more prominence */
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    min-height: 1.5em; /* Prevents layout shift when text changes */
-    transition: color 0.3s ease; /* Smooth color transitions */
+  font-size: 2.5em; /* Larger than inline style example for more prominence */
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  min-height: 1.5em; /* Prevents layout shift when text changes */
+  transition: color 0.3s ease; /* Smooth color transitions */
 }
 
 /* Ensure buttons on this page also use global button styles if not already targeted */
 /* #spin-button specific styles if needed, but global button style should cover it. */
 
 .button-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 /* Styles for Sentence Reel page */
 #language-toggle-container {
-    margin: 20px 0;
-    text-align: center;
+  margin: 20px 0;
+  text-align: center;
 }
 
 .toggle-switch {
-    display: inline-flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .toggle-label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #7d98e8;
-    transition: color 0.3s ease;
+  font-size: 18px;
+  font-weight: bold;
+  color: #7d98e8;
+  transition: color 0.3s ease;
 }
 
 .toggle-label.active {
-    color: #7de8cd;
+  color: #7de8cd;
 }
 
 .toggle-slider {
-    position: relative;
-    width: 60px;
-    height: 30px;
-    background-color: #b2bfe8;
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
-    border: 2px solid #7d98e8;
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: #b2bfe8;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+  border: 2px solid #7d98e8;
 }
 
 .toggle-slider.active {
-    background-color: #7de8cd;
+  background-color: #7de8cd;
 }
 
 .toggle-button {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 22px;
-    height: 22px;
-    background-color: #fff;
-    border-radius: 50%;
-    transition: transform 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .toggle-button.active {
-    transform: translateX(28px);
+  transform: translateX(28px);
 }
 
 #sentence-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin: 40px 20px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 40px 20px;
+  flex-wrap: wrap;
 }
 
 #subject-slot-container,
 #verb-slot-container,
 #object-slot-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180px;
 }
 
 #subject-slot-container h3,
 #verb-slot-container h3,
 #object-slot-container h3 {
-    margin-bottom: 10px;
-    font-size: 24px;
-    color: #7d98e8;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #7d98e8;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #subject-slot,
 #verb-slot,
 #object-slot {
-    width: 180px;
-    height: 60px;
-    border: 4px solid #7d98e8;
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    background: linear-gradient(145deg, #f0f0f0, #ffffff);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  width: 180px;
+  height: 60px;
+  border: 4px solid #7d98e8;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #subject-reel,
 #verb-reel,
 #object-reel {
-    position: absolute;
-    width: 100%;
-    transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: absolute;
+  width: 100%;
+  transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reel-item {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #7d98e8;
-    border-bottom: 1px solid #e0e0e0;
-    text-align: center;
-    padding: 0 8px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #7d98e8;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 0 8px;
 }
 
 .reel-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 @keyframes rainbow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Responsive considerations for smaller screens if necessary */
 @media (max-width: 600px) {
-    #game-container {
-        flex-direction: column;
-        gap: 20px;
-        position: static;
-    }
-    
-    #pronoun-slot-container {
-        position: static;
-        left: auto;
-        order: -1; /* Show pronoun slot above wheel on mobile */
-    }
-    
-    #pronoun-slot {
-        width: 100px;
-        height: 60px;
-    }
-    
-    .pronoun-item {
-        height: 60px;
-        font-size: 16px;
-    }
-    
-    #display-area {
-        font-size: 1.5em;
-        min-height: 2em;
-    }
-    #wheel {
-        width: 250px !important; /* Override inline style if necessary */
-        height: 250px !important;
-    }
-    canvas#wheel { /* More specific selector for canvas if it has inline width/height */
-        width: 250px !important;
-        height: 250px !important;
-    }
-    #timer {
-        font-size: 2em;
-    }
-    /* Adjust button sizes or margins if they feel too large on small screens */
-    button { /* This would affect all buttons, be more specific if needed */
-        font-size: 18px; /* Slightly smaller for mobile */
-        padding: 8px 16px;
-    }
+  #game-container {
+    flex-direction: column;
+    gap: 20px;
+    position: static;
+  }
 
-    /* Sentence reel responsive styles */
-    #sentence-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        margin: 20px 10px;
-    }
+  #pronoun-slot-container {
+    position: static;
+    left: auto;
+    order: -1; /* Show pronoun slot above wheel on mobile */
+  }
 
-    #subject-slot,
-    #verb-slot,
-    #object-slot {
-        width: 150px;
-        height: 50px;
-    }
+  #pronoun-slot {
+    width: 100px;
+    height: 60px;
+  }
 
-    .reel-item {
-        height: 50px;
-        font-size: 14px;
-    }
+  .pronoun-item {
+    height: 60px;
+    font-size: 16px;
+  }
 
-    #subject-slot-container h3,
-    #verb-slot-container h3,
-    #object-slot-container h3 {
-        font-size: 20px;
-    }
+  #display-area {
+    font-size: 1.5em;
+    min-height: 2em;
+  }
+  #wheel {
+    width: 250px !important; /* Override inline style if necessary */
+    height: 250px !important;
+  }
+  canvas#wheel {
+    /* More specific selector for canvas if it has inline width/height */
+    width: 250px !important;
+    height: 250px !important;
+  }
+  #timer {
+    font-size: 2em;
+  }
+  /* Adjust button sizes or margins if they feel too large on small screens */
+  button {
+    /* This would affect all buttons, be more specific if needed */
+    font-size: 18px; /* Slightly smaller for mobile */
+    padding: 8px 16px;
+  }
+
+  /* Sentence reel responsive styles */
+  #sentence-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 10px;
+  }
+
+  #subject-slot,
+  #verb-slot,
+  #object-slot {
+    width: 150px;
+    height: 50px;
+  }
+
+  .reel-item {
+    height: 50px;
+    font-size: 14px;
+  }
+
+  #subject-slot-container h3,
+  #verb-slot-container h3,
+  #object-slot-container h3 {
+    font-size: 20px;
+  }
 }

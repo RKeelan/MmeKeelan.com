@@ -1,0 +1,82 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": [
+      "dist",
+      "coverage",
+      "node_modules",
+      "src/coverage",
+      "src/node_modules"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noForEach": "off",
+        "useArrowFunction": "off",
+        "useLiteralKeys": "off",
+        "useOptionalChain": "off"
+      },
+      "style": {
+        "noParameterAssign": "off",
+        "useNodejsImportProtocol": "off",
+        "useNumberNamespace": "off",
+        "useSingleVarDeclarator": "off",
+        "useTemplate": "off"
+      },
+      "suspicious": {
+        "noDoubleEquals": "off",
+        "noGlobalIsNan": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always"
+    },
+    "globals": [
+      "Image",
+      "URL",
+      "URLSearchParams",
+      "cancelAnimationFrame",
+      "clearInterval",
+      "clearTimeout",
+      "console",
+      "document",
+      "fetch",
+      "requestAnimationFrame",
+      "setInterval",
+      "setTimeout",
+      "window"
+    ]
+  },
+  "overrides": [
+    {
+      "include": ["**/*.test.js", "**/*.test.ts"],
+      "javascript": {
+        "globals": [
+          "afterEach",
+          "beforeEach",
+          "describe",
+          "expect",
+          "it",
+          "test",
+          "vi"
+        ]
+      }
+    }
+  ]
+}
