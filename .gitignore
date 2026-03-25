@@ -25,3 +25,4 @@ dist/
 # Coverage reports
 coverage/
 *.lcov
+settings.local.json
