@@ -15,9 +15,6 @@
     "types": ["vite/client", "vitest/globals"],
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
-  "include": [
-    "src/**/*",
-    "vite.config.ts",
-    "vitest.config.ts"
-  ]
-} 
+  "include": ["src/**/*", "vite.config.ts", "vitest.config.ts"],
+  "exclude": ["dist", "coverage", "src/coverage", "src/node_modules"]
+}

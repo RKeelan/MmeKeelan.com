@@ -14,19 +14,19 @@ const mockContext = {
   drawImage: vi.fn(),
   restore: vi.fn(),
   fillText: vi.fn(),
-  canvas: { width: 300, height: 300 }
+  canvas: { width: 300, height: 300 },
 };
 
 const mockCanvas = {
   getContext: vi.fn(() => mockContext),
   width: 300,
   height: 300,
-  addEventListener: vi.fn()
+  addEventListener: vi.fn(),
 };
 
 const mockWordsInput = {
   value: 'apple, banana, cherry',
-  addEventListener: vi.fn()
+  addEventListener: vi.fn(),
 };
 
 const mockSpinButton = { addEventListener: vi.fn() };
@@ -59,29 +59,35 @@ describe('Roulette Wheel', () => {
     mockContext.drawImage.mockClear();
     mockContext.restore.mockClear();
     mockContext.fillText.mockClear();
-    
+
     // Mock global objects
     vi.stubGlobal('Image', MockImage);
     vi.stubGlobal('requestAnimationFrame', vi.fn());
     vi.stubGlobal('cancelAnimationFrame', vi.fn());
-    
+
     // Mock document.getElementById
     vi.stubGlobal('document', {
       getElementById: vi.fn((id) => {
         switch (id) {
-          case 'wheel': return mockCanvas;
-          case 'wordsInput': return mockWordsInput;
-          case 'spin': return mockSpinButton;
-          case 'start': return mockStartButton;
-          case 'stop': return mockStopButton;
-          default: return null;
+          case 'wheel':
+            return mockCanvas;
+          case 'wordsInput':
+            return mockWordsInput;
+          case 'spin':
+            return mockSpinButton;
+          case 'start':
+            return mockStartButton;
+          case 'stop':
+            return mockStopButton;
+          default:
+            return null;
         }
-      })
+      }),
     });
 
     // Reset module state
     vi.resetModules();
-    
+
     // Import the module after mocks are set up
     await import('./roulette.js');
   });
@@ -97,29 +103,41 @@ describe('Roulette Wheel', () => {
   });
 
   it('should set up event listeners for all buttons', () => {
-    expect(mockSpinButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-    expect(mockStartButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-    expect(mockStopButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-    expect(mockWordsInput.addEventListener).toHaveBeenCalledWith('input', expect.any(Function));
+    expect(mockSpinButton.addEventListener).toHaveBeenCalledWith(
+      'click',
+      expect.any(Function),
+    );
+    expect(mockStartButton.addEventListener).toHaveBeenCalledWith(
+      'click',
+      expect.any(Function),
+    );
+    expect(mockStopButton.addEventListener).toHaveBeenCalledWith(
+      'click',
+      expect.any(Function),
+    );
+    expect(mockWordsInput.addEventListener).toHaveBeenCalledWith(
+      'input',
+      expect.any(Function),
+    );
   });
 
   it('should update wheel when input changes', () => {
     // Find the input event listener
     const inputEventCall = mockWordsInput.addEventListener.mock.calls.find(
-      call => call[0] === 'input'
+      (call) => call[0] === 'input',
     );
     expect(inputEventCall).toBeDefined();
-    
+
     // Clear previous calls from initialization but keep the listener reference
     mockContext.clearRect.mockClear();
     mockContext.beginPath.mockClear();
-    
+
     // Change the input value
     mockWordsInput.value = 'red, blue, green, yellow';
-    
+
     const inputHandler = inputEventCall?.[1];
     inputHandler();
-    
+
     // Should redraw the wheel
     expect(mockContext.clearRect).toHaveBeenCalled();
     expect(mockContext.beginPath).toHaveBeenCalled();
@@ -128,13 +146,13 @@ describe('Roulette Wheel', () => {
   it('should start spinning when spin button is clicked', () => {
     // Find and trigger the spin button click
     const spinEventCall = mockSpinButton.addEventListener.mock.calls.find(
-      call => call[0] === 'click'
+      (call) => call[0] === 'click',
     );
     expect(spinEventCall).toBeDefined();
-    
+
     const spinHandler = spinEventCall?.[1];
     spinHandler();
-    
+
     // Should start animation
     expect(window.requestAnimationFrame).toHaveBeenCalled();
   });
@@ -142,13 +160,13 @@ describe('Roulette Wheel', () => {
   it('should start continuous spinning when start button is clicked', () => {
     // Find and trigger the start button click
     const startEventCall = mockStartButton.addEventListener.mock.calls.find(
-      call => call[0] === 'click'
+      (call) => call[0] === 'click',
     );
     expect(startEventCall).toBeDefined();
-    
+
     const startHandler = startEventCall?.[1];
     startHandler();
-    
+
     // Should start animation
     expect(window.requestAnimationFrame).toHaveBeenCalled();
   });
@@ -156,7 +174,7 @@ describe('Roulette Wheel', () => {
   it('should parse input text into word list correctly', () => {
     // Get the input handler once, outside the loop
     const inputEventCall = mockWordsInput.addEventListener.mock.calls.find(
-      call => call[0] === 'input'
+      (call) => call[0] === 'input',
     );
     expect(inputEventCall).toBeDefined();
     const inputHandler = inputEventCall?.[1];
@@ -169,17 +187,17 @@ describe('Roulette Wheel', () => {
       { input: 'apple  ,  banana  ,  cherry', expected: 3 }, // spaces around commas are trimmed
       { input: '', expected: 0 },
       { input: 'single', expected: 1 },
-      { input: 'item with spaces, another item', expected: 2 } // spaces within items preserved
+      { input: 'item with spaces, another item', expected: 2 }, // spaces within items preserved
     ];
 
     testCases.forEach(({ input, expected }) => {
       mockWordsInput.value = input;
-      
+
       // Clear context mocks before each test case
       mockContext.beginPath.mockClear();
-      
+
       inputHandler();
-      
+
       // The number of sections drawn should match the expected word count
       if (expected > 0) {
         expect(mockContext.beginPath).toHaveBeenCalledTimes(expected);
@@ -191,17 +209,17 @@ describe('Roulette Wheel', () => {
     // The module creates an Image instance and sets up onload
     // We need to simulate this differently since the image is created in the module
     // Let's just verify that drawImage gets called during drawing operations
-    
+
     // Clear previous calls
     mockContext.drawImage.mockClear();
-    
+
     // Find and trigger a drawing operation (like input change)
     const inputEventCall = mockWordsInput.addEventListener.mock.calls.find(
-      call => call[0] === 'input'
+      (call) => call[0] === 'input',
     );
     const inputHandler = inputEventCall?.[1];
     inputHandler();
-    
+
     // The arrow should be drawn as part of the redraw
     expect(mockContext.drawImage).toHaveBeenCalled();
   });

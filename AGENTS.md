@@ -9,15 +9,16 @@ Educational web app for French Immersion teachers (Ontario curriculum). Multiple
 ## Commands
 
 ```bash
-npm run dev            # Start dev server
-npm run build          # Production build
-npm test               # Run all tests (Vitest)
-npm run test:watch     # Watch mode
-npm run test:coverage  # Coverage report
-npm run lint           # ESLint
-npm run typecheck      # TypeScript type checking (strict, checks JS via JSDoc)
-npm run check-all      # Lint + typecheck + test (run before committing)
-npx vitest run src/js/utils.test.js  # Run a single test file
+bun run dev            # Start dev server
+bun run build          # Production build
+bun run test           # Run all tests (Vitest)
+bun run test:watch     # Watch mode
+bun run test:coverage  # Coverage report
+bun run lint           # Biome lint
+bun run format         # Biome format
+bun run typecheck      # TypeScript type checking (strict, checks JS via JSDoc)
+bun run check-all      # Lint + typecheck + test (run before committing)
+bunx vitest run src/js/utils.test.js # Run a single test file
 ```
 
 ## Architecture
@@ -37,7 +38,7 @@ Add the HTML file in `src/`, its JS module in `src/js/`, and register the HTML e
 
 ## Git Conventions
 
-- Run `npm run check-all` before committing.
+- Run `bun run check-all` before committing.
 - Ideal commit is small enough for a single subject line (no body needed). When a body is needed, use `-` bullet points.
 - Never manually add PR numbers like `(#9)` to commit subjects — GitHub adds these automatically on squash merge.
 - Merge PRs with: `gh pr merge --squash --delete-branch && git fetch --prune`

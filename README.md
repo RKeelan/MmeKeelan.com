@@ -26,31 +26,32 @@ An interactive spinning wheel game for French verb conjugation practice featurin
 ## Development
 
 ### Prerequisites
-- Node.js (for testing and development)
+- Bun
 - Modern web browser
 
 ### Setup
 
 ```bash
-npm install
+bun install
 ```
 
 ### Testing
 
 ```bash
-npm test
+bun run test
 ```
 
 ### Linting and Formatting
 
 ```bash
-npm run lint
+bun run lint
+bun run format
 ```
 
 ### Type Checking
 
 ```bash
-npm run typecheck
+bun run typecheck
 ```
 
 ### Run All Checks
@@ -58,11 +59,11 @@ npm run typecheck
 Run lint, typecheck, and tests:
 
 ```bash
-npm run check-all
+bun run check-all
 ```
 
 ### Running Locally
 
 ```bash
-npm run dev
+bun run dev
 ```
