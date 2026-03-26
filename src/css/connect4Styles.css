@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fraunces:opsz,wght@9..144,700&family=Andika:wght@400;700&family=ABeeZee:ital@0;1&family=Lexend:wght@400;600;700&family=Comic+Neue:wght@400;700&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;600;700&display=swap');
+
+.c4-editor {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 24px 40px;
+}
+
+.c4-editor h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+  color: #1a1a1a;
+}
+
+.c4-desc {
+  font-size: 13.5px;
+  color: #777;
+  line-height: 1.55;
+  margin-bottom: 28px;
+}
+
+.c4-field {
+  margin-bottom: 18px;
+}
+
+.c4-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.c4-field input,
+.c4-field textarea,
+.c4-field select {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14.5px;
+  border: 2px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.c4-field input:focus,
+.c4-field textarea:focus,
+.c4-field select:focus {
+  border-color: #1a1a1a;
+}
+
+.c4-field textarea {
+  min-height: 190px;
+  resize: vertical;
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.c4-font-preview {
+  margin-top: 6px;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1.5px solid #eee;
+  border-radius: 6px;
+  font-size: 22px;
+  color: #333;
+  letter-spacing: 0.3px;
+}
+
+.c4-row {
+  display: flex;
+  gap: 10px;
+}
+
+.c4-row .c4-field {
+  flex: 1;
+}
+
+.c4-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 13px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 7px;
+  margin-bottom: 18px;
+  font-size: 12.5px;
+  color: #777;
+}
+
+.c4-status-bar.ok .ct {
+  color: #1a7a3a;
+  font-weight: 700;
+}
+
+.c4-status-bar.warn {
+  border-color: #e0a420;
+  background: #fef9ee;
+}
+
+.c4-status-bar.warn .ct {
+  color: #9a6c00;
+  font-weight: 700;
+}
+
+.c4-status-bar.err {
+  border-color: #d94444;
+  background: #fef2f2;
+}
+
+.c4-status-bar.err .ct {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.c4-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.c4-btn {
+  padding: 11px 24px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.c4-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.c4-btn-gen {
+  background: #1a1a1a;
+  color: #fff;
+  flex: 1;
+}
+
+.c4-btn-gen:hover:not(:disabled) {
+  background: #333;
+}
+
+.c4-btn-dl {
+  background: #1a6b3c;
+  color: #fff;
+}
+
+.c4-btn-dl:hover:not(:disabled) {
+  background: #15572f;
+}
+
+.c4-preview-area {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+.c4-preview-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #999;
+  margin-bottom: 14px;
+}
+
+.c4-preview-page {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+}
+
+.c4-board-inner {
+  padding: 28px 32px 32px;
+}
+
+.c4-board-hdr {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.c4-board-hdr h2 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 2px;
+  color: #1a1a1a;
+}
+
+.c4-board-hdr p {
+  font-size: 15px;
+  color: #555;
+}
+
+.c4-grid-wrap {
+  display: grid;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.c4-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.2px solid #1a1a1a;
+  padding: 4px 8px;
+  min-height: 56px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.c4-cell span {
+  font-weight: 400;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1.1;
+}
+
+.c4-preview-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.c4-btn-sec {
+  padding: 10px 22px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.c4-btn-sec:hover {
+  border-color: #1a1a1a;
+}
+
+.c4-loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(245, 243, 238, 0.92);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c4-loading-overlay.active {
+  display: flex;
+}
+
+.c4-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3.5px solid #ddd;
+  border-top-color: #1a1a1a;
+  border-radius: 50%;
+  animation: c4-spin 0.7s linear infinite;
+}
+
+@keyframes c4-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.c4-loading-text {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+body.c4-page {
+  font-family: 'Outfit', sans-serif;
+  background: #f5f3ee;
+  color: #1a1a1a;
+}
+
+@media (max-width: 600px) {
+  .c4-editor {
+    padding: 20px 16px 32px;
+  }
+
+  .c4-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
