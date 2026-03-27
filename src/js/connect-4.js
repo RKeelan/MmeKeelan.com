@@ -117,6 +117,12 @@ function updateStatus() {
       total +
       '</span>';
     elBtnGen.disabled = true;
+    elBtnGen.title =
+      'Add more words (need at least ' +
+      total +
+      ', currently ' +
+      words.length +
+      ')';
   } else if (words.length > total) {
     elStatus.className = 'c4-status-bar warn';
     elStatusWords.innerHTML =
@@ -126,11 +132,13 @@ function updateStatus() {
       (words.length - total) +
       ' extra — random subset per page)</span>';
     elBtnGen.disabled = false;
+    elBtnGen.title = '';
   } else {
     elStatus.className = 'c4-status-bar ok';
     elStatusWords.innerHTML =
       '<span class="ct">' + words.length + ' words &#10003;</span>';
     elBtnGen.disabled = false;
+    elBtnGen.title = '';
   }
 }
 
