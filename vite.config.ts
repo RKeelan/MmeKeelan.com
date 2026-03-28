@@ -23,6 +23,10 @@ export default defineConfig({
           fileURLToPath(new URL('.', import.meta.url)),
           'src/bingo.html',
         ),
+        connect4: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/connect-4.html',
+        ),
         canada: resolve(
           fileURLToPath(new URL('.', import.meta.url)),
           'src/canada.html',

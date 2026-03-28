@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="css/connect4Styles.css" />
+	<meta charset="UTF-8">
+	<title>Connect 4</title>
+</head>
+<body class="c4-page">
+
+<div class="c4-editor" id="editor">
+	<h1>Connect 4 — Generator</h1>
+	<p class="c4-desc">
+		Paste your word list, set a subtitle, and generate randomized game boards.
+		Each word appears once per page. Download everything as a single PDF ready to print.
+	</p>
+
+	<div class="c4-field">
+		<label for="subtitle">Game subtitle</label>
+		<input type="text" id="subtitle" value="le son /in/ — in, ain, ein" placeholder="e.g. le son /an/ — an, en, am, em" />
+	</div>
+
+	<div class="c4-row">
+		<div class="c4-field">
+			<label for="cols">Columns</label>
+			<input type="number" id="cols" value="5" min="2" max="7" />
+		</div>
+		<div class="c4-field">
+			<label for="rows">Rows</label>
+			<input type="number" id="rows" value="5" min="2" max="7" />
+		</div>
+		<div class="c4-field">
+			<label for="numpages">Number of pages</label>
+			<input type="number" id="numpages" value="6" min="1" max="30" />
+		</div>
+	</div>
+
+	<div class="c4-status-bar ok" id="status">
+		<span id="status-grid"></span>
+		<span id="status-words"></span>
+	</div>
+
+	<div class="c4-field">
+		<label for="words">Word list (one per line or comma-separated)</label>
+		<textarea id="words" spellcheck="false">requin
+voisin
+magasin
+coussin
+médecin
+pinceau
+sapin
+câlin
+chemin
+marin
+matin
+indice
+dauphin
+lutin
+patin
+lapin
+raisin
+enfin
+poussin
+moulin
+fin
+cousin
+afin
+singe
+dessin</textarea>
+	</div>
+
+	<div class="c4-btn-row">
+		<button class="c4-btn c4-btn-gen" id="btn-gen">Generate boards</button>
+		<button class="c4-btn c4-btn-dl" id="btn-dl" disabled title="Generate boards first">⬇ Download PDF</button>
+	</div>
+</div>
+
+<div class="c4-preview-area" id="preview-area" style="display:none;">
+	<p class="c4-preview-label" id="preview-label"></p>
+	<div id="boards"></div>
+	<div class="c4-preview-btns">
+		<button class="c4-btn-sec" id="btn-shuffle">↻ Shuffle again</button>
+		<button class="c4-btn c4-btn-dl" id="btn-dl2">⬇ Download PDF</button>
+	</div>
+</div>
+
+<script type="module" src="js/connect-4.js"></script>
+</body>
+</html>
