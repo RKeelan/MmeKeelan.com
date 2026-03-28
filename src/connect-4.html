@@ -8,35 +8,16 @@
 </head>
 <body class="c4-page">
 
-<div class="c4-loading-overlay" id="loading">
-	<div class="c4-loading-spinner"></div>
-	<div class="c4-loading-text" id="loading-text">Generating PDF…</div>
-</div>
-
 <div class="c4-editor" id="editor">
 	<h1>Connect 4 — Generator</h1>
 	<p class="c4-desc">
-		Paste your word list, set a subtitle, pick a font, and generate randomized game boards.
+		Paste your word list, set a subtitle, and generate randomized game boards.
 		Each word appears once per page. Download everything as a single PDF ready to print.
 	</p>
 
 	<div class="c4-field">
 		<label for="subtitle">Game subtitle</label>
 		<input type="text" id="subtitle" value="le son /in/ — in, ain, ein" placeholder="e.g. le son /an/ — an, en, am, em" />
-	</div>
-
-	<div class="c4-field">
-		<label for="fontpicker">Word font</label>
-		<select id="fontpicker">
-			<option value="Andika" selected>Andika — designed for literacy & beginning readers</option>
-			<option value="ABeeZee">ABeeZee — designed for young children</option>
-			<option value="Lexend">Lexend — optimized for reading fluency</option>
-			<option value="Nunito">Nunito — rounded & friendly</option>
-			<option value="Quicksand">Quicksand — rounded geometric</option>
-			<option value="Comic Neue">Comic Neue — playful, comic-style</option>
-			<option value="Outfit">Outfit — clean sans-serif</option>
-		</select>
-		<div class="c4-font-preview" id="font-preview">câlin  requin  médecin  poussin  éléphant</div>
 	</div>
 
 	<div class="c4-row">
@@ -90,7 +71,7 @@ dessin</textarea>
 
 	<div class="c4-btn-row">
 		<button class="c4-btn c4-btn-gen" id="btn-gen">Generate boards</button>
-		<button class="c4-btn c4-btn-dl" id="btn-dl" disabled>⬇ Download PDF</button>
+		<button class="c4-btn c4-btn-dl" id="btn-dl" disabled title="Generate boards first">⬇ Download PDF</button>
 	</div>
 </div>
 

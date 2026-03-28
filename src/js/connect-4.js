@@ -27,38 +27,10 @@ const elBtnShuffle = /** @type {HTMLButtonElement} */ ($('#btn-shuffle'));
 const elPreview = /** @type {HTMLElement} */ ($('#preview-area'));
 const elBoards = /** @type {HTMLElement} */ ($('#boards'));
 const elPreviewLabel = /** @type {HTMLElement} */ ($('#preview-label'));
-const elFontPicker = /** @type {HTMLSelectElement} */ ($('#fontpicker'));
-const elFontPreview = /** @type {HTMLElement} */ ($('#font-preview'));
-const elLoading = /** @type {HTMLElement} */ ($('#loading'));
-const elLoadingText = /** @type {HTMLElement} */ ($('#loading-text'));
 
 /** @type {string[][]} */
 let currentPages = [];
 
-function updateFontPreview() {
-  elFontPreview.style.fontFamily = "'" + elFontPicker.value + "', sans-serif";
-}
-
-elFontPicker.addEventListener('change', () => {
-  updateFontPreview();
-  document.querySelectorAll('.c4-cell span').forEach((el) => {
-    /** @type {HTMLElement} */ (el).style.fontFamily =
-      "'" + elFontPicker.value + "', sans-serif";
-  });
-  document.querySelectorAll('.c4-board-hdr h2').forEach((el) => {
-    /** @type {HTMLElement} */ (el).style.fontFamily =
-      "'" + elFontPicker.value + "', sans-serif";
-  });
-  document.querySelectorAll('.c4-board-hdr p').forEach((el) => {
-    /** @type {HTMLElement} */ (el).style.fontFamily =
-      "'" + elFontPicker.value + "', sans-serif";
-  });
-  if (currentPages.length) {
-    requestAnimationFrame(() => fitAllText());
-  }
-});
-
-updateFontPreview();
 
 /** @returns {string[]} */
 function getWords() {
@@ -77,10 +49,6 @@ function getRows() {
 function getNumPages() {
   return clamp(Number.parseInt(elPages.value) || 4, 1, 30);
 }
-function getFont() {
-  return elFontPicker.value;
-}
-
 /**
  * Fisher-Yates shuffle (returns a new array).
  * @param {string[]} arr
@@ -169,7 +137,6 @@ function renderPreview(pages) {
   const cols = getCols();
   const rows = getRows();
   const sub = elSub.value.trim();
-  const font = getFont();
   currentPages = pages;
   elBoards.innerHTML = '';
 
@@ -178,16 +145,8 @@ function renderPreview(pages) {
     const div = document.createElement('div');
     div.className = 'c4-preview-page';
     let html =
-      '<div class="c4-board-inner"><div class="c4-board-hdr"><h2 style="font-family:\'' +
-      font +
-      "',sans-serif\">Connect 4</h2>";
-    if (sub)
-      html +=
-        '<p style="font-family:\'' +
-        font +
-        "',sans-serif\">" +
-        esc(sub) +
-        '</p>';
+      '<div class="c4-board-inner"><div class="c4-board-hdr"><h2>Connect 4</h2>';
+    if (sub) html += '<p>' + esc(sub) + '</p>';
     html += '</div>';
     html +=
       '<div class="c4-grid-wrap" style="grid-template-columns:repeat(' +
@@ -196,12 +155,7 @@ function renderPreview(pages) {
       rows +
       ',1fr);">';
     for (let i = 0; i < page.length; i++) {
-      html +=
-        '<div class="c4-cell"><span style="font-family:\'' +
-        font +
-        "',sans-serif\">" +
-        esc(page[i]) +
-        '</span></div>';
+      html += '<div class="c4-cell"><span>' + esc(page[i]) + '</span></div>';
     }
     html += '</div></div>';
     div.innerHTML = html;
@@ -211,35 +165,7 @@ function renderPreview(pages) {
   elPreviewLabel.textContent = 'Preview — ' + pages.length + ' page(s)';
   elPreview.style.display = '';
   elBtnDl.disabled = false;
-
-  requestAnimationFrame(() => fitAllText());
-}
-
-function fitAllText() {
-  const maxFontSize = 42;
-  const minFontSize = 9;
-  const cells = document.querySelectorAll('.c4-cell');
-  for (let i = 0; i < cells.length; i++) {
-    const cell = /** @type {HTMLElement} */ (cells[i]);
-    const span = /** @type {HTMLElement | null} */ (cell.querySelector('span'));
-    if (!span) continue;
-    const cellW = cell.clientWidth - 16;
-    const cellH = cell.clientHeight - 8;
-
-    let lo = minFontSize;
-    let hi = maxFontSize;
-    span.style.fontSize = hi + 'px';
-    while (hi - lo > 0.5) {
-      const mid = (lo + hi) / 2;
-      span.style.fontSize = mid + 'px';
-      if (span.scrollWidth > cellW || span.scrollHeight > cellH) {
-        hi = mid;
-      } else {
-        lo = mid;
-      }
-    }
-    span.style.fontSize = lo + 'px';
-  }
+  elBtnDl.title = '';
 }
 
 function downloadPDF() {
@@ -247,154 +173,106 @@ function downloadPDF() {
 
   const doc = new jsPDF({
     orientation: 'landscape',
-    unit: 'px',
-    format: 'letter',
+    unit: 'in',
+    format: [11, 8.5],
   });
-  const pw = 792;
-  const ph = 612;
-  const margin = 40;
+
+  const pw = 11;
+  const ph = 8.5;
+  const margin = 0.5;
   const cols = getCols();
   const rows = getRows();
   const sub = elSub.value.trim();
-  const font = getFont();
 
-  const scale = 3;
-  const canvasW = pw * scale;
-  const canvasH = ph * scale;
+  const titleFontSize = 30;
+  const subFontSize = 14;
+  const cellFontSize = 24;
 
-  const canvas = document.createElement('canvas');
-  canvas.width = canvasW;
-  canvas.height = canvasH;
-  const ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext('2d'));
+  for (let p = 0; p < currentPages.length; p++) {
+    if (p > 0) doc.addPage([pw, ph], 'landscape');
+    const pageData = currentPages[p];
 
-  elLoading.classList.add('active');
+    // Title
+    doc.setFontSize(titleFontSize);
+    doc.setFont('helvetica', 'bold');
+    let y = margin + titleFontSize / 72;
+    doc.text('Connect 4', pw / 2, y, { align: 'center' });
 
-  /** @param {string[]} pageData */
-  function drawPage(pageData) {
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvasW, canvasH);
-
-    const mx = margin * scale;
-    const my = margin * scale;
-    const titleFontSize = 30 * scale;
-    const subFontSize = 14 * scale;
-
-    ctx.fillStyle = '#1a1a1a';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = "700 " + titleFontSize + "px '" + font + "', sans-serif";
-    const titleY = my + titleFontSize * 0.5;
-    ctx.fillText('Connect 4', canvasW / 2, titleY);
-
-    let gridTop = titleY + titleFontSize * 0.65;
-
+    // Subtitle
     if (sub) {
-      ctx.font = "400 " + subFontSize + "px '" + font + "', sans-serif";
-      const subY = gridTop + subFontSize * 0.7;
-      ctx.fillStyle = '#555555';
-      ctx.fillText(sub, canvasW / 2, subY);
-      gridTop = subY + subFontSize * 0.8;
+      y += titleFontSize / 72 * 0.65;
+      doc.setFontSize(subFontSize);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(85, 85, 85);
+      y += subFontSize / 72 * 0.7;
+      doc.text(sub, pw / 2, y, { align: 'center' });
+      doc.setTextColor(26, 26, 26);
+      y += subFontSize / 72 * 0.8;
+    } else {
+      y += titleFontSize / 72 * 0.65;
     }
 
-    gridTop += 10 * scale;
+    y += 10 / 72;
 
-    const gx = mx;
-    const gy = gridTop;
-    const gw = canvasW - mx * 2;
-    const gh = canvasH - gy - my;
+    const gridTop = y;
+    const gw = pw - margin * 2;
+    const gh = ph - gridTop - margin;
     const cw = gw / cols;
     const ch = gh / rows;
 
-    ctx.strokeStyle = '#1a1a1a';
-    ctx.lineWidth = 2.5 * scale;
-    ctx.strokeRect(gx, gy, gw, gh);
+    // Outer border
+    doc.setDrawColor(26, 26, 26);
+    doc.setLineWidth(0.035);
+    doc.rect(margin, gridTop, gw, gh);
 
-    ctx.lineWidth = 1.2 * scale;
+    // Inner grid lines
+    doc.setLineWidth(0.017);
     for (let c = 1; c < cols; c++) {
-      ctx.beginPath();
-      ctx.moveTo(gx + c * cw, gy);
-      ctx.lineTo(gx + c * cw, gy + gh);
-      ctx.stroke();
+      doc.line(margin + c * cw, gridTop, margin + c * cw, gridTop + gh);
     }
     for (let r = 1; r < rows; r++) {
-      ctx.beginPath();
-      ctx.moveTo(gx, gy + r * ch);
-      ctx.lineTo(gx + gw, gy + r * ch);
-      ctx.stroke();
+      doc.line(margin, gridTop + r * ch, margin + gw, gridTop + r * ch);
     }
 
-    ctx.fillStyle = '#1a1a1a';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const padX = 10 * scale;
-    const padY = 6 * scale;
-
+    // Cell text
+    doc.setFont('helvetica', 'normal');
+    const padX = 0.1;
     for (let i = 0; i < pageData.length; i++) {
       const word = pageData[i];
       const col = i % cols;
       const row = Math.floor(i / cols);
-      const cx = gx + col * cw + cw / 2;
-      const cy = gy + row * ch + ch / 2;
+      const cx = margin + col * cw + cw / 2;
+      const cy = gridTop + row * ch + ch / 2;
       const maxW = cw - padX * 2;
-      const maxH = ch - padY * 2;
 
-      let lo = 8 * scale;
-      let hi = 40 * scale;
-      while (hi - lo > 0.5) {
-        const mid = (lo + hi) / 2;
-        ctx.font = "400 " + mid + "px '" + font + "', sans-serif";
-        const m = ctx.measureText(word);
-        const textH = mid * 1.1;
-        if (m.width > maxW || textH > maxH) {
-          hi = mid;
-        } else {
-          lo = mid;
-        }
+      // Fit font size to cell
+      let fontSize = cellFontSize;
+      doc.setFontSize(fontSize);
+      while (fontSize > 6) {
+        const tw = doc.getTextWidth(word);
+        if (tw <= maxW) break;
+        fontSize -= 0.5;
+        doc.setFontSize(fontSize);
       }
 
-      ctx.font = "400 " + lo + "px '" + font + "', sans-serif";
-      ctx.fillText(word, cx, cy);
+      const textH = doc.getTextDimensions(word).h;
+      doc.text(word, cx, cy + textH / 3, { align: 'center' });
     }
   }
 
-  let pageIndex = 0;
-  function renderNext() {
-    if (pageIndex >= currentPages.length) {
-      let fname = 'connect4';
-      if (sub) {
-        fname +=
-          '_' +
-          sub
-            .replace(
-              /[^a-zA-Z0-9àâäéèêëïîôùûüçÀÂÄÉÈÊËÏÎÔÙÛÜÇ]+/g,
-              '_',
-            )
-            .replace(/_+$/, '')
-            .substring(0, 40);
-      }
-      doc.save(fname + '.pdf');
-      elLoading.classList.remove('active');
-      return;
-    }
-
-    elLoadingText.textContent =
-      'Rendering page ' +
-      (pageIndex + 1) +
-      ' of ' +
-      currentPages.length +
-      '…';
-
-    if (pageIndex > 0) doc.addPage('letter', 'landscape');
-
-    drawPage(currentPages[pageIndex]);
-    const imgData = canvas.toDataURL('image/png');
-    doc.addImage(imgData, 'PNG', 0, 0, pw, ph);
-
-    pageIndex++;
-    setTimeout(renderNext, 10);
+  let fname = 'connect4';
+  if (sub) {
+    fname +=
+      '_' +
+      sub
+        .replace(
+          /[^a-zA-Z0-9àâäéèêëïîôùûüçÀÂÄÉÈÊËÏÎÔÙÛÜÇ]+/g,
+          '_',
+        )
+        .replace(/_+$/, '')
+        .substring(0, 40);
   }
-
-  renderNext();
+  doc.save(fname + '.pdf');
 }
 
 // Events

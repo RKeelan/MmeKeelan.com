@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fraunces:opsz,wght@9..144,700&family=Andika:wght@400;700&family=ABeeZee:ital@0;1&family=Lexend:wght@400;600;700&family=Comic+Neue:wght@400;700&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fraunces:opsz,wght@9..144,700&family=Comic+Neue:wght@400;700&display=swap');
 
 .c4-editor {
   max-width: 640px;
@@ -61,17 +61,6 @@
   resize: vertical;
   line-height: 1.65;
   font-size: 14px;
-}
-
-.c4-font-preview {
-  margin-top: 6px;
-  padding: 8px 14px;
-  background: #fff;
-  border: 1.5px solid #eee;
-  border-radius: 6px;
-  font-size: 22px;
-  color: #333;
-  letter-spacing: 0.3px;
 }
 
 .c4-row {
@@ -195,6 +184,7 @@
 }
 
 .c4-board-hdr h2 {
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive;
   font-size: 30px;
   font-weight: 700;
   letter-spacing: -0.4px;
@@ -203,6 +193,7 @@
 }
 
 .c4-board-hdr p {
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive;
   font-size: 15px;
   color: #555;
 }
@@ -226,6 +217,8 @@
 }
 
 .c4-cell span {
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+  font-size: 24px;
   font-weight: 400;
   white-space: nowrap;
   display: inline-block;
@@ -254,43 +247,6 @@
 
 .c4-btn-sec:hover {
   border-color: #1a1a1a;
-}
-
-.c4-loading-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(245, 243, 238, 0.92);
-  z-index: 1000;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.c4-loading-overlay.active {
-  display: flex;
-}
-
-.c4-loading-spinner {
-  width: 36px;
-  height: 36px;
-  border: 3.5px solid #ddd;
-  border-top-color: #1a1a1a;
-  border-radius: 50%;
-  animation: c4-spin 0.7s linear infinite;
-}
-
-@keyframes c4-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.c4-loading-text {
-  font-size: 14px;
-  color: #666;
-  font-weight: 600;
 }
 
 body.c4-page {
