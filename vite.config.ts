@@ -43,6 +43,10 @@ export default defineConfig({
           fileURLToPath(new URL('.', import.meta.url)),
           'src/sentence-reel.html',
         ),
+        snakesAndLadders: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/snakes-and-ladders.html',
+        ),
         error: resolve(
           fileURLToPath(new URL('.', import.meta.url)),
           'src/error.html',
