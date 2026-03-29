@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Snakes and Ladders</title>
+  <script type="module" crossorigin src="/MmeKeelan.com/assets/snakesAndLadders-CqGNOqpc.js"></script>
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/styles-B6xjKW5K.js">
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/chunk-BgZa4LO_.js">
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/typeof-DAFjmyY2.js">
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/jspdf.es.min-CkMU6BgX.js">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/styles-Bv4CGOlD.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/snakesAndLadders-sqMV7X-A.css">
+</head>
+<body class="sal-page">
+
+<div class="sal-loading-overlay" id="loading">
+	<div class="sal-loading-spinner"></div>
+	<div class="sal-loading-text" id="loading-text">Generating PDF…</div>
+</div>
+
+<div class="sal-editor" id="editor">
+	<h1>Snakes and Ladders — Generator</h1>
+	<p class="sal-desc">
+		Paste your word list, set a focus sound or theme, and generate randomized game boards.
+		Each board is uniquely shuffled. Download everything as a single PDF ready to print.
+	</p>
+
+	<div class="sal-field">
+		<label for="focusInput">Game subtitle</label>
+		<input type="text" id="focusInput" value="le son /in/ — in, ain, ein" placeholder="e.g. le son /an/ — an, en, am, em" />
+	</div>
+
+	<div class="sal-field">
+		<label for="wordInput">Word list (one per line or comma-separated)</label>
+		<textarea id="wordInput" spellcheck="false">matin
+chemin
+lapin
+jardin
+peinture
+demain
+brun
+lundi
+environ
+important
+vent
+enfant
+content
+comment
+lentement
+trombone
+pompe
+compter
+nombre
+bonbon
+sombre
+plombier</textarea>
+	</div>
+
+	<div class="sal-row">
+		<div class="sal-field">
+			<label for="boardSize">Board size</label>
+			<select id="boardSize">
+				<option value="30" selected>30 squares (5 x 6)</option>
+				<option value="36">36 squares (6 x 6)</option>
+			</select>
+		</div>
+		<div class="sal-field">
+			<label for="numBoards">Number of boards</label>
+			<select id="numBoards">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="4" selected>4</option>
+				<option value="6">6</option>
+				<option value="8">8</option>
+			</select>
+		</div>
+		<div class="sal-field">
+			<label for="snakeCount">Snakes / ladders</label>
+			<select id="snakeCount">
+				<option value="3">3 each</option>
+				<option value="4" selected>4 each</option>
+				<option value="5">5 each</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="sal-status-bar ok" id="status">
+		<span id="status-words"></span>
+	</div>
+
+	<div class="sal-btn-row">
+		<button class="sal-btn sal-btn-gen" id="btn-gen">Generate boards</button>
+		<button class="sal-btn sal-btn-dl" id="btn-dl" disabled>Download PDF</button>
+	</div>
+</div>
+
+<div class="sal-preview-area" id="preview-area" style="display:none;">
+	<p class="sal-preview-label" id="preview-label"></p>
+	<div id="boards"></div>
+	<div class="sal-preview-btns">
+		<button class="sal-btn-sec" id="btn-shuffle">Shuffle again</button>
+		<button class="sal-btn sal-btn-dl" id="btn-dl2">Download PDF</button>
+	</div>
+</div>
+
+</body>
+</html>
