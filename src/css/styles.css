@@ -23,7 +23,6 @@ span {
 }
 /* Canvas styles */
 canvas {
-  border: 5px solid #7d98e8;
   border: none;
   border-radius: 50%;
   box-shadow: 0 0 10px #7d98e8;
