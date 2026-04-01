@@ -40,6 +40,10 @@ Add the HTML file in `src/`, its JS module in `src/js/`, and register the HTML e
 
 - **Disabled-button tooltips**: When a button is disabled, set its `title` attribute to explain why (e.g. `button.title = 'Add more words (need at least 25, currently 10)'`). Clear the title when the button becomes enabled. See `bingo.js` and `connect-4.js` for examples.
 
+## Dependency Management
+
+Always pin dependencies to exact versions — no `^`, `~`, or bare package names. `.bunfmt` sets `save-exact=true` so `bun add` pins automatically. `bun.lock` must be committed.
+
 ## Git Conventions
 
 - Run `bun run check-all` before committing.
