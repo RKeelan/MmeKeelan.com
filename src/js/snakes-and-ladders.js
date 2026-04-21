@@ -420,9 +420,8 @@ function generatePdfPages(emoji) {
 	// Letter landscape in points: 792 x 612
 	const pw = 792;
 	const ph = 612;
-	const mx = 36;
-	const my = 28;
-	const emojiSize = 8; // points
+	const mx = 40;
+	const my = 36;
 
 	/**
 	 * Place an emoji image in the PDF, or skip if unavailable.
@@ -471,7 +470,7 @@ function generatePdfPages(emoji) {
 		curY += 10;
 
 		// Footer reserved space
-		const footerH = 32;
+		const footerH = 56;
 		const gx = mx;
 		const gy = curY;
 		const gw = pw - mx * 2;
@@ -562,43 +561,39 @@ function generatePdfPages(emoji) {
 			});
 
 			// Snake/ladder label (bottom of cell): emoji + text
-			if (isSnake) {
-				const label = 'descends \u00e0 la case ' + board.snakeMap[cn];
-				doc.setFontSize(5);
+			if (isSnake || isLadder) {
+				const label = isSnake
+					? 'descends \u00e0 la case ' + board.snakeMap[cn]
+					: 'monte \u00e0 la case ' + board.ladderMap[cn];
+				const labelColor = isSnake ? [42, 157, 78] : [139, 94, 60];
+				const labelPng = isSnake ? snakePng : ladderPng;
+				const cellLabelSize = 11;
+				const cellLabelEmoji = 12;
+
+				doc.setFontSize(cellLabelSize);
 				doc.setFont('helvetica', 'bold');
-				doc.setTextColor(42, 157, 78);
+				doc.setTextColor(labelColor[0], labelColor[1], labelColor[2]);
 				const labelW = doc.getTextWidth(label);
-				const totalW = emojiSize + 2 + labelW;
+				const totalW = cellLabelEmoji + 2 + labelW;
 				const startX = cx + (cw - totalW) / 2;
-				placeEmoji(snakePng, startX, cy + ch - emojiSize - 1, emojiSize);
-				doc.text(label, startX + emojiSize + 2, cy + ch - 2);
-			}
-			if (isLadder) {
-				const label = 'monte \u00e0 la case ' + board.ladderMap[cn];
-				doc.setFontSize(5);
-				doc.setFont('helvetica', 'bold');
-				doc.setTextColor(139, 94, 60);
-				const labelW = doc.getTextWidth(label);
-				const totalW = emojiSize + 2 + labelW;
-				const startX = cx + (cw - totalW) / 2;
-				placeEmoji(ladderPng, startX, cy + ch - emojiSize - 1, emojiSize);
-				doc.text(label, startX + emojiSize + 2, cy + ch - 2);
+				placeEmoji(labelPng, startX, cy + ch - cellLabelEmoji - 2, cellLabelEmoji);
+				doc.text(label, startX + cellLabelEmoji + 2, cy + ch - 3);
 			}
 		}
 
 		// Footer background
-		const footerY = gy + gh + 4;
+		const footerY = gy + gh + 6;
 		doc.setFillColor(245, 240, 232);
-		doc.rect(mx, footerY, gw, footerH - 4, 'F');
+		doc.rect(mx, footerY, gw, footerH - 6, 'F');
 
 		// Footer instructions
-		doc.setFontSize(7);
+		doc.setFontSize(13);
 		doc.setFont('helvetica', 'bold');
 		doc.setTextColor(51, 51, 51);
-		const ftY = footerY + 9;
-		doc.text('Comment jouer :', mx + 4, ftY);
+		const ftY = footerY + 16;
+		doc.text('Comment jouer :', mx + 6, ftY);
 
-		const instrX = mx + 4 + doc.getTextWidth('Comment jouer : ');
+		const instrX = mx + 6 + doc.getTextWidth('Comment jouer : ');
 		doc.setFont('helvetica', 'normal');
 		doc.setTextColor(85, 85, 85);
 		doc.text(
@@ -608,11 +603,11 @@ function generatePdfPages(emoji) {
 		);
 
 		// Legend: emoji + text
-		doc.setFontSize(6);
+		doc.setFontSize(11);
 		doc.setFont('helvetica', 'normal');
 		doc.setTextColor(119, 119, 119);
-		const legY = ftY + 10;
-		const legEmojiSize = 7;
+		const legY = ftY + 18;
+		const legEmojiSize = 11;
 		let legX = mx + 4;
 		placeEmoji(snakePng, legX, legY - legEmojiSize + 1, legEmojiSize);
 		legX += legEmojiSize + 2;
