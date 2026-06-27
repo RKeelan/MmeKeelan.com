@@ -108,7 +108,7 @@ export class StringReel {
     const translateY = transform.match(/translateY\((-?\d+)px\)/);
     if (!translateY) return this.items[0];
 
-    const position = parseInt(translateY[1]);
+    const position = parseInt(translateY[1], 10);
     const index = Math.abs(position) / this.options.itemHeight;
     return this.items[Math.floor(index) % this.items.length];
   }
