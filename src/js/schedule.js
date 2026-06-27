@@ -1,5 +1,4 @@
 import '../css/styles.css';
-// @ts-expect-error Ignore missing types
 import * as jsyaml from 'js-yaml';
 
 // French: 300
@@ -53,8 +52,8 @@ const timeToMinutes = (time) => {
   const match = /(\d+):(\d+) (\w+)/.exec(time);
   if (!match) throw new Error(`Invalid time format: ${time}`);
   const [, hours, minutes, period] = match;
-  let totalMinutes = parseInt(hours) * 60 + parseInt(minutes);
-  if (period.toUpperCase() === 'PM' && parseInt(hours) !== 12) {
+  let totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+  if (period.toUpperCase() === 'PM' && parseInt(hours, 10) !== 12) {
     totalMinutes += 12 * 60;
   }
   return totalMinutes;

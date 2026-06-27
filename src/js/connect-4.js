@@ -41,13 +41,13 @@ function getWords() {
 }
 
 function getCols() {
-  return clamp(Number.parseInt(elCols.value) || 5, 2, 7);
+  return clamp(Number.parseInt(elCols.value, 10) || 5, 2, 7);
 }
 function getRows() {
-  return clamp(Number.parseInt(elRows.value) || 5, 2, 7);
+  return clamp(Number.parseInt(elRows.value, 10) || 5, 2, 7);
 }
 function getNumPages() {
-  return clamp(Number.parseInt(elPages.value) || 4, 1, 30);
+  return clamp(Number.parseInt(elPages.value, 10) || 4, 1, 30);
 }
 /**
  * Fisher-Yates shuffle (returns a new array).
