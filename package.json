@@ -26,20 +26,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@biomejs/biome": "2.4.16",
+    "@biomejs/biome": "2.5.1",
     "@testing-library/dom": "10.4.1",
     "@types/node": "25.9.2",
-    "@vitejs/plugin-legacy": "8.0.2",
-    "@vitest/coverage-v8": "4.1.8",
+    "@vitejs/plugin-legacy": "8.1.0",
+    "@vitest/coverage-v8": "4.1.9",
     "gh-pages": "6.3.0",
     "jsdom": "29.1.1",
-    "npm-check-updates": "22.2.3",
+    "npm-check-updates": "22.2.7",
     "typescript": "6.0.3",
-    "vite": "8.0.16",
-    "vitest": "4.1.8"
+    "vite": "8.1.0",
+    "vitest": "4.1.9"
   },
   "dependencies": {
-    "js-yaml": "4.2.0",
+    "js-yaml": "5.2.0",
     "jspdf": "4.2.1"
   },
   "overrides": {
