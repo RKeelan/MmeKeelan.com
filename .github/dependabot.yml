@@ -12,6 +12,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "typescript"
+        versions: ["7.x"]
     groups:
       all-dependencies:
         patterns:
