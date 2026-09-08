@@ -23,6 +23,10 @@ French language bingo game for vocabulary practice.
 
 An interactive spinning wheel game for French verb conjugation practice featuring
 
+### ➕ Math Worksheets
+
+Printable worksheets of addition, subtraction, multiplication, or long division problems at your chosen complexity.
+
 ## Development
 
 ### Prerequisites
