@@ -1,0 +1,328 @@
+body.mw-page {
+  font-family: "Outfit", sans-serif;
+  background: #f5f3ee;
+  color: #1a1a1a;
+  text-align: left;
+}
+
+/* ===== Editor ===== */
+.mw-editor {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 24px 24px;
+}
+
+.mw-editor h1 {
+  font-family: "Fraunces", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 0 0 4px;
+  text-align: left;
+  text-shadow: none;
+  color: #1a1a1a;
+}
+
+.mw-editor .mw-desc {
+  font-size: 13.5px;
+  color: #777;
+  line-height: 1.55;
+  margin: 0 0 28px;
+}
+
+.mw-row {
+  display: flex;
+  gap: 10px;
+}
+
+.mw-field {
+  margin-bottom: 18px;
+}
+
+.mw-row .mw-field {
+  flex: 1;
+}
+
+.mw-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.mw-field select {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: "Outfit", sans-serif;
+  font-size: 14.5px;
+  color: #1a1a1a;
+  border: 2px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.mw-field select:focus {
+  border-color: #1a1a1a;
+}
+
+/* ===== Buttons ===== */
+.mw-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mw-btn {
+  padding: 11px 24px;
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.mw-btn:hover:not(:disabled) {
+  box-shadow: none;
+  transform: none;
+}
+
+.mw-btn:disabled {
+  opacity: 0.4;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.mw-btn-gen {
+  background: #1a1a1a;
+  color: #fff;
+  flex: 1;
+}
+
+.mw-btn-gen:hover:not(:disabled) {
+  background: #333;
+}
+
+.mw-btn-print {
+  background: #1a6b3c;
+  color: #fff;
+}
+
+.mw-btn-print:hover:not(:disabled) {
+  background: #15572f;
+}
+
+/* ===== Worksheet =====
+   A Letter-proportioned sheet whose padding matches the 1.5cm print margin
+   (6.9% of 8.5in), so what is on screen is what comes out of the printer. The
+   wrapper is what makes that percentage right: padding resolves against the
+   containing block, so the sheet's own width has to be the containing block. */
+.mw-sheet-wrap {
+  width: min(816px, 100%);
+  margin: 0 auto 60px;
+}
+
+.mw-worksheet {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 8.5 / 11;
+  padding: 6.9%;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.mw-sheet-header {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #ddd;
+}
+
+.mw-worksheet .mw-blank {
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  color: #1a1a1a;
+}
+
+.mw-worksheet .mw-sheet-subtitle {
+  flex: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin: 9px 0 14px;
+}
+
+/* ===== Problem grid =====
+   The grid is a size container, so each problem can be sized from the space
+   the chosen layout leaves it: --mw-lines line-heights tall, --mw-chars
+   monospace characters wide. Everything inside a cell is in em so it scales
+   with that size. */
+.mw-problems {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--mw-cols, 4), 1fr);
+  grid-template-rows: repeat(var(--mw-rows, 3), 1fr);
+  container-type: size;
+}
+
+.mw-problem {
+  box-sizing: border-box;
+  display: flex;
+  align-items: baseline;
+  padding: 0.15em 0.3em 0 0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: min(
+    calc(100cqh / var(--mw-rows, 3) / var(--mw-lines, 4.5)),
+    calc(100cqw / var(--mw-cols, 4) / var(--mw-chars, 8) / 0.6),
+    48px
+  );
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* The number sits in its own column to the left, on the baseline of the first
+   operand. Dividing by the scale factor puts the column width back in the
+   problem's em rather than the number's own smaller one, so every stack in a
+   row starts at the same place. */
+.mw-worksheet .mw-num {
+  --mw-num-scale: 0.42;
+  flex: none;
+  width: calc(0.9em / var(--mw-num-scale));
+  font-family: "Outfit", sans-serif;
+  font-size: calc(var(--mw-num-scale) * 1em);
+  font-weight: 700;
+  color: #999;
+}
+
+/* ===== Stacked form (addition, subtraction, multiplication) =====
+   The stack takes the cell's budget less the number column and the padding
+   beside it: the sign sits in the leftmost column, the operands are flush
+   right, and the gutter between them is the character left over. */
+.mw-stack {
+  flex: none;
+  width: calc((var(--mw-chars, 8) - 2) * 0.6em);
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.25;
+  color: #1a1a1a;
+}
+
+.mw-operand {
+  text-align: right;
+}
+
+.mw-operand.mw-last {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.1em;
+  border-bottom: 0.09em solid #1a1a1a;
+}
+
+.mw-worksheet .mw-op {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+  color: #1a1a1a;
+}
+
+/* ===== Long division form ===== */
+.mw-division {
+  display: flex;
+  align-items: baseline;
+  width: auto;
+  padding-top: 1.3em;
+}
+
+.mw-worksheet .mw-divisor {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+  color: #1a1a1a;
+}
+
+.mw-worksheet .mw-dividend {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+  color: #1a1a1a;
+  padding: 0.18em 0.35em 0 0.35em;
+  border-top: 0.09em solid #1a1a1a;
+  border-left: 0.09em solid #1a1a1a;
+  border-top-left-radius: 0.35em;
+}
+
+@media (max-width: 600px) {
+  .mw-editor {
+    padding: 20px 16px 24px;
+  }
+
+  .mw-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+/* ===== Print =====
+   The sheet is pinned to exactly one page: full page box, no margins of its
+   own, and anything that would spill is clipped rather than paginated. */
+@media print {
+  @page {
+    size: letter;
+    margin: 1.5cm;
+  }
+
+  body.mw-page {
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mw-editor,
+  .mw-btn-row {
+    display: none !important;
+  }
+
+  .mw-sheet-wrap {
+    width: 100%;
+    margin: 0;
+  }
+
+  .mw-worksheet {
+    width: 100%;
+    height: 100vh;
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .mw-worksheet .mw-blank,
+  .mw-worksheet .mw-sheet-subtitle,
+  .mw-worksheet .mw-num,
+  .mw-worksheet .mw-op,
+  .mw-worksheet .mw-divisor,
+  .mw-worksheet .mw-dividend,
+  .mw-stack {
+    color: #000;
+  }
+
+  .mw-operand.mw-last,
+  .mw-worksheet .mw-dividend {
+    border-color: #000;
+  }
+}
