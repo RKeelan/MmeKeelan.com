@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Math</title>
+  <script type="module" crossorigin src="/MmeKeelan.com/assets/math-CapZuBt0.js"></script>
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/styles-CB5FzGoK.js">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/styles-Bv4CGOlD.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/math-C9aMLWFx.css">
+</head>
+<body class="mw-page">
+
+<div class="mw-editor" id="editor">
+	<h1>Math — Worksheet Generator</h1>
+	<p class="mw-desc">
+		Pick an operation and a complexity, then generate a printable page of practice problems.
+	</p>
+
+	<div class="mw-row">
+		<div class="mw-field">
+			<label for="digits">Complexity</label>
+			<select id="digits">
+				<option value="1">1 digit</option>
+				<option value="2" selected>2 digits</option>
+				<option value="3">3 digits</option>
+				<option value="4">4 digits</option>
+			</select>
+		</div>
+		<div class="mw-field">
+			<label for="operation">Operation</label>
+			<select id="operation">
+				<option value="add" selected>Addition</option>
+				<option value="subtract">Subtraction</option>
+				<option value="multiply">Multiplication</option>
+				<option value="divide">Division</option>
+			</select>
+		</div>
+		<div class="mw-field">
+			<label for="count">Number of problems</label>
+			<select id="count">
+				<option value="2x2">4 (2 × 2)</option>
+				<option value="3x2">6 (3 × 2)</option>
+				<option value="3x3">9 (3 × 3)</option>
+				<option value="4x3" selected>12 (4 × 3)</option>
+				<option value="4x4">16 (4 × 4)</option>
+				<option value="4x5">20 (4 × 5)</option>
+				<option value="5x5">25 (5 × 5)</option>
+				<option value="5x6">30 (5 × 6)</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="mw-btn-row">
+		<button class="mw-btn mw-btn-gen" id="btn-gen">Generate worksheet</button>
+		<button class="mw-btn mw-btn-print" id="btn-print" disabled title="Generate a worksheet first">Print</button>
+	</div>
+</div>
+
+<div class="mw-sheet-wrap">
+	<div class="mw-worksheet" id="worksheet" style="display:none;">
+		<div class="mw-sheet-header">
+			<span class="mw-blank">Nom : ______________</span>
+			<span class="mw-blank">Date : ______________</span>
+		</div>
+		<p class="mw-sheet-subtitle" id="sheet-subtitle"></p>
+		<div class="mw-problems" id="problems"></div>
+	</div>
+</div>
+
+</body>
+</html>
