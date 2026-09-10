@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Number Line</title>
+  <script type="module" crossorigin src="/MmeKeelan.com/assets/numberLine-BMRCl6K_.js"></script>
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/styles-CB5FzGoK.js">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/styles-Bv4CGOlD.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/numberLine-C3otHubZ.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/mathStyles-DianGZJE.css">
+</head>
+<body class="mw-page">
+
+<div class="mw-editor" id="editor">
+	<h1>Number Line — Worksheet Generator</h1>
+	<p class="mw-desc">
+		Pick an operation, then generate printable pages of single-digit problems, each with a number line from 0 to 10 to solve it on.
+	</p>
+
+	<div class="mw-row">
+		<div class="mw-field">
+			<label for="operation">Operation</label>
+			<select id="operation">
+				<option value="add" selected>Addition</option>
+				<option value="subtract">Subtraction</option>
+			</select>
+		</div>
+		<div class="mw-field">
+			<label for="count">Problems per page</label>
+			<select id="count">
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9" selected>9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+			</select>
+		</div>
+		<div class="mw-field">
+			<label for="pages">Pages</label>
+			<input type="number" id="pages" min="1" max="30" step="1" value="1">
+		</div>
+	</div>
+
+	<div class="mw-btn-row">
+		<button class="mw-btn mw-btn-gen" id="btn-gen">Generate worksheets</button>
+		<button class="mw-btn mw-btn-print" id="btn-print" disabled title="Generate worksheets first">Print</button>
+	</div>
+</div>
+
+<div class="mw-sheet-wrap nl-sheets" id="sheets"></div>
+
+<template id="sheet-template">
+	<div class="mw-worksheet">
+		<div class="mw-sheet-header">
+			<span class="mw-blank">Nom : ______________</span>
+			<span class="mw-blank">Date : ______________</span>
+		</div>
+		<p class="mw-sheet-subtitle"></p>
+		<div class="nl-problems"></div>
+	</div>
+</template>
+
+</body>
+</html>
