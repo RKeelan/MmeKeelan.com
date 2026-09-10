@@ -27,6 +27,10 @@ An interactive spinning wheel game for French verb conjugation practice featurin
 
 Printable worksheets of addition, subtraction, multiplication, or long division problems at your chosen complexity.
 
+### 📏 Number Line Worksheets
+
+Printable pages of single-digit addition or subtraction problems, each beside a number line from 0 to 10 to solve it on.
+
 ## Development
 
 ### Prerequisites
