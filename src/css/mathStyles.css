@@ -53,7 +53,9 @@ body.mw-page {
   margin-bottom: 5px;
 }
 
-.mw-field select {
+.mw-field select,
+.mw-field input {
+  box-sizing: border-box;
   width: 100%;
   padding: 10px 12px;
   font-family: "Outfit", sans-serif;
@@ -66,7 +68,8 @@ body.mw-page {
   transition: border-color 0.15s;
 }
 
-.mw-field select:focus {
+.mw-field select:focus,
+.mw-field input:focus {
   border-color: #1a1a1a;
 }
 

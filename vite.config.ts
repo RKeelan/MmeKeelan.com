@@ -47,6 +47,10 @@ export default defineConfig({
           fileURLToPath(new URL('.', import.meta.url)),
           'src/math.html',
         ),
+        numberLine: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/number-line.html',
+        ),
         snakesAndLadders: resolve(
           fileURLToPath(new URL('.', import.meta.url)),
           'src/snakes-and-ladders.html',

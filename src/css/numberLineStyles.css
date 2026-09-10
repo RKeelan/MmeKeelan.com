@@ -1,0 +1,81 @@
+/* The number-line page builds on the Math page's editor and sheet styles in
+   mathStyles.css. These rules add the multiple pages and the problem rows. */
+
+/* ===== Pages =====
+   Each page is its own sheet: spaced apart on screen, and one to a printed
+   page. */
+.nl-sheets .mw-worksheet + .mw-worksheet {
+  margin-top: 24px;
+}
+
+/* ===== Problem list =====
+   One problem per row, each row an equal share of the page. The list is a size
+   container, so the font can be sized from the row: the sentence is under half
+   a row tall, and never so wide that it crowds out the number line. The
+   sentence and its answer box are in em so they scale with that size; the
+   number line takes the rest of the row. */
+.nl-problems {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  container-type: size;
+}
+
+.nl-problem {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: min(
+    calc(100cqh / var(--nl-rows, 9) * 0.45),
+    calc(100cqw * 0.075),
+    48px
+  );
+}
+
+.nl-sentence {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-variant-numeric: tabular-nums;
+  white-space: pre;
+}
+
+.nl-answer {
+  box-sizing: border-box;
+  width: 1.3em;
+  height: 1.3em;
+  border: 0.06em solid;
+  border-radius: 0.1em;
+}
+
+/* The drawing takes whatever width the sentence leaves, keeping its
+   proportions, and follows the text colour. Its font size is in the drawing's
+   own units, so the labels scale with the line. */
+.nl-line {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+}
+
+.nl-line line {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.nl-line text {
+  font-size: 20px;
+  text-anchor: middle;
+  fill: currentColor;
+}
+
+@media print {
+  .nl-sheets .mw-worksheet + .mw-worksheet {
+    margin-top: 0;
+    break-before: page;
+  }
+}
