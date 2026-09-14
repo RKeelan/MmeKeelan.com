@@ -1,5 +1,26 @@
 /* The number-line page builds on the Math page's editor and sheet styles in
-   mathStyles.css. These rules add the multiple pages and the problem rows. */
+   mathStyles.css. These rules add the two-digit checkbox, the multiple pages,
+   and the problem rows. */
+
+/* ===== Editor ===== */
+.nl-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 18px;
+  font-size: 14.5px;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.nl-check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #1a1a1a;
+  cursor: pointer;
+}
 
 /* ===== Pages =====
    Each page is its own sheet: spaced apart on screen, and one to a printed

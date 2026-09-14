@@ -2,11 +2,13 @@ import '../css/styles.css';
 import '../css/mathStyles.css';
 import '../css/numberLineStyles.css';
 import {
-  LINE_END,
+  LINE_SPAN,
   OPERATIONS,
   generateProblems,
+  lineStart,
 } from './number-line-problems.js';
 
+/** @typedef {import('./number-line-problems.js').Digits} Digits */
 /** @typedef {import('./number-line-problems.js').Operation} Operation */
 /** @typedef {import('./number-line-problems.js').Problem} Problem */
 
@@ -14,6 +16,7 @@ import {
 const $ = (sel) => document.querySelector(sel);
 
 const elOperation = /** @type {HTMLSelectElement} */ ($('#operation'));
+const elTwoDigit = /** @type {HTMLInputElement} */ ($('#two-digit'));
 const elCount = /** @type {HTMLSelectElement} */ ($('#count'));
 const elPages = /** @type {HTMLInputElement} */ ($('#pages'));
 const elBtnGen = /** @type {HTMLButtonElement} */ ($('#btn-gen'));
@@ -37,13 +40,15 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 
 // The number line's geometry, in SVG user units. The axis sits halfway down
 // the drawing so it lines up with the middle of the number sentence beside it,
-// and the labels hang below it. Each end leaves room for half the widest label.
+// and the labels hang below it. Each end leaves room for half the widest label,
+// 100. Every line is the same size whatever numbers it shows, so the lines on a
+// page stay aligned.
 const TICK_SPACING = 40;
-const END_MARGIN = 14;
+const END_MARGIN = 18;
 const AXIS_Y = 32;
 const TICK_REACH = 9;
 const LABEL_BASELINE = 61;
-const LINE_WIDTH = 2 * END_MARGIN + LINE_END * TICK_SPACING;
+const LINE_WIDTH = 2 * END_MARGIN + LINE_SPAN * TICK_SPACING;
 const LINE_HEIGHT = 2 * AXIS_Y;
 
 /** Whether worksheets are currently on screen. */
@@ -54,6 +59,11 @@ function getOperation() {
   const value = elOperation.value;
   const operation = OPERATIONS.find((op) => op === value);
   return operation ?? 'add';
+}
+
+/** @returns {Digits} */
+function getDigits() {
+  return elTwoDigit.checked ? 2 : 1;
 }
 
 /** @returns {number} */
@@ -84,11 +94,12 @@ function svg(name, attributes) {
 }
 
 /**
- * A number line from zero to LINE_END with every whole number marked and
- * labelled. Every row's line is the same, so it is built once and cloned.
+ * A number line from `start` to `start + LINE_SPAN` with every whole number
+ * marked and labelled.
+ * @param {number} start
  * @returns {SVGSVGElement}
  */
-function buildNumberLine() {
+function buildNumberLine(start) {
   const line = svg('svg', {
     class: 'nl-line',
     viewBox: '0 0 ' + LINE_WIDTH + ' ' + LINE_HEIGHT,
@@ -105,8 +116,8 @@ function buildNumberLine() {
     }),
   );
 
-  for (let n = 0; n <= LINE_END; n++) {
-    const x = END_MARGIN + n * TICK_SPACING;
+  for (let n = start; n <= start + LINE_SPAN; n++) {
+    const x = END_MARGIN + (n - start) * TICK_SPACING;
     line.appendChild(
       svg('line', {
         x1: x,
@@ -123,13 +134,31 @@ function buildNumberLine() {
 }
 
 /**
+ * Number lines built so far, by their first number, ready to clone.
+ * @type {Map<number, SVGSVGElement>}
+ */
+const numberLines = new Map();
+
+/**
+ * @param {number} start
+ * @returns {SVGSVGElement}
+ */
+function numberLineFrom(start) {
+  let line = numberLines.get(start);
+  if (!line) {
+    line = buildNumberLine(start);
+    numberLines.set(start, line);
+  }
+  return line;
+}
+
+/**
  * One row of the worksheet: the number sentence with a box for the answer,
  * and a number line beside it to work it out on.
  * @param {Problem} problem
- * @param {SVGSVGElement} numberLine
  * @returns {HTMLElement}
  */
-function renderProblem(problem, numberLine) {
+function renderProblem(problem) {
   const row = document.createElement('div');
   row.className = 'nl-problem';
 
@@ -148,7 +177,7 @@ function renderProblem(problem, numberLine) {
   sentence.appendChild(answer);
 
   row.appendChild(sentence);
-  row.appendChild(numberLine.cloneNode(true));
+  row.appendChild(numberLineFrom(lineStart(problem)).cloneNode(true));
   return row;
 }
 
@@ -156,10 +185,9 @@ function renderProblem(problem, numberLine) {
  * One printable page, stamped from the sheet template.
  * @param {Operation} operation
  * @param {Problem[]} problems
- * @param {SVGSVGElement} numberLine
  * @returns {DocumentFragment}
  */
-function renderSheet(operation, problems, numberLine) {
+function renderSheet(operation, problems) {
   const sheet = /** @type {DocumentFragment} */ (
     elTemplate.content.cloneNode(true)
   );
@@ -173,22 +201,22 @@ function renderSheet(operation, problems, numberLine) {
   // The rows share the page equally, and the text is sized to fit a row.
   list.style.setProperty('--nl-rows', String(problems.length));
   for (const problem of problems) {
-    list.appendChild(renderProblem(problem, numberLine));
+    list.appendChild(renderProblem(problem));
   }
   return sheet;
 }
 
 function generate() {
   const operation = getOperation();
+  const digits = getDigits();
   const count = getCount();
   const pages = getPages();
   elPages.value = String(pages);
 
-  const numberLine = buildNumberLine();
   elSheets.innerHTML = '';
   for (let page = 0; page < pages; page++) {
-    const problems = generateProblems(operation, count);
-    elSheets.appendChild(renderSheet(operation, problems, numberLine));
+    const problems = generateProblems(operation, digits, count);
+    elSheets.appendChild(renderSheet(operation, problems));
   }
 
   hasWorksheet = true;
@@ -201,7 +229,7 @@ function generate() {
 elBtnGen.addEventListener('click', generate);
 elBtnPrint.addEventListener('click', () => window.print());
 
-for (const control of [elOperation, elCount, elPages]) {
+for (const control of [elOperation, elTwoDigit, elCount, elPages]) {
   control.addEventListener('change', () => {
     if (hasWorksheet) generate();
   });
