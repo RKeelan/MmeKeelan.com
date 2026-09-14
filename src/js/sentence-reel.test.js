@@ -68,14 +68,18 @@ describe('Sentence Reel (sentence-reel.js)', () => {
     };
 
     // Mock global objects
-    global.document = mockDocument;
-    global.setTimeout = /** @type {any} */ (vi.fn((callback) => callback()));
-    global.setInterval = /** @type {any} */ (vi.fn());
-    global.clearInterval = /** @type {any} */ (vi.fn());
+    vi.stubGlobal('document', mockDocument);
+    vi.stubGlobal(
+      'setTimeout',
+      vi.fn((callback) => callback()),
+    );
+    vi.stubGlobal('setInterval', vi.fn());
+    vi.stubGlobal('clearInterval', vi.fn());
   });
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllGlobals();
   });
 
   describe('Language Data Arrays', () => {
