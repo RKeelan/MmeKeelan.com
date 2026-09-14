@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Number Line</title>
-  <script type="module" crossorigin src="/MmeKeelan.com/assets/numberLine-B2s7uF7x.js"></script>
+  <script type="module" crossorigin src="/MmeKeelan.com/assets/numberLine-Dq6DXZl8.js"></script>
   <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/styles-CB5FzGoK.js">
   <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/styles-Bv4CGOlD.css">
-  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/numberLine-BBiBSblJ.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/numberLine-X5F_Azo5.css">
   <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/mathStyles-DianGZJE.css">
 </head>
 <body class="mw-page">
@@ -14,7 +14,7 @@
 <div class="mw-editor" id="editor">
 	<h1>Number Line — Worksheet Generator</h1>
 	<p class="mw-desc">
-		Pick an operation, then generate printable pages of single-digit problems, each with a number line from 0 to 18 to solve it on.
+		Pick an operation, then generate printable pages of problems that add or subtract a single digit, each with a number line spanning twenty to solve it on. The first number is a single digit too, or two digits if you choose.
 	</p>
 
 	<div class="mw-row">
@@ -44,6 +44,11 @@
 			<input type="number" id="pages" min="1" max="30" step="1" value="1">
 		</div>
 	</div>
+
+	<label class="nl-check">
+		<input type="checkbox" id="two-digit">
+		Two-digit first number
+	</label>
 
 	<div class="mw-btn-row">
 		<button class="mw-btn mw-btn-gen" id="btn-gen">Generate worksheets</button>
