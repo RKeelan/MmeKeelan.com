@@ -35,11 +35,12 @@ export const FORMS = Object.freeze(['blocks', 'numeral', 'words']);
 export const NUMBER_SETS = Object.freeze(['all', 'tyTeen']);
 
 /**
- * Every number in `set`, in ascending order.
+ * Every number in `set` up to `max`, in ascending order.
  * @param {NumberSet} set
+ * @param {number} [max] The largest number to include.
  * @returns {number[]}
  */
-export function numbersIn(set) {
+export function numbersIn(set, max = MAX_NUMBER) {
   /** @type {number[]} */
   const numbers = [];
   if (set === 'all') {
@@ -50,7 +51,7 @@ export function numbersIn(set) {
   } else {
     throw new RangeError('Unsupported number set: ' + set);
   }
-  return numbers;
+  return numbers.filter((n) => n <= max);
 }
 
 /**
@@ -103,10 +104,18 @@ function givenForms(forms, count, rng) {
  * @param {readonly Form[]} forms The forms a problem's number can be given in.
  * @param {NumberSet} set Which numbers to draw from.
  * @param {number} count How many problems to produce.
- * @param {() => number} [rng] Random source in [0, 1); injectable for tests.
+ * @param {object} [options]
+ * @param {number} [options.max] The largest number to draw.
+ * @param {() => number} [options.rng] Random source in [0, 1); injectable for
+ *   tests.
  * @returns {Problem[]}
  */
-export function generateProblems(forms, set, count, rng = Math.random) {
+export function generateProblems(
+  forms,
+  set,
+  count,
+  { max = MAX_NUMBER, rng = Math.random } = {},
+) {
   if (forms.length === 0) {
     throw new RangeError('At least one form must be given');
   }
@@ -115,7 +124,7 @@ export function generateProblems(forms, set, count, rng = Math.random) {
       throw new RangeError('Unsupported form: ' + form);
     }
   }
-  const pool = numbersIn(set);
+  const pool = numbersIn(set, max);
   if (!Number.isInteger(count) || count < 0 || count > pool.length) {
     throw new RangeError(
       'count must be an integer from 0 to ' + pool.length + ', got ' + count,
