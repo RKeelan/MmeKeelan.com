@@ -31,6 +31,10 @@ Printable worksheets of addition, subtraction, multiplication, or long division 
 
 Printable pages of single-digit addition or subtraction problems, each beside a number line from 0 to 18 to solve it on.
 
+### 🔢 Numbers Worksheets
+
+Printable pages of numbers from 0 to 100 to show three ways—as base-ten blocks, as a numeral, and in English or French words—with an option for only the -ty and -teen numbers.
+
 ## Development
 
 ### Prerequisites

@@ -43,7 +43,8 @@ body.mw-page {
   flex: 1;
 }
 
-.mw-field label {
+.mw-field > label,
+.mw-field > legend {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -71,6 +72,25 @@ body.mw-page {
 .mw-field select:focus,
 .mw-field input:focus {
   border-color: #1a1a1a;
+}
+
+.mw-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 18px;
+  font-size: 14.5px;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.mw-check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #1a1a1a;
+  cursor: pointer;
 }
 
 /* ===== Buttons ===== */
@@ -166,6 +186,12 @@ body.mw-page {
   font-weight: 600;
   color: #555;
   margin: 9px 0 14px;
+}
+
+/* Pages with several sheets space them apart on screen, and print one to a
+   page. */
+.mw-worksheet + .mw-worksheet {
+  margin-top: 24px;
 }
 
 /* ===== Problem grid =====
@@ -312,6 +338,11 @@ body.mw-page {
     background: #fff;
     border-radius: 0;
     box-shadow: none;
+  }
+
+  .mw-worksheet + .mw-worksheet {
+    margin-top: 0;
+    break-before: page;
   }
 
   .mw-worksheet .mw-blank,
