@@ -32,6 +32,10 @@ bunx vitest run src/js/utils.test.js # Run a single test file
 - **Tests**: Co-located as `*.test.js` files in `src/js/`. Use Vitest with jsdom environment and global test utilities.
 - **Base path**: `/MmeKeelan.com/` (for GitHub Pages deployment).
 
+## Ontario Curriculum
+
+`curriculum/` holds a git-ignored local copy of the Ontario curriculum for Kindergarten to Grade 8: each document as the Ministry's PDF with a Markdown conversion beside it. Consult it when matching a tool to curriculum expectations; `curriculum/README.md` lists the documents and where they came from. It does not exist in a fresh clone.
+
 ## Adding a New Page
 
 Add the HTML file in `src/`, its JS module in `src/js/`, and register the HTML entry point in `vite.config.ts` under `build.rollupOptions.input`.

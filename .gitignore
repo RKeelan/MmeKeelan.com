@@ -27,3 +27,6 @@ coverage/
 *.lcov
 settings.local.json
 .claude/settings.local.json
+
+# Local copy of the Ontario curriculum (see AGENTS.md)
+curriculum/
