@@ -1,0 +1,103 @@
+/* The numbers page builds on the Math page's editor and sheet styles in
+   mathStyles.css. These rules add the choice of given forms and the table of
+   numbers. */
+
+/* ===== Editor ===== */
+.nb-given {
+  min-width: 0;
+  margin-inline: 0;
+  padding: 0;
+  border: none;
+}
+
+.nb-given legend {
+  padding: 0;
+}
+
+.nb-given-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.nb-given-options .mw-check {
+  margin-bottom: 0;
+}
+
+/* ===== Table =====
+   A column for each form and a row for each number, ruled for the student to
+   write and draw in. The table is a size container, so the text can be sized
+   from the row: under a third of a row tall, and narrow enough that every
+   English number fits on one line of its column. The longer French numbers
+   break after a hyphen. */
+.nb-table {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 42fr 18fr 40fr;
+  grid-template-rows: auto repeat(var(--nb-rows, 8), 1fr);
+  container-type: size;
+  border-top: 1.5px solid #1a1a1a;
+  border-left: 1.5px solid #1a1a1a;
+}
+
+.nb-heading,
+.nb-cell {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  border-right: 1.5px solid #1a1a1a;
+  border-bottom: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+}
+
+.nb-heading {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.nb-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 0.4em;
+  font-size: min(
+    calc(100cqh / var(--nb-rows, 8) * 0.3),
+    calc(100cqw * 0.045),
+    40px
+  );
+  line-height: 1.15;
+}
+
+.nb-numeral {
+  justify-content: center;
+}
+
+/* The drawing takes most of the cell's height, keeping its proportions, and
+   follows the text colour. */
+.nb-drawing {
+  position: absolute;
+  top: 10%;
+  left: 0.4em;
+  width: calc(100% - 0.8em);
+  height: 80%;
+}
+
+.nb-drawing rect,
+.nb-drawing line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+@media print {
+  .nb-table,
+  .nb-heading,
+  .nb-cell {
+    border-color: #000;
+    color: #000;
+  }
+}

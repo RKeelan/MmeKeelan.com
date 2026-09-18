@@ -1,33 +1,5 @@
 /* The number-line page builds on the Math page's editor and sheet styles in
-   mathStyles.css. These rules add the two-digit checkbox, the multiple pages,
-   and the problem rows. */
-
-/* ===== Editor ===== */
-.nl-check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  margin-bottom: 18px;
-  font-size: 14.5px;
-  color: #1a1a1a;
-  cursor: pointer;
-}
-
-.nl-check input {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  accent-color: #1a1a1a;
-  cursor: pointer;
-}
-
-/* ===== Pages =====
-   Each page is its own sheet: spaced apart on screen, and one to a printed
-   page. */
-.nl-sheets .mw-worksheet + .mw-worksheet {
-  margin-top: 24px;
-}
+   mathStyles.css. These rules add the problem rows. */
 
 /* ===== Problem list =====
    One problem per row, each row an equal share of the page. The list is a size
@@ -92,11 +64,4 @@
   font-size: 20px;
   text-anchor: middle;
   fill: currentColor;
-}
-
-@media print {
-  .nl-sheets .mw-worksheet + .mw-worksheet {
-    margin-top: 0;
-    break-before: page;
-  }
 }
