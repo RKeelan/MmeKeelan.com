@@ -8,6 +8,7 @@ import { FORMS, generateProblems } from './numbers-problems.js';
 /** @typedef {import('./numbers-problems.js').Form} Form */
 /** @typedef {import('./numbers-problems.js').NumberSet} NumberSet */
 /** @typedef {import('./numbers-problems.js').Problem} Problem */
+/** @typedef {'tens' | 'ones'} Place */
 
 /** @param {string} sel */
 const $ = (sel) => document.querySelector(sel);
@@ -19,6 +20,7 @@ const elGiven = /** @type {NodeListOf<HTMLInputElement>} */ (
   document.querySelectorAll('input[name="given"]')
 );
 const elTyTeen = /** @type {HTMLInputElement} */ ($('#ty-teen'));
+const elSplit = /** @type {HTMLInputElement} */ ($('#split'));
 const elBtnGen = /** @type {HTMLButtonElement} */ ($('#btn-gen'));
 const elBtnPrint = /** @type {HTMLButtonElement} */ ($('#btn-print'));
 const elSheets = /** @type {HTMLElement} */ ($('#sheets'));
@@ -26,22 +28,33 @@ const elTemplate = /** @type {HTMLTemplateElement} */ ($('#sheet-template'));
 
 /**
  * The words printed on a worksheet, in each language.
- * @type {Record<Language, { name: string, date: string, subtitle: string, headings: Record<Form, string> }>}
+ * @type {Record<Language, { name: string, date: string, subtitle: string, headings: Record<Form, string>, places: Record<Place, string> }>}
  */
 const SHEET_TEXT = {
   en: {
     name: 'Name: ______________',
     date: 'Date: ______________',
     subtitle: 'Show each number three ways.',
-    headings: { blocks: 'Blocks', numeral: 'Numeral', words: 'Words' },
+    headings: { blocks: 'Blocks', numeral: 'Number', words: 'Words' },
+    places: { tens: '10s', ones: '1s' },
   },
   fr: {
     name: 'Nom : ______________',
     date: 'Date : ______________',
     subtitle: 'Représente chaque nombre de trois façons.',
     headings: { blocks: 'Blocs', numeral: 'Chiffres', words: 'Lettres' },
+    places: { tens: 'Dizaines', ones: 'Unités' },
   },
 };
+
+/**
+ * The places a split Number column has a box for, from left to right.
+ * @type {readonly Place[]}
+ */
+const PLACES = Object.freeze(['tens', 'ones']);
+
+/** The largest number whose digits fit a split Number column's two boxes. */
+const MAX_TWO_DIGIT = 99;
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -97,6 +110,11 @@ function getForms() {
 /** @returns {NumberSet} */
 function getNumberSet() {
   return elTyTeen.checked ? 'tyTeen' : 'all';
+}
+
+/** @returns {boolean} Whether to split the Number column into tens and ones. */
+function getSplit() {
+  return elSplit.checked;
 }
 
 /** @returns {number} */
@@ -185,14 +203,28 @@ function renderGiven({ number, given }, language) {
 }
 
 /**
+ * A table cell, for a form or a place.
+ * @param {Form | Place} kind
+ * @param {Node | string | null} content What the cell shows, if it is given.
+ * @returns {HTMLDivElement}
+ */
+function makeCell(kind, content) {
+  const cell = document.createElement('div');
+  cell.className = 'nb-cell nb-' + kind;
+  if (content !== null) cell.append(content);
+  return cell;
+}
+
+/**
  * One printable page, stamped from the sheet template: a table with a column
  * for each form and a row for each problem, in which only the given forms are
- * filled in.
+ * filled in. A split table gives the Number column a box for each digit.
  * @param {Language} language
  * @param {Problem[]} problems
+ * @param {boolean} split
  * @returns {DocumentFragment}
  */
-function renderSheet(language, problems) {
+function renderSheet(language, problems, split) {
   const text = SHEET_TEXT[language];
   const sheet = /** @type {DocumentFragment} */ (
     elTemplate.content.cloneNode(true)
@@ -206,22 +238,43 @@ function renderSheet(language, problems) {
   find('.mw-sheet-subtitle').textContent = text.subtitle;
 
   const table = find('.nb-table');
+  table.classList.toggle('nb-split', split);
   // The rows share the page equally, and the text is sized to fit a row.
   table.style.setProperty('--nb-rows', String(problems.length));
   for (const form of FORMS) {
     const heading = document.createElement('div');
-    heading.className = 'nb-heading';
+    heading.className = 'nb-heading nb-heading-' + form;
     heading.textContent = text.headings[form];
     table.appendChild(heading);
   }
+  if (split) {
+    for (const place of PLACES) {
+      const subheading = document.createElement('div');
+      subheading.className = 'nb-subheading';
+      subheading.textContent = text.places[place];
+      table.appendChild(subheading);
+    }
+  }
   for (const problem of problems) {
     for (const form of FORMS) {
-      const cell = document.createElement('div');
-      cell.className = 'nb-cell nb-' + form;
-      if (form === problem.given) {
-        cell.appendChild(renderGiven(problem, language));
+      const given = form === problem.given;
+      if (split && form === 'numeral') {
+        // A number under ten shows a 0 in its tens box, because an empty box
+        // is one for the student to fill in.
+        const digits = {
+          tens: Math.floor(problem.number / 10),
+          ones: problem.number % 10,
+        };
+        for (const place of PLACES) {
+          table.appendChild(
+            makeCell(place, given ? String(digits[place]) : null),
+          );
+        }
+      } else {
+        table.appendChild(
+          makeCell(form, given ? renderGiven(problem, language) : null),
+        );
       }
-      table.appendChild(cell);
     }
   }
   return sheet;
@@ -238,14 +291,16 @@ function generate() {
   const language = getLanguage();
   const forms = getForms();
   const set = getNumberSet();
+  const split = getSplit();
+  const max = split ? MAX_TWO_DIGIT : MAX_NUMBER;
   const count = getCount();
   const pages = getPages();
   elPages.value = String(pages);
 
   elSheets.innerHTML = '';
   for (let page = 0; page < pages; page++) {
-    const problems = generateProblems(forms, set, count);
-    elSheets.appendChild(renderSheet(language, problems));
+    const problems = generateProblems(forms, set, count, { max });
+    elSheets.appendChild(renderSheet(language, problems, split));
   }
 
   hasWorksheet = true;
@@ -258,7 +313,14 @@ function generate() {
 elBtnGen.addEventListener('click', generate);
 elBtnPrint.addEventListener('click', () => window.print());
 
-for (const control of [elLanguage, elCount, elPages, ...elGiven, elTyTeen]) {
+for (const control of [
+  elLanguage,
+  elCount,
+  elPages,
+  ...elGiven,
+  elTyTeen,
+  elSplit,
+]) {
   control.addEventListener('change', () => {
     updateGenerateButton();
     if (hasWorksheet && !elBtnGen.disabled) generate();

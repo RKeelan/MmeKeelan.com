@@ -44,6 +44,15 @@ describe('numbersIn', () => {
     ]);
   });
 
+  it('leaves out the numbers above the maximum', () => {
+    expect(numbersIn('all', 99)).toEqual(
+      Array.from({ length: 100 }, (_, n) => n),
+    );
+    expect(numbersIn('tyTeen', 50)).toEqual([
+      11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 30, 40, 50,
+    ]);
+  });
+
   it('rejects an unsupported set', () => {
     expect(() => numbersIn(/** @type {any} */ ('odd'))).toThrow(RangeError);
   });
@@ -64,6 +73,16 @@ describe('generateProblems', () => {
         expect(new Set(problems.map((p) => p.number)).size).toBe(10);
       }
     }
+  });
+
+  it('draws no number above the maximum', () => {
+    const problems = generateProblems(FORMS, 'all', 100, { max: 99 });
+    expect(problems.map((p) => p.number).sort((a, b) => a - b)).toEqual(
+      Array.from({ length: 100 }, (_, n) => n),
+    );
+    expect(() => generateProblems(FORMS, 'all', 101, { max: 99 })).toThrow(
+      RangeError,
+    );
   });
 
   it('draws only numbers from the requested set', () => {
