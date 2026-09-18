@@ -51,7 +51,7 @@ button:hover {
 button:disabled {
   background-color: #b2bfe8;
   box-shadow: 0 0 10px #b2bfe8;
-  transform: scale(1.0);
+  transform: scale(1);
   cursor: not-allowed;
 }
 
