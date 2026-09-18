@@ -2,27 +2,27 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Number Line</title>
-  <script type="module" crossorigin src="/MmeKeelan.com/assets/numberLine-CoxV_PM1.js"></script>
+	<title>Numbers</title>
+  <script type="module" crossorigin src="/MmeKeelan.com/assets/numbers-BWI66Y4N.js"></script>
   <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/styles-CB5FzGoK.js">
   <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/styles-Bv4CGOlD.css">
-  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/numberLine-CSbMD3pW.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/numbers-CRtsihr0.css">
   <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/mathStyles-Cnk_ERjT.css">
 </head>
 <body class="mw-page">
 
 <div class="mw-editor" id="editor">
-	<h1>Number Line — Worksheet Generator</h1>
+	<h1>Numbers — Worksheet Generator</h1>
 	<p class="mw-desc">
-		Pick an operation, then generate printable pages of problems that add or subtract a single digit, each with a number line spanning twenty to solve it on. The first number is a single digit too, or two digits if you choose.
+		Generate printable pages of numbers from 0 to 100 to show three ways: as base-ten blocks, as a numeral, and in words. Each row gives a number in one of the forms you choose, and the student fills in the other two.
 	</p>
 
 	<div class="mw-row">
 		<div class="mw-field">
-			<label for="operation">Operation</label>
-			<select id="operation">
-				<option value="add" selected>Addition</option>
-				<option value="subtract">Subtraction</option>
+			<label for="language">Language</label>
+			<select id="language">
+				<option value="en" selected>English</option>
+				<option value="fr">Français</option>
 			</select>
 		</div>
 		<div class="mw-field">
@@ -32,11 +32,9 @@
 				<option value="5">5</option>
 				<option value="6">6</option>
 				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9" selected>9</option>
+				<option value="8" selected>8</option>
+				<option value="9">9</option>
 				<option value="10">10</option>
-				<option value="11">11</option>
-				<option value="12">12</option>
 			</select>
 		</div>
 		<div class="mw-field">
@@ -45,9 +43,18 @@
 		</div>
 	</div>
 
+	<fieldset class="mw-field nb-given">
+		<legend>Given as</legend>
+		<div class="nb-given-options">
+			<label class="mw-check"><input type="checkbox" name="given" value="blocks" checked> Blocks</label>
+			<label class="mw-check"><input type="checkbox" name="given" value="numeral" checked> Numeral</label>
+			<label class="mw-check"><input type="checkbox" name="given" value="words" checked> Words</label>
+		</div>
+	</fieldset>
+
 	<label class="mw-check">
-		<input type="checkbox" id="two-digit">
-		Two-digit first number
+		<input type="checkbox" id="ty-teen">
+		Only -ty and -teen numbers: 11 to 19, and 20, 30, … 90
 	</label>
 
 	<div class="mw-btn-row">
@@ -61,11 +68,11 @@
 <template id="sheet-template">
 	<div class="mw-worksheet">
 		<div class="mw-sheet-header">
-			<span class="mw-blank">Nom : ______________</span>
-			<span class="mw-blank">Date : ______________</span>
+			<span class="mw-blank nb-name"></span>
+			<span class="mw-blank nb-date"></span>
 		</div>
 		<p class="mw-sheet-subtitle"></p>
-		<div class="nl-problems"></div>
+		<div class="nb-table"></div>
 	</div>
 </template>
 
