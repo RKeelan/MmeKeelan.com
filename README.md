@@ -35,6 +35,10 @@ Printable pages of single-digit addition or subtraction problems, each beside a 
 
 Printable pages of numbers from 0 to 100 to show three ways—as base-ten blocks, as a numeral, and in English or French words—with an option for only the -ty and -teen numbers.
 
+### 🔟 Skip Counting Charts
+
+Printable number charts from 1 to 100, each headed by the number to count by, for the student to circle every number the count lands on. The count is random from 2 to 9, or a number you choose, or a list like 2, 5, 10 for a page each. Each column can be given its own colour to bring out the pattern.
+
 ## Development
 
 ### Prerequisites

@@ -55,6 +55,10 @@ export default defineConfig({
           fileURLToPath(new URL('.', import.meta.url)),
           'src/numbers.html',
         ),
+        skipCounting: resolve(
+          fileURLToPath(new URL('.', import.meta.url)),
+          'src/skip-counting.html',
+        ),
         snakesAndLadders: resolve(
           fileURLToPath(new URL('.', import.meta.url)),
           'src/snakes-and-ladders.html',
