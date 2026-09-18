@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Skip Counting</title>
+  <script type="module" crossorigin src="/MmeKeelan.com/assets/skipCounting-xheg6dN0.js"></script>
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/styles-CB5FzGoK.js">
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/utils-CAvyfz5B.js">
+  <link rel="modulepreload" crossorigin href="/MmeKeelan.com/assets/number-words-M-pAaGod.js">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/styles-Bv4CGOlD.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/skipCounting-CiIyEXCn.css">
+  <link rel="stylesheet" crossorigin href="/MmeKeelan.com/assets/mathStyles-Cnk_ERjT.css">
+</head>
+<body class="mw-page">
+
+<div class="mw-editor" id="editor">
+	<h1>Skip Counting — Worksheet Generator</h1>
+	<p class="mw-desc">
+		Generate printable number charts from 1 to 100, each headed by the number to count by, for the student to circle every number the count lands on. Leave the skip counts blank for a random one from 2 to 9 on every page, give one for every page to share, or give a list like 2, 5, 10 for a page each. Colouring the columns makes the pattern of the count easier to see.
+	</p>
+
+	<div class="mw-row">
+		<div class="mw-field">
+			<label for="language">Language</label>
+			<select id="language">
+				<option value="en" selected>English</option>
+				<option value="fr">Français</option>
+			</select>
+		</div>
+		<div class="mw-field">
+			<label for="skip">Skip counts</label>
+			<input type="text" id="skip" inputmode="numeric" autocomplete="off" placeholder="Random, or 2, 5, 10">
+		</div>
+		<div class="mw-field">
+			<label for="pages">Pages</label>
+			<input type="number" id="pages" min="1" max="30" step="1" value="1">
+		</div>
+	</div>
+
+	<label class="mw-check">
+		<input type="checkbox" id="colour-columns">
+		Give each column of the chart its own colour
+	</label>
+
+	<div class="mw-btn-row">
+		<button class="mw-btn mw-btn-gen" id="btn-gen">Generate worksheets</button>
+		<button class="mw-btn mw-btn-print" id="btn-print" disabled title="Generate worksheets first">Print</button>
+	</div>
+</div>
+
+<div class="mw-sheet-wrap" id="sheets"></div>
+
+<template id="sheet-template">
+	<div class="mw-worksheet">
+		<div class="mw-sheet-header">
+			<span class="mw-blank sc-name"></span>
+			<span class="mw-blank sc-date"></span>
+		</div>
+		<p class="sc-banner">
+			<span class="sc-label"></span>
+			<span class="sc-step"></span>
+		</p>
+		<p class="mw-sheet-subtitle"></p>
+		<div class="sc-chart"></div>
+	</div>
+</template>
+
+</body>
+</html>
