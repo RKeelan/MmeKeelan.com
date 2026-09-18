@@ -1,0 +1,79 @@
+/* The skip-counting page builds on the Math page's editor and sheet styles in
+   mathStyles.css. These rules add the banner naming the number to count by and
+   the chart of numbers below it. */
+
+/* ===== Banner ===== */
+.sc-banner {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 14px 0 0;
+}
+
+.mw-worksheet .sc-label {
+  font-family: "Outfit", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.mw-worksheet .sc-step {
+  font-family: "Fraunces", serif;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+/* ===== Chart =====
+   A cell for every number from 1 to 100, ruled so the student can circle the
+   ones the count lands on. The chart is a size container, so the numerals can
+   be sized from the cell: half its height, and narrow enough that three digits
+   fit across it. */
+.sc-chart {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--sc-cols, 10), 1fr);
+  grid-template-rows: repeat(var(--sc-rows, 10), 1fr);
+  container-type: size;
+  border-top: 1.5px solid #1a1a1a;
+  border-left: 1.5px solid #1a1a1a;
+}
+
+/* A cell's colour, when the columns are coloured, is part of the worksheet
+   rather than decoration, so it is printed rather than dropped. */
+.sc-cell {
+  box-sizing: border-box;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  border-right: 1.5px solid #1a1a1a;
+  border-bottom: 1.5px solid #1a1a1a;
+  font-family: "Outfit", sans-serif;
+  font-size: min(
+    calc(100cqh / var(--sc-rows, 10) * 0.5),
+    calc(100cqw / var(--sc-cols, 10) * 0.5),
+    34px
+  );
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+@media print {
+  .sc-chart,
+  .sc-cell {
+    border-color: #000;
+    color: #000;
+  }
+
+  .mw-worksheet .sc-label,
+  .mw-worksheet .sc-step {
+    color: #000;
+  }
+}
