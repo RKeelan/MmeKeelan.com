@@ -1,0 +1,4 @@
+# Biome formats with LF, so the working tree uses LF on every platform. Without
+# this, Git checks files out with CRLF on Windows and the formatter rewrites
+# every file it is run over.
+* text=auto eol=lf

@@ -31,7 +31,6 @@ const elPreviewLabel = /** @type {HTMLElement} */ ($('#preview-label'));
 /** @type {string[][]} */
 let currentPages = [];
 
-
 /** @returns {string[]} */
 function getWords() {
   return elWords.value
@@ -200,16 +199,16 @@ function downloadPDF() {
 
     // Subtitle
     if (sub) {
-      y += titleFontSize / 72 * 0.65;
+      y += (titleFontSize / 72) * 0.65;
       doc.setFontSize(subFontSize);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(85, 85, 85);
-      y += subFontSize / 72 * 0.7;
+      y += (subFontSize / 72) * 0.7;
       doc.text(sub, pw / 2, y, { align: 'center' });
       doc.setTextColor(26, 26, 26);
-      y += subFontSize / 72 * 0.8;
+      y += (subFontSize / 72) * 0.8;
     } else {
-      y += titleFontSize / 72 * 0.65;
+      y += (titleFontSize / 72) * 0.65;
     }
 
     y += 10 / 72;
@@ -265,10 +264,7 @@ function downloadPDF() {
     fname +=
       '_' +
       sub
-        .replace(
-          /[^a-zA-Z0-9àâäéèêëïîôùûüçÀÂÄÉÈÊËÏÎÔÙÛÜÇ]+/g,
-          '_',
-        )
+        .replace(/[^a-zA-Z0-9àâäéèêëïîôùûüçÀÂÄÉÈÊËÏÎÔÙÛÜÇ]+/g, '_')
         .replace(/_+$/, '')
         .substring(0, 40);
   }
