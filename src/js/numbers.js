@@ -2,25 +2,32 @@ import '../css/styles.css';
 import '../css/mathStyles.css';
 import '../css/numbersStyles.css';
 import { LANGUAGES, MAX_NUMBER, numberToWords } from './number-words.js';
-import { FORMS, generateProblems } from './numbers-problems.js';
+import {
+  FORMS,
+  expandedForm,
+  generateProblems,
+  maxProblems,
+} from './numbers-problems.js';
 
 /** @typedef {import('./number-words.js').Language} Language */
 /** @typedef {import('./numbers-problems.js').Form} Form */
 /** @typedef {import('./numbers-problems.js').NumberSet} NumberSet */
 /** @typedef {import('./numbers-problems.js').Problem} Problem */
-/** @typedef {'tens' | 'ones'} Place */
+/** @typedef {'hundreds' | 'tens' | 'ones'} Place */
 
 /** @param {string} sel */
 const $ = (sel) => document.querySelector(sel);
 
 const elLanguage = /** @type {HTMLSelectElement} */ ($('#language'));
 const elCount = /** @type {HTMLSelectElement} */ ($('#count'));
+const elMax = /** @type {HTMLSelectElement} */ ($('#max'));
 const elPages = /** @type {HTMLInputElement} */ ($('#pages'));
 const elGiven = /** @type {NodeListOf<HTMLInputElement>} */ (
   document.querySelectorAll('input[name="given"]')
 );
 const elTyTeen = /** @type {HTMLInputElement} */ ($('#ty-teen'));
 const elSplit = /** @type {HTMLInputElement} */ ($('#split'));
+const elSplitPlaces = /** @type {HTMLElement} */ ($('#split-places'));
 const elBtnGen = /** @type {HTMLButtonElement} */ ($('#btn-gen'));
 const elBtnPrint = /** @type {HTMLButtonElement} */ ($('#btn-print'));
 const elSheets = /** @type {HTMLElement} */ ($('#sheets'));
@@ -34,42 +41,59 @@ const SHEET_TEXT = {
   en: {
     name: 'Name: ______________',
     date: 'Date: ______________',
-    subtitle: 'Show each number three ways.',
-    headings: { blocks: 'Blocks', numeral: 'Number', words: 'Words' },
-    places: { tens: '10s', ones: '1s' },
+    subtitle: 'Show each number four ways.',
+    headings: {
+      blocks: 'Blocks',
+      numeral: 'Number',
+      expanded: 'Expanded',
+      words: 'Words',
+    },
+    places: { hundreds: '100s', tens: '10s', ones: '1s' },
   },
   fr: {
     name: 'Nom : ______________',
     date: 'Date : ______________',
-    subtitle: 'Représente chaque nombre de trois façons.',
-    headings: { blocks: 'Blocs', numeral: 'Chiffres', words: 'Lettres' },
-    places: { tens: 'Dizaines', ones: 'Unités' },
+    subtitle: 'Représente chaque nombre de quatre façons.',
+    headings: {
+      blocks: 'Blocs',
+      numeral: 'Chiffres',
+      expanded: 'Forme développée',
+      words: 'Lettres',
+    },
+    places: { hundreds: 'Centaines', tens: 'Dizaines', ones: 'Unités' },
   },
 };
 
 /**
- * The places a split Number column has a box for, from left to right.
+ * The places a split Number column can have a box for, largest first.
  * @type {readonly Place[]}
  */
-const PLACES = Object.freeze(['tens', 'ones']);
+const PLACES = Object.freeze(['hundreds', 'tens', 'ones']);
 
-/** The largest number whose digits fit a split Number column's two boxes. */
+/**
+ * The largest two-digit number: the range a worksheet shows unless a wider one
+ * is chosen, and all a split Number column's two boxes can hold.
+ */
 const MAX_TWO_DIGIT = 99;
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
-// Base-ten blocks, in SVG user units. A unit cube is a square, and a ten rod
-// is ten of them stacked. The rods stand side by side with the loose units
-// beside them, in columns of five so they can be counted at a glance. Every
-// drawing has the same size, wide enough for the widest number, so the blocks
-// on a page are all drawn to the same scale.
+// Base-ten blocks, in SVG user units. A unit cube is a square, a ten rod is
+// ten of them stacked, and a hundred flat is ten rods side by side. The flats
+// stand first, then the rods, then the loose units in columns of five so they
+// can be counted at a glance. Every drawing on a worksheet has the same size,
+// wide enough for the widest number that worksheet can show, so the blocks on
+// a page are all drawn to the same scale.
 const UNIT = 10;
 const ROD_LENGTH = 10 * UNIT;
-const ROD_GAP = 11;
+const FLAT_SIZE = 10 * UNIT;
+const ROD_GAP = 5;
 const UNITS_PER_COLUMN = 5;
-const UNIT_GAP = 10;
-const GROUP_GAP = 34;
+const UNIT_GAP = 5;
+const GROUP_GAP = 14;
 const STROKE = 1.5;
+
+const BLOCKS_HEIGHT = STROKE + ROD_LENGTH;
 
 /**
  * How wide the blocks for `n` are drawn, before the margin for the stroke.
@@ -77,17 +101,27 @@ const STROKE = 1.5;
  * @returns {number}
  */
 function blocksWidth(n) {
-  const tens = Math.floor(n / 10);
+  const flats = Math.floor(n / 100);
+  const rods = Math.floor(n / 10) % 10;
   const columns = Math.ceil((n % 10) / UNITS_PER_COLUMN);
-  const rods = tens > 0 ? tens * UNIT + (tens - 1) * ROD_GAP : 0;
-  const units = columns > 0 ? columns * UNIT + (columns - 1) * UNIT_GAP : 0;
-  return rods + (rods > 0 && units > 0 ? GROUP_GAP : 0) + units;
+  const groups = [
+    flats * (FLAT_SIZE + ROD_GAP) - ROD_GAP,
+    rods * (UNIT + ROD_GAP) - ROD_GAP,
+    columns * (UNIT + UNIT_GAP) - UNIT_GAP,
+  ].filter((width) => width > 0);
+  const gaps = Math.max(groups.length - 1, 0) * GROUP_GAP;
+  return groups.reduce((total, width) => total + width, gaps);
 }
 
-const BLOCKS_WIDTH =
-  STROKE +
-  Math.max(...Array.from({ length: MAX_NUMBER + 1 }, (_, n) => blocksWidth(n)));
-const BLOCKS_HEIGHT = STROKE + ROD_LENGTH;
+/**
+ * How wide every drawing on a worksheet of numbers up to `max` is.
+ * @param {number} max
+ * @returns {number}
+ */
+function blocksWidthFor(max) {
+  const widths = Array.from({ length: max + 1 }, (_, n) => blocksWidth(n));
+  return STROKE + Math.max(...widths);
+}
 
 /** Whether worksheets are currently on screen. */
 let hasWorksheet = false;
@@ -112,7 +146,7 @@ function getNumberSet() {
   return elTyTeen.checked ? 'tyTeen' : 'all';
 }
 
-/** @returns {boolean} Whether to split the Number column into tens and ones. */
+/** @returns {boolean} Whether to split the Number column by place value. */
 function getSplit() {
   return elSplit.checked;
 }
@@ -122,12 +156,27 @@ function getCount() {
   return Number.parseInt(elCount.value, 10) || 8;
 }
 
+/** @returns {number} The largest number a worksheet can show. */
+function getMax() {
+  const max = Number.parseInt(elMax.value, 10) || MAX_TWO_DIGIT;
+  return Math.min(max, MAX_NUMBER);
+}
+
 /** @returns {number} The page count, clamped to the input's own range. */
 function getPages() {
   const min = Number(elPages.min);
   const max = Number(elPages.max);
   const pages = Number.parseInt(elPages.value, 10) || min;
   return Math.min(Math.max(pages, min), max);
+}
+
+/**
+ * The boxes a split Number column has, for numbers up to `max`.
+ * @param {number} max
+ * @returns {readonly Place[]}
+ */
+function placesFor(max) {
+  return max > MAX_TWO_DIGIT ? PLACES : PLACES.slice(1);
 }
 
 /**
@@ -145,47 +194,87 @@ function svg(name, attributes) {
 }
 
 /**
- * `n` drawn as ten rods and unit cubes, standing on a common baseline.
+ * `n` drawn as hundred flats, ten rods, and unit cubes, standing on a common
+ * baseline in a drawing `width` user units wide.
  * @param {number} n
+ * @param {number} width
  * @returns {SVGSVGElement}
  */
-function buildBlocks(n) {
+function buildBlocks(n, width) {
   const drawing = svg('svg', {
     class: 'nb-drawing',
-    viewBox: '0 0 ' + BLOCKS_WIDTH + ' ' + BLOCKS_HEIGHT,
+    viewBox: '0 0 ' + width + ' ' + BLOCKS_HEIGHT,
     preserveAspectRatio: 'xMinYMid meet',
     'aria-hidden': 'true',
   });
 
   const top = STROKE / 2;
   const bottom = top + ROD_LENGTH;
-  let x = STROKE / 2;
+  const left = STROKE / 2;
+  let x = left;
 
-  const tens = Math.floor(n / 10);
-  for (let rod = 0; rod < tens; rod++) {
-    drawing.appendChild(
-      svg('rect', { x, y: top, width: UNIT, height: ROD_LENGTH }),
-    );
-    for (let cube = 1; cube < 10; cube++) {
-      const y = top + cube * UNIT;
-      drawing.appendChild(svg('line', { x1: x, y1: y, x2: x + UNIT, y2: y }));
+  /** Leave a gap ahead of a group, so each place is counted on its own. */
+  const startGroup = () => {
+    if (x > left) x += GROUP_GAP;
+  };
+
+  const flats = Math.floor(n / 100);
+  if (flats > 0) {
+    startGroup();
+    for (let flat = 0; flat < flats; flat++) {
+      drawing.appendChild(
+        svg('rect', { x, y: top, width: FLAT_SIZE, height: FLAT_SIZE }),
+      );
+      for (let line = 1; line < 10; line++) {
+        const offset = line * UNIT;
+        drawing.appendChild(
+          svg('line', {
+            x1: x,
+            y1: top + offset,
+            x2: x + FLAT_SIZE,
+            y2: top + offset,
+          }),
+        );
+        drawing.appendChild(
+          svg('line', { x1: x + offset, y1: top, x2: x + offset, y2: bottom }),
+        );
+      }
+      x += FLAT_SIZE + ROD_GAP;
     }
-    x += UNIT + ROD_GAP;
+    x -= ROD_GAP;
+  }
+
+  const rods = Math.floor(n / 10) % 10;
+  if (rods > 0) {
+    startGroup();
+    for (let rod = 0; rod < rods; rod++) {
+      drawing.appendChild(
+        svg('rect', { x, y: top, width: UNIT, height: ROD_LENGTH }),
+      );
+      for (let cube = 1; cube < 10; cube++) {
+        const y = top + cube * UNIT;
+        drawing.appendChild(svg('line', { x1: x, y1: y, x2: x + UNIT, y2: y }));
+      }
+      x += UNIT + ROD_GAP;
+    }
+    x -= ROD_GAP;
   }
 
   const ones = n % 10;
-  if (tens > 0 && ones > 0) x += GROUP_GAP - ROD_GAP;
-  for (let unit = 0; unit < ones; unit++) {
-    const column = Math.floor(unit / UNITS_PER_COLUMN);
-    const row = unit % UNITS_PER_COLUMN;
-    drawing.appendChild(
-      svg('rect', {
-        x: x + column * (UNIT + UNIT_GAP),
-        y: bottom - (row + 1) * UNIT - row * UNIT_GAP,
-        width: UNIT,
-        height: UNIT,
-      }),
-    );
+  if (ones > 0) {
+    startGroup();
+    for (let unit = 0; unit < ones; unit++) {
+      const column = Math.floor(unit / UNITS_PER_COLUMN);
+      const row = unit % UNITS_PER_COLUMN;
+      drawing.appendChild(
+        svg('rect', {
+          x: x + column * (UNIT + UNIT_GAP),
+          y: bottom - (row + 1) * UNIT - row * UNIT_GAP,
+          width: UNIT,
+          height: UNIT,
+        }),
+      );
+    }
   }
   return drawing;
 }
@@ -194,11 +283,14 @@ function buildBlocks(n) {
  * The given form of a problem's number, to fill its cell.
  * @param {Problem} problem
  * @param {Language} language
+ * @param {number} width How wide the sheet's block drawings are.
  * @returns {Node}
  */
-function renderGiven({ number, given }, language) {
-  if (given === 'blocks') return buildBlocks(number);
+function renderGiven({ number, given }, language, width) {
+  if (given === 'blocks') return buildBlocks(number, width);
   if (given === 'numeral') return document.createTextNode(String(number));
+  if (given === 'expanded')
+    return document.createTextNode(expandedForm(number));
   return document.createTextNode(numberToWords(number, language));
 }
 
@@ -218,14 +310,17 @@ function makeCell(kind, content) {
 /**
  * One printable page, stamped from the sheet template: a table with a column
  * for each form and a row for each problem, in which only the given forms are
- * filled in. A split table gives the Number column a box for each digit.
+ * filled in. A split table gives the Number column a box for each place.
  * @param {Language} language
  * @param {Problem[]} problems
  * @param {boolean} split
+ * @param {number} max The largest number the worksheet can show.
  * @returns {DocumentFragment}
  */
-function renderSheet(language, problems, split) {
+function renderSheet(language, problems, split, max) {
   const text = SHEET_TEXT[language];
+  const places = placesFor(max);
+  const width = blocksWidthFor(max);
   const sheet = /** @type {DocumentFragment} */ (
     elTemplate.content.cloneNode(true)
   );
@@ -239,6 +334,7 @@ function renderSheet(language, problems, split) {
 
   const table = find('.nb-table');
   table.classList.toggle('nb-split', split);
+  table.classList.toggle('nb-three-digit', max > MAX_TWO_DIGIT);
   // The rows share the page equally, and the text is sized to fit a row.
   table.style.setProperty('--nb-rows', String(problems.length));
   for (const form of FORMS) {
@@ -248,7 +344,7 @@ function renderSheet(language, problems, split) {
     table.appendChild(heading);
   }
   if (split) {
-    for (const place of PLACES) {
+    for (const place of places) {
       const subheading = document.createElement('div');
       subheading.className = 'nb-subheading';
       subheading.textContent = text.places[place];
@@ -259,20 +355,22 @@ function renderSheet(language, problems, split) {
     for (const form of FORMS) {
       const given = form === problem.given;
       if (split && form === 'numeral') {
-        // A number under ten shows a 0 in its tens box, because an empty box
-        // is one for the student to fill in.
+        // A number with fewer digits than there are boxes shows a 0 in the
+        // boxes it leads with, because an empty box is one for the student to
+        // fill in.
         const digits = {
-          tens: Math.floor(problem.number / 10),
+          hundreds: Math.floor(problem.number / 100),
+          tens: Math.floor(problem.number / 10) % 10,
           ones: problem.number % 10,
         };
-        for (const place of PLACES) {
+        for (const place of places) {
           table.appendChild(
             makeCell(place, given ? String(digits[place]) : null),
           );
         }
       } else {
         table.appendChild(
-          makeCell(form, given ? renderGiven(problem, language) : null),
+          makeCell(form, given ? renderGiven(problem, language, width) : null),
         );
       }
     }
@@ -280,11 +378,36 @@ function renderSheet(language, problems, split) {
   return sheet;
 }
 
-/** Enable generation only when at least one form is ticked. */
+/**
+ * Why a worksheet cannot be generated from the settings as they stand.
+ * @returns {string} The reason, or the empty string if it can.
+ */
+function generateBlocker() {
+  const forms = getForms();
+  if (forms.length === 0) return 'Tick at least one form to give';
+  const limit = maxProblems(forms, getNumberSet(), { max: getMax() });
+  if (getCount() > limit) {
+    return (
+      'Too few numbers to choose from: ask for at most ' +
+      limit +
+      ' problems a page, or widen the numbers to draw from'
+    );
+  }
+  return '';
+}
+
+/** Enable generation only when the settings can fill a page. */
 function updateGenerateButton() {
-  const canGenerate = getForms().length > 0;
-  elBtnGen.disabled = !canGenerate;
-  elBtnGen.title = canGenerate ? '' : 'Tick at least one form to give';
+  const reason = generateBlocker();
+  elBtnGen.disabled = reason !== '';
+  elBtnGen.title = reason;
+}
+
+/** Name the boxes the split option makes, in the editor's own English. */
+function updateSplitLabel() {
+  const names = placesFor(getMax()).map((place) => SHEET_TEXT.en.places[place]);
+  elSplitPlaces.textContent =
+    names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
 }
 
 function generate() {
@@ -292,7 +415,7 @@ function generate() {
   const forms = getForms();
   const set = getNumberSet();
   const split = getSplit();
-  const max = split ? MAX_TWO_DIGIT : MAX_NUMBER;
+  const max = getMax();
   const count = getCount();
   const pages = getPages();
   elPages.value = String(pages);
@@ -300,7 +423,7 @@ function generate() {
   elSheets.innerHTML = '';
   for (let page = 0; page < pages; page++) {
     const problems = generateProblems(forms, set, count, { max });
-    elSheets.appendChild(renderSheet(language, problems, split));
+    elSheets.appendChild(renderSheet(language, problems, split, max));
   }
 
   hasWorksheet = true;
@@ -316,13 +439,17 @@ elBtnPrint.addEventListener('click', () => window.print());
 for (const control of [
   elLanguage,
   elCount,
+  elMax,
   elPages,
   ...elGiven,
   elTyTeen,
   elSplit,
 ]) {
   control.addEventListener('change', () => {
+    updateSplitLabel();
     updateGenerateButton();
     if (hasWorksheet && !elBtnGen.disabled) generate();
   });
 }
+
+updateSplitLabel();

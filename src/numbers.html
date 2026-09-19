@@ -12,7 +12,7 @@
 <div class="mw-editor" id="editor">
 	<h1>Numbers — Worksheet Generator</h1>
 	<p class="mw-desc">
-		Generate printable pages of numbers from 0 to 100 to show three ways: as base-ten blocks, as a numeral, and in words. Each row gives a number in one of the forms you choose, and the student fills in the other two.
+		Generate printable pages of numbers to show four ways: as base-ten blocks, as a numeral, in expanded form, and in words. Each row gives a number in one of the forms you choose, and the student fills in the other three.
 	</p>
 
 	<div class="mw-row">
@@ -21,6 +21,15 @@
 			<select id="language">
 				<option value="en" selected>English</option>
 				<option value="fr">Français</option>
+			</select>
+		</div>
+		<div class="mw-field">
+			<label for="max">Largest number</label>
+			<select id="max">
+				<option value="20">20</option>
+				<option value="50">50</option>
+				<option value="99" selected>99</option>
+				<option value="200">200</option>
 			</select>
 		</div>
 		<div class="mw-field">
@@ -46,6 +55,7 @@
 		<div class="nb-given-options">
 			<label class="mw-check"><input type="checkbox" name="given" value="blocks" checked> Blocks</label>
 			<label class="mw-check"><input type="checkbox" name="given" value="numeral" checked> Number</label>
+			<label class="mw-check"><input type="checkbox" name="given" value="expanded" checked> Expanded</label>
 			<label class="mw-check"><input type="checkbox" name="given" value="words" checked> Words</label>
 		</div>
 	</fieldset>
@@ -57,7 +67,7 @@
 
 	<label class="mw-check">
 		<input type="checkbox" id="split">
-		Split the Number column into 10s and 1s (numbers up to 99)
+		Split the Number column into <span class="nb-places" id="split-places">10s and 1s</span>
 	</label>
 
 	<div class="mw-btn-row">

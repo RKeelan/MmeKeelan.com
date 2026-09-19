@@ -24,21 +24,39 @@
   margin-bottom: 0;
 }
 
+/* The names of the split Number column's boxes read as part of the label
+   around them, rather than as the site's own styling for a span. */
+.nb-places {
+  color: inherit;
+  font-size: inherit;
+}
+
 /* ===== Table =====
    A column for each form and a row for each number, ruled for the student to
    write and draw in. The table is a size container, so the text can be sized
-   from the row: under a third of a row tall, and narrow enough that every
-   English number fits on one line of its column. The longer French numbers
-   break after a hyphen. */
+   from the row: under a third of a row tall, and --nb-text of the table's
+   width. Each layout sets --nb-text to the largest size at which an expanded
+   form still fits on one line of its column and a number word, breaking after
+   a space or a hyphen, still fits within a row. */
 .nb-table {
+  --nb-text: 0.046;
   flex: 1 1 0;
   min-height: 0;
   display: grid;
-  grid-template-columns: 42fr 18fr 40fr;
+  grid-template-columns: 28fr 12fr 22fr 38fr;
   grid-template-rows: auto repeat(var(--nb-rows, 8), 1fr);
   container-type: size;
   border-top: 1.5px solid #1a1a1a;
   border-left: 1.5px solid #1a1a1a;
+}
+
+/* A worksheet whose numbers run past ninety-nine is wider in every column: its
+   blocks gain a hundred flat, its expanded forms a third term, and its words a
+   hundreds word. The Blocks column takes the width its drawings need and the
+   text is set smaller to fit what is left. */
+.nb-table.nb-three-digit {
+  --nb-text: 0.033;
+  grid-template-columns: 34fr 12fr 24fr 30fr;
 }
 
 .nb-heading,
@@ -67,24 +85,35 @@
   padding: 0 0.4em;
   font-size: min(
     calc(100cqh / var(--nb-rows, 8) * 0.3),
-    calc(100cqw * 0.045),
+    calc(100cqw * var(--nb-text)),
     40px
   );
   line-height: 1.15;
 }
 
+/* A centred cell needs no more side padding than it takes to keep its widest
+   contents off the rules. */
 .nb-numeral,
+.nb-expanded,
+.nb-hundreds,
 .nb-tens,
 .nb-ones {
   justify-content: center;
+  padding-inline: 0.15em;
 }
 
-/* A split table gives the Number column a box for each digit, under a
-   subheading naming its place. The other headings reach down past the
-   subheadings. */
+/* A split table gives the Number column a box for each place, under a
+   subheading naming it. The other headings reach down past the subheadings. */
 .nb-table.nb-split {
-  grid-template-columns: 42fr 9fr 9fr 40fr;
+  grid-template-columns: 26fr 9fr 9fr 20fr 36fr;
   grid-template-rows: auto auto repeat(var(--nb-rows, 8), 1fr);
+}
+
+/* Six columns is the narrowest the table gets, and the one layout in which a
+   number word takes three lines of a row, so its text is set smallest. */
+.nb-table.nb-split.nb-three-digit {
+  --nb-text: 0.03;
+  grid-template-columns: 34fr 8fr 8fr 8fr 20fr 22fr;
 }
 
 .nb-split .nb-heading {
@@ -97,9 +126,13 @@
   text-align: center;
 }
 
+.nb-split.nb-three-digit .nb-heading-numeral {
+  grid-column: span 3;
+}
+
 .nb-subheading {
-  padding: 4px 2px;
-  font-size: 12px;
+  padding: 4px 1px;
+  font-size: 11px;
   font-weight: 600;
   text-align: center;
 }
