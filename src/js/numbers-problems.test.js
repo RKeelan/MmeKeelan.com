@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
   FORMS,
   NUMBER_SETS,
+  expandedForm,
   generateProblems,
+  maxProblems,
   numbersIn,
 } from './numbers-problems.js';
 
@@ -22,8 +24,36 @@ function formCombinations() {
 }
 
 describe('FORMS', () => {
-  it('lists blocks, numeral, and words', () => {
-    expect([...FORMS]).toEqual(['blocks', 'numeral', 'words']);
+  it('lists blocks, numeral, expanded, and words', () => {
+    expect([...FORMS]).toEqual(['blocks', 'numeral', 'expanded', 'words']);
+  });
+});
+
+describe('expandedForm', () => {
+  it('adds up the places a number has', () => {
+    expect(expandedForm(152)).toBe('100 + 50 + 2');
+    expect(expandedForm(199)).toBe('100 + 90 + 9');
+    expect(expandedForm(42)).toBe('40 + 2');
+  });
+
+  it('leaves out the places a number has none of', () => {
+    expect(expandedForm(105)).toBe('100 + 5');
+    expect(expandedForm(150)).toBe('100 + 50');
+    expect(expandedForm(110)).toBe('100 + 10');
+  });
+
+  it('writes a number with one place as itself', () => {
+    expect(expandedForm(0)).toBe('0');
+    expect(expandedForm(7)).toBe('7');
+    expect(expandedForm(20)).toBe('20');
+    expect(expandedForm(100)).toBe('100');
+    expect(expandedForm(200)).toBe('200');
+  });
+
+  it('rejects numbers outside 0 to 200', () => {
+    for (const n of [-1, 201, 2.5, Number.NaN]) {
+      expect(() => expandedForm(n)).toThrow(RangeError);
+    }
   });
 });
 
@@ -34,8 +64,8 @@ describe('NUMBER_SETS', () => {
 });
 
 describe('numbersIn', () => {
-  it('lists every number from 0 to 100', () => {
-    expect(numbersIn('all')).toEqual(Array.from({ length: 101 }, (_, n) => n));
+  it('lists every number from 0 to 200', () => {
+    expect(numbersIn('all')).toEqual(Array.from({ length: 201 }, (_, n) => n));
   });
 
   it('lists 11 to 19 and the multiples of ten from 20 to 90', () => {
@@ -58,9 +88,47 @@ describe('numbersIn', () => {
   });
 });
 
+describe('maxProblems', () => {
+  it('counts the numbers a page of one form has to draw from', () => {
+    // Every number but zero has blocks; every one but the twenty-one with a
+    // single place — zero, 1 to 9, the tens, 100, and 200 — has an expanded
+    // form of its own.
+    expect(maxProblems(['numeral'], 'all')).toBe(201);
+    expect(maxProblems(['blocks'], 'all')).toBe(200);
+    expect(maxProblems(['expanded'], 'all')).toBe(180);
+    expect(maxProblems(['expanded'], 'all', { max: 99 })).toBe(81);
+    expect(maxProblems(['expanded'], 'tyTeen')).toBe(9);
+  });
+
+  it('shares a mixed page out among its forms', () => {
+    expect(maxProblems(FORMS, 'all')).toBe(201);
+    expect(maxProblems(FORMS, 'tyTeen')).toBe(17);
+    expect(maxProblems(FORMS, 'tyTeen', { max: 20 })).toBe(10);
+  });
+
+  it('promises nothing when no form is given', () => {
+    expect(maxProblems([], 'all')).toBe(0);
+  });
+
+  it('promises no more than can be generated', () => {
+    for (const set of NUMBER_SETS) {
+      for (const max of [20, 50, 99, 200]) {
+        for (const forms of formCombinations()) {
+          const count = maxProblems(forms, set, { max });
+          for (let i = 0; i < 3; i++) {
+            expect(generateProblems(forms, set, count, { max })).toHaveLength(
+              count,
+            );
+          }
+        }
+      }
+    }
+  });
+});
+
 describe('generateProblems', () => {
   it('produces the requested number of problems', () => {
-    for (const count of [0, 1, 4, 10, 101]) {
+    for (const count of [0, 1, 4, 10, 201]) {
       expect(generateProblems(FORMS, 'all', count)).toHaveLength(count);
     }
     expect(generateProblems(FORMS, 'tyTeen', 17)).toHaveLength(17);
@@ -114,7 +182,7 @@ describe('generateProblems', () => {
   it('shares out the leftover rows at random', () => {
     const extras = new Set();
     for (let i = 0; i < 100; i++) {
-      const problems = generateProblems(FORMS, 'all', 4);
+      const problems = generateProblems(FORMS, 'all', 5);
       extras.add(
         FORMS.find(
           (form) => problems.filter((p) => p.given === form).length === 2,
@@ -126,20 +194,36 @@ describe('generateProblems', () => {
 
   it('never gives zero as blocks', () => {
     for (let i = 0; i < 20; i++) {
-      for (const { number, given } of generateProblems(FORMS, 'all', 101)) {
+      for (const { number, given } of generateProblems(FORMS, 'all', 201)) {
         if (number === 0) expect(given).not.toBe('blocks');
       }
     }
-    const blocksOnly = generateProblems(['blocks'], 'all', 100);
+    const blocksOnly = generateProblems(['blocks'], 'all', 200);
     expect(blocksOnly.map((p) => p.number).sort((a, b) => a - b)).toEqual(
-      Array.from({ length: 100 }, (_, i) => i + 1),
+      Array.from({ length: 200 }, (_, i) => i + 1),
+    );
+  });
+
+  it('never gives a number with one place as expanded', () => {
+    for (let i = 0; i < 20; i++) {
+      for (const { number, given } of generateProblems(FORMS, 'all', 201)) {
+        if (given === 'expanded') expect(expandedForm(number)).toContain(' + ');
+      }
+    }
+    const expandedOnly = generateProblems(['expanded'], 'all', 180);
+    const numbers = expandedOnly.map((p) => p.number).sort((a, b) => a - b);
+    expect(numbers).toEqual(
+      numbersIn('all').filter((n) => expandedForm(n).includes(' + ')),
     );
   });
 
   it('rejects more problems than there are numbers to give', () => {
-    expect(() => generateProblems(FORMS, 'all', 102)).toThrow(RangeError);
+    expect(() => generateProblems(FORMS, 'all', 202)).toThrow(RangeError);
     expect(() => generateProblems(FORMS, 'tyTeen', 18)).toThrow(RangeError);
-    expect(() => generateProblems(['blocks'], 'all', 101)).toThrow(RangeError);
+    expect(() => generateProblems(['blocks'], 'all', 201)).toThrow(RangeError);
+    expect(() => generateProblems(['expanded'], 'all', 181)).toThrow(
+      RangeError,
+    );
   });
 
   it('rejects a count that is not a whole number', () => {

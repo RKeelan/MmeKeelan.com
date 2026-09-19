@@ -45,6 +45,13 @@ describe('numberToWords', () => {
       80: 'eighty',
       99: 'ninety-nine',
       100: 'one hundred',
+      101: 'one hundred one',
+      105: 'one hundred five',
+      113: 'one hundred thirteen',
+      150: 'one hundred fifty',
+      152: 'one hundred fifty-two',
+      199: 'one hundred ninety-nine',
+      200: 'two hundred',
     });
   });
 
@@ -76,11 +83,21 @@ describe('numberToWords', () => {
       97: 'quatre-vingt-dix-sept',
       99: 'quatre-vingt-dix-neuf',
       100: 'cent',
+      101: 'cent-un',
+      111: 'cent-onze',
+      120: 'cent-vingt',
+      121: 'cent-vingt-et-un',
+      152: 'cent-cinquante-deux',
+      171: 'cent-soixante-et-onze',
+      180: 'cent-quatre-vingts',
+      181: 'cent-quatre-vingt-un',
+      199: 'cent-quatre-vingt-dix-neuf',
+      200: 'deux-cents',
     });
   });
 
-  it('rejects numbers outside 0 to 100', () => {
-    for (const n of [-1, 101, 2.5, Number.NaN]) {
+  it('rejects numbers outside 0 to 200', () => {
+    for (const n of [-1, 201, 2.5, Number.NaN]) {
       expect(() => numberToWords(n, 'en')).toThrow(RangeError);
     }
   });

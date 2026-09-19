@@ -1,4 +1,4 @@
-// The whole numbers from zero to one hundred, written out in words.
+// The whole numbers from zero to two hundred, written out in words.
 
 /**
  * @typedef {'en' | 'fr'} Language
@@ -11,7 +11,7 @@
 export const LANGUAGES = Object.freeze(['en', 'fr']);
 
 /** The largest number that can be written out. */
-export const MAX_NUMBER = 100;
+export const MAX_NUMBER = 200;
 
 const ENGLISH_UNITS = [
   'zero',
@@ -85,11 +85,16 @@ const FRENCH_TENS = [
 ];
 
 /**
- * @param {number} n A whole number from 0 to 100.
+ * English hundreds run straight into the rest of the number, with no "and".
+ * @param {number} n A whole number from 0 to 200.
  * @returns {string}
  */
 function english(n) {
-  if (n === 100) return 'one hundred';
+  if (n >= 100) {
+    const rest = n % 100;
+    const hundreds = ENGLISH_UNITS[Math.floor(n / 100)] + ' hundred';
+    return rest === 0 ? hundreds : hundreds + ' ' + english(rest);
+  }
   if (n < 20) return ENGLISH_UNITS[n];
   const tens = ENGLISH_TENS[Math.floor(n / 10)];
   const ones = n % 10;
@@ -99,11 +104,19 @@ function english(n) {
 /**
  * French in the 1990 rectified spelling, which hyphenates every compound
  * number, "et" included.
- * @param {number} n A whole number from 0 to 100.
+ * @param {number} n A whole number from 0 to 200.
  * @returns {string}
  */
 function french(n) {
-  if (n === 100) return 'cent';
+  // "Cent" stands alone rather than taking "un" before it, and takes an "s"
+  // only when it is counted and nothing follows it.
+  if (n >= 100) {
+    const count = Math.floor(n / 100);
+    const rest = n % 100;
+    const hundreds = count === 1 ? 'cent' : FRENCH_UNITS[count] + '-cent';
+    if (rest === 0) return count === 1 ? hundreds : hundreds + 's';
+    return hundreds + '-' + french(rest);
+  }
   if (n === 80) return 'quatre-vingts';
   if (n < 20) return FRENCH_UNITS[n];
 

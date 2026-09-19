@@ -33,7 +33,7 @@ Printable pages of single-digit addition or subtraction problems, each beside a 
 
 ### 🔢 Numbers Worksheets
 
-Printable pages of numbers from 0 to 100 to show three ways—as base-ten blocks, as a numeral, and in English or French words—with an option for only the -ty and -teen numbers.
+Printable pages of numbers up to 20, 50, 99, or 200 to show four ways—as base-ten blocks, as a numeral, in expanded form, and in English or French words—with an option for only the -ty and -teen numbers.
 
 ### 🔟 Skip Counting Charts
 
