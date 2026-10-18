@@ -86,7 +86,7 @@ const createTimeBlockList = (data) => {
     DAYS_OF_WEEK.forEach((day) => {
       const allBlocksForDay = data[day] || [];
       allBlocksForDay.forEach(
-        /** @type {function(any): void} */ (block) => {
+        /** @type {(block: any) => void} */ (block) => {
           const [start, end] = block.Time.split(' - ');
           const startMinutes = timeToMinutes(start);
           const endMinutes = timeToMinutes(end);
@@ -136,7 +136,7 @@ const createTable = (data) => {
     const invariantBlock =
       data.Invariants &&
       data.Invariants.find(
-        /** @type {function(any): boolean} */ (block) => {
+        /** @type {(block: any) => boolean} */ (block) => {
           const [start] = block.Time.split(' - ');
           return timeToMinutes(start) === minutes;
         },
