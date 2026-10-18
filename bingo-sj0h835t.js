@@ -1,0 +1,2 @@
+function a(t){let r;switch(t){case 1:r=[225];break;case 2:r=[210,225];break;case 3:r=[210,225,240];break;case 4:r=[195,210,225,240];break;case 5:r=[195,210,225,240,255];break;case 6:r=[180,195,210,225,240,255];break;case 7:r=[0,15,60,135,210,240,330];break;default:r=Array.from({length:t},(e,o)=>o*360/t);break}let s=[];for(let e=0;e<t;e++){let o=`hsl(${r[e]}, 70%, 70%)`;s.push(o)}return s}
+export{a};
