@@ -1,4 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'bun:test';
+import { stubGlobal, unstubAllGlobals } from './test-globals.js';
+
+let importCount = 0;
 
 // Mock canvas and its context
 const mockContext = {
@@ -61,12 +64,12 @@ describe('Roulette Wheel', () => {
     mockContext.fillText.mockClear();
 
     // Mock global objects
-    vi.stubGlobal('Image', MockImage);
-    vi.stubGlobal('requestAnimationFrame', vi.fn());
-    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    stubGlobal('Image', MockImage);
+    stubGlobal('requestAnimationFrame', vi.fn());
+    stubGlobal('cancelAnimationFrame', vi.fn());
 
     // Mock document.getElementById
-    vi.stubGlobal('document', {
+    stubGlobal('document', {
       getElementById: vi.fn((id) => {
         switch (id) {
           case 'wheel':
@@ -85,15 +88,15 @@ describe('Roulette Wheel', () => {
       }),
     });
 
-    // Reset module state
-    vi.resetModules();
-
-    // Import the module after mocks are set up
-    await import('./roulette.js');
+    // Import a fresh copy of the module after mocks are set up, so its
+    // top-level code runs again for each test
+    importCount++;
+    await import(`./roulette.js?test=${importCount}`);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    unstubAllGlobals();
   });
 
   it('should initialize canvas and draw wheel on module load', () => {

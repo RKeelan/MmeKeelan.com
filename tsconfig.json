@@ -12,9 +12,9 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vite/client", "vitest/globals"],
+    "types": ["bun"],
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/**/*", "vite.config.ts", "vitest.config.ts"],
+  "include": ["src/**/*", "scripts/**/*", "bun-env.d.ts", "happydom.ts"],
   "exclude": ["dist", "coverage", "src/coverage", "src/node_modules"]
 }

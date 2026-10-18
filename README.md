@@ -42,7 +42,7 @@ Printable number charts from 1 to 100, each headed by the number to count by, fo
 ## Development
 
 ### Prerequisites
-- Bun
+- Bun 1.4.3 or later
 - Modern web browser
 
 ### Setup
@@ -57,6 +57,8 @@ bun install
 bun run test
 ```
 
+The tests run under `bun test`, with happy-dom providing the DOM.
+
 ### Linting and Formatting
 
 ```bash
@@ -69,6 +71,8 @@ bun run format
 ```bash
 bun run typecheck
 ```
+
+This runs `bun check`, which checks the JavaScript against its JSDoc annotations.
 
 ### Run All Checks
 
@@ -83,3 +87,5 @@ bun run check-all
 ```bash
 bun run dev
 ```
+
+This serves every page at http://localhost:3000 and reloads a page when its files change. `bun run build` writes the site to `dist/`, and `bun run preview` serves that build at http://localhost:3000/MmeKeelan.com/, the path GitHub Pages uses.
