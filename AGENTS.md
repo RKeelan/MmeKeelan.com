@@ -4,33 +4,34 @@ This file provides guidance to AI agents when working with code in this reposito
 
 ## Project Overview
 
-Educational web app for French Immersion teachers (Ontario curriculum). Multiple interactive tools — roulette wheel, bingo card generator, verb conjugation wheel, sentence generator, schedule tool — built as a multi-page Vite app deployed to GitHub Pages.
+Educational web app for French Immersion teachers (Ontario curriculum). Multiple interactive tools — roulette wheel, bingo card generator, verb conjugation wheel, sentence generator, schedule tool — built as a multi-page site, bundled with Bun and deployed to GitHub Pages.
 
 ## Commands
 
 ```bash
-bun run dev            # Start dev server
-bun run build          # Production build
-bun run test           # Run all tests (Vitest)
+bun run dev            # Start dev server with hot reload (http://localhost:3000)
+bun run build          # Production build into dist/
+bun run preview        # Serve dist/ under the base path
+bun run test           # Run all tests (bun test)
 bun run test:watch     # Watch mode
 bun run test:coverage  # Coverage report
 bun run lint           # Biome lint
 bun run format         # Biome format
-bun run typecheck      # TypeScript type checking (strict, checks JS via JSDoc)
+bun run typecheck      # Type checking with bun check (strict, checks JS via JSDoc)
 bun run check-all      # Lint + typecheck + test (run before committing)
-bunx vitest run src/js/utils.test.js # Run a single test file
+bun test src/js/utils.test.js # Run a single test file
 ```
 
 ## Architecture
 
-- **Source root**: `src/` — Vite is configured with `root: 'src/'`
-- **Multi-page app**: Each tool has its own HTML entry point in `src/` and corresponding JS module in `src/js/`. Entry points are explicitly listed in `vite.config.ts` rollupOptions.
+- **Source root**: `src/`. The build bundles every `src/*.html` page, and the dev server (`scripts/dev.ts`) serves each one at its file name, as the live site does.
+- **Multi-page app**: Each tool has its own HTML entry point in `src/` and corresponding JS module in `src/js/`. The build and the dev server find the entry points by glob, so there is no list of them to maintain.
 - **Language**: JavaScript with full JSDoc type annotations (no `.ts` source files). TypeScript is used only for type checking (`checkJs: true`) and config files.
 - **Reusable component**: `StringReel` (`src/js/string-reel.js`) is a slot-machine animation class used by both verb-wheel and sentence-reel.
 - **Shared utilities**: `src/js/utils.js` — word list parsing, rainbow color generation, HSL-to-hex conversion.
 - **PDF generation**: Bingo uses jsPDF to generate printable bingo cards client-side.
-- **Tests**: Co-located as `*.test.js` files in `src/js/`. Use Vitest with jsdom environment and global test utilities.
-- **Base path**: `/MmeKeelan.com/` (for GitHub Pages deployment).
+- **Tests**: Co-located as `*.test.js` files in `src/js/`. Use `bun test`, importing test functions from `bun:test`; the `happydom.ts` preload (set in `bunfig.toml`) provides the DOM. Every test file runs in one global scope, so a test that replaces a global must restore it (`src/js/test-globals.js`), and a `mock.module` mock reaches the files that run after it.
+- **Base path**: `/MmeKeelan.com/` (for GitHub Pages deployment), set by `--public-path` in the `build` script. `bun run preview` serves the build under it.
 
 ## Ontario Curriculum
 
@@ -38,7 +39,9 @@ bunx vitest run src/js/utils.test.js # Run a single test file
 
 ## Adding a New Page
 
-Add the HTML file in `src/`, its JS module in `src/js/`, and register the HTML entry point in `vite.config.ts` under `build.rollupOptions.input`.
+Add the HTML file in `src/` and its JS module in `src/js/`. The build and the dev server pick up every `src/*.html` file, so there is nothing to register.
+
+Import the page's stylesheets from its JS module (`import '../css/styles.css';`) and don't also link them from the HTML. When a stylesheet referenced both ways is briefly replaced, as `git checkout` does, Bun's dev server stops running the page's script until it is restarted.
 
 ## UX Conventions
 
@@ -46,7 +49,7 @@ Add the HTML file in `src/`, its JS module in `src/js/`, and register the HTML e
 
 ## Dependency Management
 
-Always pin dependencies to exact versions — no `^`, `~`, or bare package names. `.bunfmt` sets `save-exact=true` so `bun add` pins automatically. `bun.lock` must be committed.
+Always pin dependencies to exact versions — no `^`, `~`, or bare package names. `bunfig.toml` sets `exact = true` under `[install]` so `bun add` pins automatically. `bun.lock` must be committed.
 
 ## Git Conventions
 

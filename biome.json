@@ -79,8 +79,7 @@
           "describe",
           "expect",
           "it",
-          "test",
-          "vi"
+          "test"
         ]
       }
     }

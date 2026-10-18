@@ -1,16 +1,5 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-
-// Mock CSS import
-vi.mock('../css/styles.css', () => ({}));
-
-// Mock StringReel import
-vi.mock('./string-reel.js', () => ({
-  StringReel: vi.fn().mockImplementation(() => ({
-    animateTo: vi.fn(),
-    updateItems: vi.fn(),
-    animateToRandom: vi.fn(() => 'mocked-item'),
-  })),
-}));
+import { describe, it, expect, beforeEach, vi, afterEach } from 'bun:test';
+import { stubGlobal, unstubAllGlobals } from './test-globals.js';
 
 describe('Sentence Reel (sentence-reel.js)', () => {
   /** @type {any} */
@@ -68,18 +57,18 @@ describe('Sentence Reel (sentence-reel.js)', () => {
     };
 
     // Mock global objects
-    vi.stubGlobal('document', mockDocument);
-    vi.stubGlobal(
+    stubGlobal('document', mockDocument);
+    stubGlobal(
       'setTimeout',
       vi.fn((callback) => callback()),
     );
-    vi.stubGlobal('setInterval', vi.fn());
-    vi.stubGlobal('clearInterval', vi.fn());
+    stubGlobal('setInterval', vi.fn());
+    stubGlobal('clearInterval', vi.fn());
   });
 
   afterEach(() => {
     vi.clearAllMocks();
-    vi.unstubAllGlobals();
+    unstubAllGlobals();
   });
 
   describe('Language Data Arrays', () => {
